@@ -1,0 +1,5 @@
+﻿  Motor.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(69,17): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
+Main.obj : error LNK2005: "void __cdecl InitFonts(void)" (?InitFonts@@YAXXZ) déjà défini(e) dans Levels.obj
+Main.obj : error LNK2005: "class sf::Font arial" (?arial@@3VFont@sf@@A) déjà défini(e) dans Levels.obj
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe : fatal error LNK1169: un ou plusieurs symboles définis à différentes reprises ont été rencontrés
