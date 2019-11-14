@@ -32,7 +32,12 @@ public:
 
 	//void LogicalEvent(LogicalEvent logicalEvent);
 
-	virtual void Start();
+	list<Event>* events = nullptr;
+	bool GetEvent(Event& _event, Event::EventType eventType);
+
+	GameElement();
+
+	virtual void Start(list<Event>* events);
 	virtual void Update();
 	virtual void Draw(RenderWindow &window);
 	virtual void Destroy();
@@ -42,7 +47,9 @@ class Player : public GameElement {
 public:
 	string name = "UnamedPlayer";
 
-	void Start();
+	Player();
+
+	void Start(list<Event>* events);
 	void Update();
 	void Draw(RenderWindow& window);
 	void Destroy();
