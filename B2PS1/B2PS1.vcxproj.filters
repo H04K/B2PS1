@@ -21,9 +21,6 @@
     <ClCompile Include="Motor.cpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClCompile>
-    <ClCompile Include="Levels.cpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClCompile>
     <ClCompile Include="GameElement.cpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClCompile>
