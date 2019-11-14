@@ -15,7 +15,7 @@ public:
 	void SetLevel(int index);
 	void Play(RenderWindow &window);
 
-private:
+//private:
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window;
 	
@@ -23,7 +23,7 @@ private:
 	Level* level;
 
 	// Contient tout les evenements actuels
-	Event events[30];
+	list<Event> events = list<Event>();
 
 	void RefreshEvents();
 

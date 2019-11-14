@@ -1,6 +1,25 @@
-#include "GameElement.h"
+#include "Motor.h"
 
-void GameElement::Start() 
+GameElement::GameElement() 
+{
+
+}
+
+bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
+{
+	for (Event event : *events)
+	{
+		if (event.type == eventType)
+		{
+			_event = event;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void GameElement::Start(list<Event>* events)
 {
 	cout << "Starting " + name << endl;
 }
@@ -14,14 +33,24 @@ void GameElement::Draw(RenderWindow& window) {
 	cout << "Drawing " + name << endl;
 };
 
-void GameElement::Destroy() 
+void GameElement::Destroy()
 {
 	cout << "Destroying " + name << endl;
 }
 
-void Player::Start() 
+
+
+
+Player::Player() 
+{
+
+}
+
+void Player::Start(list<Event>* events)
 {
 	cout << "--- Starting " + name << endl;
+
+	this->events = events;
 
 	string path = "Assets/baba_0_1.png";
 
@@ -37,17 +66,20 @@ void Player::Start()
 
 void Player::Update()
 {
-	//cout << "Updating " + name << endl;
-
+	Event event;
+	if (GetEvent(event, Event::KeyPressed))
+	{
+		cout << event.key.code << endl;
+	}
 }
 
-void Player::Draw(RenderWindow &window) 
+void Player::Draw(RenderWindow& window)
 {
 	//cout << "Drawing " + name << endl;
 	window.draw(sprite);
 }
 
-void Player::Destroy() 
+void Player::Destroy()
 {
 	cout << "Destroying " + name << endl;
 }

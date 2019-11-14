@@ -16,10 +16,11 @@ void Motor::SetLevel(int index)
 		level->GameElements.push_back(new Player());
 
 		cout << "Successful Loaded Level " << index << endl;
+		break;
 
 	default:
-		cout << "Failed Loading Level : Level index out of range" << endl;
-		return;
+		cout << "Failed Loading Level : Level index " << index << " out of range" << endl;
+		break;
 	}
 }
 
@@ -27,15 +28,15 @@ void Motor::Play(RenderWindow &window) {
 
 	this->window = &window;
 
-	for (GameElement* gameElement : this->level->GameElements)
+	for (GameElement* gameElement : level->GameElements)
 	{
-		gameElement->Start();
+		gameElement->Start(&events);
 	}
 
 	while (window.isOpen())
 	{
 		RefreshEvents();
-
+		
 		Event event;
 		if (GetEvent(event, Event::Closed)) 
 		{
@@ -45,12 +46,6 @@ void Motor::Play(RenderWindow &window) {
 		{
 			cout << "height : " << event.size.height << " width : " << event.size.width << endl;
 		}
-		if (GetEvent(event, Event::KeyPressed))
-		{
-			//event.
-		}
-
-
 
 		window.clear(Color::Black);
 
@@ -66,14 +61,14 @@ void Motor::Play(RenderWindow &window) {
 
 void Motor::RefreshEvents()
 {
-	delete[] events;
-
-	int eventsCount = 0;
-
+	events.clear();
+	
 	Event event;
+	int eventsCount = 0;
+	
 	while (window->pollEvent(event))
 	{
-		events[eventsCount++] = event;
+		events.push_back(event);
 	}
 }
 
@@ -88,6 +83,5 @@ bool Motor::GetEvent(Event& _event, Event::EventType eventType)
 		}
 	}
 
-	cout << "Can't find Event in current Events" << endl;
 	return false;
 }
