@@ -15,7 +15,6 @@ public:
 	void SetLevel(int index);
 	void Play(RenderWindow &window);
 
-//private:
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window;
 	
