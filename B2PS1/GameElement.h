@@ -25,21 +25,23 @@ protected:
 	//void Loose();
 public:
 	string name = "UnamedGameElement";
-	Vector2f position = Vector2f(100, 100);
-
 	Texture texture;
 	Sprite sprite;
+	Vector2f position = Vector2f(100, 100);
 
 	//void LogicalEvent(LogicalEvent logicalEvent);
 
 	list<Event>* events = nullptr;
+	RenderWindow* window = nullptr;
+
 	bool GetEvent(Event& _event, Event::EventType eventType);
 
 	GameElement();
 
-	virtual void Start(list<Event>* events);
+	virtual void Init(RenderWindow* window, list<Event>* events);
+	virtual void Start();
 	virtual void Update();
-	virtual void Draw(RenderWindow &window);
+	virtual void Draw();
 	virtual void Destroy();
 };
 
@@ -48,9 +50,8 @@ public:
 	string name = "UnamedPlayer";
 
 	Player();
-
-	void Start(list<Event>* events);
+	void Start();
 	void Update();
-	void Draw(RenderWindow& window);
+	void Draw();
 	void Destroy();
 };

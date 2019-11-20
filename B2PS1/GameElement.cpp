@@ -19,7 +19,13 @@ bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
 	return false;
 }
 
-void GameElement::Start(list<Event>* events)
+void GameElement::Init(RenderWindow* window, list<Event>* events)
+{
+	this->window = window;
+	this->events = events;
+}
+
+void GameElement::Start()
 {
 	cout << "Starting " + name << endl;
 }
@@ -29,7 +35,7 @@ void GameElement::Update()
 	cout << "Updating " + name << endl;
 }
 
-void GameElement::Draw(RenderWindow& window) {
+void GameElement::Draw() {
 	cout << "Drawing " + name << endl;
 };
 
@@ -46,11 +52,9 @@ Player::Player()
 
 }
 
-void Player::Start(list<Event>* events)
+void Player::Start()
 {
 	cout << "--- Starting " + name << endl;
-
-	this->events = events;
 
 	string path = "Assets/baba_0_1.png";
 
@@ -66,17 +70,27 @@ void Player::Start(list<Event>* events)
 
 void Player::Update()
 {
-	Event event;
-	if (GetEvent(event, Event::KeyPressed))
+	if (Keyboard::isKeyPressed(Keyboard::S)) 
 	{
-		cout << event.key.code << endl;
+		sprite.move(0, 1 / 3.f);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Z))
+	{
+		sprite.move(0, -1 / 3.f);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::D))
+	{
+		sprite.move(1 / 3.f, 0.f);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Q))
+	{
+		sprite.move(-1 / 3.f, 0.f);
 	}
 }
 
-void Player::Draw(RenderWindow& window)
+void Player::Draw()
 {
-	//cout << "Drawing " + name << endl;
-	window.draw(sprite);
+	window->draw(sprite);
 }
 
 void Player::Destroy()
