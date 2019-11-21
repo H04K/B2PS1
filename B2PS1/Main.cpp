@@ -63,7 +63,7 @@ bool LogicSequenceIsValid(Logic sequence[], unsigned int size)
 
 int main()
 {
-	Logic sequence[5];
+	/*Logic sequence[5];
 
 	sequence[0] = Logic(Type::Element, ElementType::Wall);
 	sequence[1] = Logic(Type::Operateur, OperateurType::Is);
@@ -77,14 +77,14 @@ int main()
 		cout << "paouf" << endl;
 
 	cin.get();
-
-	/*
-	RenderWindow window(VideoMode(800, 600), "Baba is You 2", Style::Close | Style::Resize | Style::Titlebar);
+	*/
+	
+	RenderWindow window(VideoMode(1024, 1024), "Baba is You 2", Style::Close | Style::Resize | Style::Titlebar);
 
 	Motor GameMotor;
 
 	GameMotor.SetLevel(0);
 	GameMotor.Play(window);
-	*/
+	
 	return EXIT_SUCCESS;
 }

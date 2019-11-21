@@ -97,3 +97,45 @@ void Player::Destroy()
 {
 	cout << "Destroying " + name << endl;
 }
+
+void Lim::Start()
+{
+	Limite.setPosition(Lpos);
+}
+
+void Lim::Update()
+{
+	
+}
+void Lim::Draw()
+{
+	window->draw(Limite);
+}
+
+void Instructions::Start()
+{
+	Inst.setPosition(InstPos);
+	
+	
+}
+
+void Instructions::Update()
+{
+	Vector2i mpos = Mouse::getPosition(*window);
+	FloatRect Opos = Inst.getGlobalBounds();
+	if (Mouse::isButtonPressed(Mouse::Left) && Opos.contains(mpos.x, mpos.y))
+	{
+
+		Inst.setPosition(mpos.x - 30, mpos.y - 30);
+		if (Opos.top >= 700.f)
+		{
+			Inst.setPosition(0.f, 700.f);
+		}
+
+	}
+}
+
+void Instructions::Draw()
+{
+	window->draw(Inst);
+}

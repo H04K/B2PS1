@@ -14,14 +14,8 @@ void Motor::SetLevel(int index)
 		Player* p1 = new Player();
 		p1->position = Vector2f(100, 100);
 		level->GameElements.push_back(p1);
-
-		Player* p2 = new Player();
-		p2->position = Vector2f(200, 200);
-		level->GameElements.push_back(p2);
-
-		Player* p3 = new Player();
-		p3->position = Vector2f(300, 200);
-		level->GameElements.push_back(p3);
+		level->GameElements.push_back(new Lim());
+		level->GameElements.push_back(new Instructions);
 
 		cout << "Successful Loaded Level " << index << endl;
 	}
