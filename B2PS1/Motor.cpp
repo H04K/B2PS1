@@ -1,33 +1,66 @@
 #include "Motor.h"
 
 Motor::Motor() {}
-
-void Motor::SetLevel(int index) 
+/*
+Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- rajouter le template de code suivant a la suite du if :
+if (ElementsMaps[index][y][x] == ##ID de l'element dans la map)
 {
+	## creation / ajout de parametres a l'element bref le code spécifique a element
+	## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
+
+	level->GameElements.push_back( ##Element );
+}
+*/
+
+void Motor::LoadLevel(string path)
+{
+	events.clear();
 	delete level;
+	isLevelEnded = false;
 	level = new Level();
 
-	if (index == 0) 
+	try
 	{
-		/*TEMPORAIRE*/
+		ifstream fileStream = ifstream(path);
+		vector<vector<int>> csvLevel = vector<vector<int>>();
 
-		Player* p1 = new Player();
-		p1->position = Vector2f(100, 100);
-		level->GameElements.push_back(p1);
+		string line;
+		while (getline(fileStream, line))
+		{
+			vector<int> levelRow = vector<int>();
+			stringstream lineStream = stringstream(line);
 
-		Player* p2 = new Player();
-		p2->position = Vector2f(200, 200);
-		level->GameElements.push_back(p2);
+			string cell;
+			while (getline(lineStream, cell, ','))
+				levelRow.push_back(stoi(cell));
+			csvLevel.push_back(levelRow);
+		}
 
-		Player* p3 = new Player();
-		p3->position = Vector2f(300, 200);
-		level->GameElements.push_back(p3);
+		int xTilesSize = WindowWidth / csvLevel[0].size();
+		int yTilesSize = WindowHeight / csvLevel.size();
 
-		cout << "Successful Loaded Level " << index << endl;
+		for (unsigned y = 0; y < csvLevel.size(); y++)
+		{
+			for (unsigned x = 0; x < csvLevel[y].size(); x++)
+			{
+				// Obliger d'utiliser un if car les case ne sont pas des bloc et donc pas possible de faire des declarations a l'interieur
+
+				if (csvLevel[y][x] == 1)
+				{
+					Player* player = new Player();
+					player->position->x = xTilesSize * x;
+					player->position->y = yTilesSize * y;
+					level->GameElements.push_back(player);
+				}
+			}
+		}
+
+		cout << "Successful Loaded Level " << path << endl;
 	}
-	else
+	catch (exception & ex)
 	{
-		cout << "Failed Loading Level : Level index " << index << " out of range" << endl;
+		cout << "Failed Loading Level : Level " << path << " not found " << ex.what() << endl;
 	}
 }
 
@@ -37,24 +70,71 @@ void Motor::Play(RenderWindow &window) {
 
 	for (GameElement* gameElement : level->GameElements)
 	{
-		gameElement->Init(&window, &events);
+		gameElement->motor = this;
+		gameElement->LoadSprites();
 		gameElement->Start();
 	}
 
-	while (window.isOpen())
+	while (window.isOpen() && !isLevelEnded)
 	{
 		RefreshEvents();
-		
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window.close();
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape) 
+		{
+			isLevelEnded == true;
+		}
+
 		window.clear(Color::Black);
 
 		for (GameElement* gameElement : level->GameElements)
 		{
 			gameElement->Update();
+		}
+
+		for (GameElement* gameElement : level->GameElements)
+		{
 			gameElement->Draw();
 		}
 
 		window.display();
 	}
+}
+/*
+fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+*/
+bool Motor::isLogicSequenceValid(vector<Logic>& sequence)
+{
+	for (int i = 0; i < sequence.size(); i++)
+	{ 
+		if (i == 0 && 
+			sequence[i].type != Type::Element)
+		{
+			return false;
+		}
+
+		else if (i != 0 && i % 2 != 0 &&
+			sequence[i].type != Type::Operateur)
+		{
+			return false;
+		}
+
+		else if (i != 0 && i % 2 == 0 && 
+			(sequence[i].type != Type::Element && sequence[i].type != Type::Instruction))
+		{
+			return false;
+		}
+
+		if (i != 0 && i == sequence.size() &&
+			sequence[i].type != Type::Operateur)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void Motor::RefreshEvents()

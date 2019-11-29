@@ -1,13 +1,33 @@
 #include "Motor.h"
 
-GameElement::GameElement() 
-{
+GameElement::GameElement() {}
+void GameElement::Stop() {}
+void GameElement::You() {}
 
+void GameElement::ApplyLogicalEvents()
+{
+	for (InstructionType instruction : instructions) 
+	{
+		switch (instruction)
+		{
+		case InstructionType::Stop:
+			Stop();
+			break;
+		case InstructionType::You:
+			You();
+			break;
+		case InstructionType::None:
+			break;
+		}
+	}
 }
+Texture* GameElement::texture = nullptr;
+
+void GameElement::LoadSprites() {}
 
 bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
 {
-	for (Event event : *events)
+	for (Event event : motor->events)
 	{
 		if (event.type == eventType)
 		{
@@ -19,58 +39,66 @@ bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
 	return false;
 }
 
-void GameElement::Init(RenderWindow* window, list<Event>* events)
+void GameElement::Start() {}
+void GameElement::Update() {}
+void GameElement::Draw() {};
+
+
+void Player::LoadSprites()
 {
-	this->window = window;
-	this->events = events;
-}
+	string path = "Assets/Sprites/Player/baba_0_1.png";
 
-void GameElement::Start()
-{
-	cout << "Starting " + name << endl;
-}
+	if (texture == nullptr)
+	{
+		texture = new Texture();
 
-void GameElement::Update()
-{
-	cout << "Updating " + name << endl;
-}
+		if (texture->loadFromFile(path))
+		{
+			sprite.setTexture(*texture);
+			sprite.setPosition(*position);
 
-void GameElement::Draw() {
-	cout << "Drawing " + name << endl;
-};
+			cout << "Successful Loaded " << path << endl;
+		}
+	}
+	else
+	{
+		sprite.setTexture(*texture);
+		sprite.setPosition(*position);
 
-void GameElement::Destroy()
-{
-	cout << "Destroying " + name << endl;
-}
-
-
-
-
-Player::Player() 
-{
-
+		cout << "Successful Loaded " << path << endl;
+	}
 }
 
 void Player::Start()
 {
-	cout << "--- Starting " + name << endl;
 
-	string path = "Assets/baba_0_1.png";
-
-	if (texture.loadFromFile(path))
-	{
-		sprite.setTexture(texture);
-		sprite.setPosition(position);
-
-		cout << "Successful Loaded " << path << endl;
-	}
-	else {}
 }
 
 void Player::Update()
 {
-	if (Keyboard::isKeyPressed(Keyboard::S)) 
+	/*TEMPORAIRE en attendant que le system d'evenements logiques soit fini*/
+
+	/*PROTOTYPING pour tester si le code de verification des chaines d'instructions*/
+	Event event;
+	if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
+	{
+		vector<Logic> sequence = vector<Logic>();
+
+		sequence.resize(5);
+
+		sequence[0] = Logic(Type::Element, ElementType::Wall);
+		sequence[1] = Logic(Type::Operateur, OperateurType::Is);
+		sequence[2] = Logic(Type::Instruction, InstructionType::Stop);
+		sequence[3] = Logic(Type::Operateur, OperateurType::And);
+		sequence[4] = Logic(Type::Element, InstructionType::You);
+
+		cout << "la suite d'instrucitons logiques ";
+		for (int i = 0; i < sequence.size(); i++)
+			cout << (int)sequence[i].type << " ";
+		cout << "est " << (motor->isLogicSequenceValid(sequence) ? "valide" : "invalide") << endl;
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
 		sprite.move(0, 1 / 3.f);
 	}
@@ -90,10 +118,5 @@ void Player::Update()
 
 void Player::Draw()
 {
-	window->draw(sprite);
-}
-
-void Player::Destroy()
-{
-	cout << "Destroying " + name << endl;
+	motor->window->draw(sprite);
 }
