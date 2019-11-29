@@ -6,7 +6,7 @@ Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
 - rajouter le template de code suivant a la suite du if :
 if (ElementsMaps[index][y][x] == ##ID de l'element dans la map)
 {
-	## creation / ajout de parametres a l'element bref le code spécifique a element
+	## creation / ajout de parametres a l'element bref le code spï¿½cifique a element
 	## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
 
 	level->GameElements.push_back( ##Element );
@@ -103,7 +103,7 @@ void Motor::Play(RenderWindow &window) {
 	}
 }
 /*
-fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+fonction vouï¿½ a changer de place pour aller dans la class que gerera les evenements logiques
 */
 bool Motor::isLogicSequenceValid(vector<Logic>& sequence)
 {
@@ -142,7 +142,6 @@ void Motor::RefreshEvents()
 	events.clear();
 	
 	Event event;
-	int eventsCount = 0;
 	
 	while (window->pollEvent(event))
 		events.push_back(event);
