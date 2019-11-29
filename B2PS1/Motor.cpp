@@ -142,7 +142,6 @@ void Motor::RefreshEvents()
 	events.clear();
 	
 	Event event;
-	int eventsCount = 0;
 	
 	while (window->pollEvent(event))
 		events.push_back(event);

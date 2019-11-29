@@ -96,13 +96,10 @@ class Instructions : public GameElement
 {
 public:
 	
-	
-	
 	RectangleShape Inst = RectangleShape(Vector2f(70.f, 70.f));
 	Vector2f InstPos = Vector2f(500.f, 500.f);
 	
 	void Start();
 	void Update();
 	void Draw();
-
  };

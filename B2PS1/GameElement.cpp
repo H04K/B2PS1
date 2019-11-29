@@ -132,7 +132,7 @@ void Lim::Update()
 }
 void Lim::Draw()
 {
-	window->draw(Limite);
+	motor->window->draw(Limite);
 }
 
 void Instructions::Start()
@@ -144,7 +144,7 @@ void Instructions::Start()
 
 void Instructions::Update()
 {
-	Vector2i mpos = Mouse::getPosition(*window);
+	Vector2i mpos = Mouse::getPosition(*motor->window);
 	FloatRect Opos = Inst.getGlobalBounds();
 	if (Mouse::isButtonPressed(Mouse::Left) && Opos.contains(mpos.x, mpos.y))
 	{
@@ -160,5 +160,5 @@ void Instructions::Update()
 
 void Instructions::Draw()
 {
-	window->draw(Inst);
+	motor->window->draw(Inst);
 }

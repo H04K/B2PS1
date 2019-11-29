@@ -6,7 +6,7 @@ int main()
 
 	Motor GameMotor;
 
-	GameMotor.LoadLevel("Assets/Levels/Level0.csv231");
+	GameMotor.LoadLevel("Assets/Levels/Level0.csv");
 	GameMotor.Play(window);
 	
 	return EXIT_SUCCESS;
