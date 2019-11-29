@@ -1,3 +1,14 @@
-﻿  Main.cpp
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Main.cpp(26,20): warning C4018: '<' : incompatibilité signed/unsigned
+﻿  Motor.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(60,39): warning C4244: '=' : conversion de 'unsigned int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(60,39): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(60,39): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(60,39): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(60,39): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(61,39): warning C4244: '=' : conversion de 'unsigned int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(61,39): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(61,39): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(61,39): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(61,39): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(95,17): warning C4553: '==' : résultat de l'expression non utilisé ; souhaitiez-vous utiliser '=' ?
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(118,20): warning C4018: '<' : incompatibilité signed/unsigned
   B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe
