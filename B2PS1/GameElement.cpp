@@ -4,9 +4,11 @@ GameElement::GameElement() {}
 void GameElement::Stop() {}
 void GameElement::You() {}
 
+list<InstructionType>* GameElement::instructions = new list<InstructionType>();
+
 void GameElement::ApplyLogicalEvents()
 {
-	for (InstructionType instruction : instructions) 
+	for (InstructionType instruction : *instructions)
 	{
 		switch (instruction)
 		{
@@ -44,6 +46,7 @@ void GameElement::Update() {}
 void GameElement::Draw() {};
 
 
+
 void Player::LoadSprites()
 {
 	string path = "Assets/Sprites/Player/baba_0_1.png";
@@ -77,26 +80,6 @@ void Player::Start()
 void Player::Update()
 {
 	/*TEMPORAIRE en attendant que le system d'evenements logiques soit fini*/
-
-	/*PROTOTYPING pour tester si le code de verification des chaines d'instructions*/
-	Event event;
-	if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
-	{
-		vector<Logic> sequence = vector<Logic>();
-
-		sequence.resize(5);
-
-		sequence[0] = Logic(Type::Element, ElementType::Wall);
-		sequence[1] = Logic(Type::Operateur, OperateurType::Is);
-		sequence[2] = Logic(Type::Instruction, InstructionType::Stop);
-		sequence[3] = Logic(Type::Operateur, OperateurType::And);
-		sequence[4] = Logic(Type::Element, InstructionType::You);
-
-		cout << "la suite d'instrucitons logiques ";
-		for (int i = 0; i < sequence.size(); i++)
-			cout << (int)sequence[i].type << " ";
-		cout << "est " << (motor->isLogicSequenceValid(sequence) ? "valide" : "invalide") << endl;
-	}
 
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{

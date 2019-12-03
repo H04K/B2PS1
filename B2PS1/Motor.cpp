@@ -84,7 +84,16 @@ void Motor::Play(RenderWindow &window) {
 			window.close();
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape) 
 		{
-			isLevelEnded == true;
+			isLevelEnded = true;
+		}
+		/*PROTOTYPING pour tester si le code de verification des chaines d'instructions*/
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
+		{
+			cout << "Entrer un sequence logique : ";
+			char tabCode[50];
+			cin.getline(tabCode, 50);
+			string code(tabCode);
+			sendLogicalSequence(code);
 		}
 
 		window.clear(Color::Black);
@@ -103,46 +112,135 @@ void Motor::Play(RenderWindow &window) {
 	}
 }
 /*
-fonction vou� a changer de place pour aller dans la class que gerera les evenements logiques
-*/
-bool Motor::isLogicSequenceValid(vector<Logic>& sequence)
+fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+/*PROTOTYPING pour tester le code de verification des chaines d'instructions*/
+void Motor::sendLogicalSequence(string code)
 {
-	for (int i = 0; i < sequence.size(); i++)
-	{ 
+	string instruction = "";
+	list<string> logicSequenceString = list<string>();
+	for (unsigned i = 0; i < code.size(); i++)
+	{
+		if (code[i] == ' ')
+		{
+			logicSequenceString.push_back(instruction);
+			instruction = "";
+		} 
+		else
+			instruction += code[i];
+
+		if (i + 1 == code.size() && instruction != "")
+			logicSequenceString.push_back(instruction);
+	}
+
+	list<Logic> logicSequence = list<Logic>();
+
+	for (string logicString : logicSequenceString)
+	{
+		if (logicString == "player" || logicString == "Player")
+			logicSequence.push_back(Logic(ElementType::Player));
+		else if (logicString == "wall" || logicString == "Wall")
+			logicSequence.push_back(Logic(ElementType::Wall));
+		else if (logicString == "is" || logicString == "Is")
+			logicSequence.push_back(Logic(OperateurType::Is));
+		else if (logicString == "and" || logicString == "And")
+			logicSequence.push_back(Logic(OperateurType::And));
+		else if (logicString == "stop" || logicString == "Stop")
+			logicSequence.push_back(Logic(InstructionType::Stop));
+		else if (logicString == "you" || logicString == "You")
+			logicSequence.push_back(Logic(InstructionType::You));
+		
+
+		// error manager
+		else
+		{
+			cout << "--- Logic_Sequence Unexpected error at :" << endl;
+			for (string s : logicSequenceString)
+			{
+				cout << s + " ";
+				if (s == logicString)
+				{
+					cout << "<--" << endl;
+					return;
+				}
+			}
+		}
+	}
+
+	bool isSequenceValid = isLogicSequenceValid(logicSequence);
+	cout << "Sequence " << (isSequenceValid ? "valide" : "invalide") << endl;
+	if (!isSequenceValid)
+		return;
+
+
+}
+
+//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+bool Motor::isLogicSequenceValid(list<Logic>& logicSequence)
+{
+	int i = 0;
+	for (Logic logic : logicSequence)
+	{
 		if (i == 0 && 
-			sequence[i].type != Type::Element)
+			logic.logicType != LogicType::Element)
 		{
 			return false;
 		}
 
 		else if (i != 0 && i % 2 != 0 &&
-			sequence[i].type != Type::Operateur)
+			logic.logicType != LogicType::Operateur)
 		{
 			return false;
 		}
 
 		else if (i != 0 && i % 2 == 0 && 
-			(sequence[i].type != Type::Element && sequence[i].type != Type::Instruction))
+			(logic.logicType != LogicType::Element && logic.logicType != LogicType::Instruction))
 		{
 			return false;
 		}
 
-		if (i != 0 && i == sequence.size() &&
-			sequence[i].type != Type::Operateur)
+		if (i != 0 && i == logicSequence.size() &&
+			logic.logicType != LogicType::Operateur)
 		{
 			return false;
 		}
+		i++;
 	}
 
 	return true;
 }
 
+void Motor::applyLogicalSequence(list<Logic>& logicSequence)
+{
+	ElementType element = ElementType::None;
+	list<InstructionType> instructions = list<InstructionType>();
+
+	int i = 0;
+	for (Logic logic : logicSequence)
+	{
+		if (logic.logicType == LogicType::Element)
+		{
+			if (i == 0)
+			{
+				element = logic.elementType;
+			}
+			else
+			{
+				cout << "Elements type " << (int)element << " is now type " << (int)logic.elementType << endl;
+			}
+		}
+		if (logic.logicType == LogicType::Instruction)
+		{
+			instructions.push_back(logic.instructionType);
+		}
+
+		i++;
+	}
+}
+
 void Motor::RefreshEvents()
 {
 	events.clear();
-	
 	Event event;
-	
 	while (window->pollEvent(event))
 		events.push_back(event);
 }
