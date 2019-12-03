@@ -4,7 +4,7 @@ Motor::Motor() {}
 /*
 Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
 - rajouter le template de code suivant a la suite du if :
-if (ElementsMaps[index][y][x] == ##ID de l'element dans la map)
+if (csvLevel[y][x] == ##ID de l'element dans la map)
 {
 	## creation / ajout de parametres a l'element bref le code sp�cifique a element
 	## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
@@ -100,11 +100,8 @@ void Motor::Play(RenderWindow &window) {
 
 		for (GameElement* gameElement : level->GameElements)
 		{
+			gameElement->ApplyLogicInstructions();
 			gameElement->Update();
-		}
-
-		for (GameElement* gameElement : level->GameElements)
-		{
 			gameElement->Draw();
 		}
 
@@ -116,6 +113,9 @@ fonction voué a changer de place pour aller dans la class que gerera les evenem
 /*PROTOTYPING pour tester le code de verification des chaines d'instructions*/
 void Motor::sendLogicalSequence(string code)
 {
+	if (code == "" || code == " ")
+		return;
+
 	string instruction = "";
 	list<string> logicSequenceString = list<string>();
 	for (unsigned i = 0; i < code.size(); i++)
@@ -171,7 +171,7 @@ void Motor::sendLogicalSequence(string code)
 	if (!isSequenceValid)
 		return;
 
-
+	applyLogicSequence(logicSequence);
 }
 
 //fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
@@ -209,31 +209,44 @@ bool Motor::isLogicSequenceValid(list<Logic>& logicSequence)
 	return true;
 }
 
-void Motor::applyLogicalSequence(list<Logic>& logicSequence)
+void Motor::applyLogicSequence(list<Logic>& logicSequence)
 {
 	ElementType element = ElementType::None;
-	list<InstructionType> instructions = list<InstructionType>();
 
-	int i = 0;
+	bool isFistElement = true;
+	bool isFistInstruction = true;
+
 	for (Logic logic : logicSequence)
 	{
 		if (logic.logicType == LogicType::Element)
 		{
-			if (i == 0)
+			if (isFistElement)
 			{
 				element = logic.elementType;
+				isFistElement = false;
 			}
 			else
 			{
+				// appel de la fonction qui transforme des elements en d'autres
 				cout << "Elements type " << (int)element << " is now type " << (int)logic.elementType << endl;
 			}
 		}
 		if (logic.logicType == LogicType::Instruction)
 		{
-			instructions.push_back(logic.instructionType);
-		}
+			switch(element)
+			{
+			case ElementType::Player :
+				if(isFistInstruction) Player::LogicInstructions.clear();
+				Player::LogicInstructions.push_back(logic.instructionType);
+				break;
+			case ElementType::Wall:
+				/*if (isFistInstruction) Wall::logicInstructions.clear();
+				Wall::logicInstructions.push_back(logic.instructionType);*/
+				break;
+			}
 
-		i++;
+			if (isFistInstruction) isFistInstruction = false;
+		}
 	}
 }
 
