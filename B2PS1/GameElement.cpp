@@ -23,7 +23,7 @@ void GameElement::ApplyLogicalEvents()
 		}
 	}
 }
-Texture* GameElement::texture = nullptr;
+
 
 void GameElement::LoadSprites() {}
 
@@ -49,27 +49,17 @@ void GameElement::Draw() {};
 
 void Player::LoadSprites()
 {
-	string path = "Assets/Sprites/Player/baba_0_1.png";
 
-	if (texture == nullptr)
+	IntRect rectSourceSprite(0, 0, 28, 32);
+	
+	if (!texture.loadFromFile("Assets/baba/sprite2.png"))
 	{
-		texture = new Texture();
-
-		if (texture->loadFromFile(path))
-		{
-			sprite.setTexture(*texture);
-			sprite.setPosition(*position);
-
-			cout << "Successful Loaded " << path << endl;
-		}
+		// erreur...
 	}
-	else
-	{
-		sprite.setTexture(*texture);
-		sprite.setPosition(*position);
-
-		cout << "Successful Loaded " << path << endl;
-	}
+	texture.setRepeated(true);
+	texture.setSmooth(true);
+	sprite.setTexture(texture);
+	sprite.setTextureRect(IntRect(rectSourceSprite));
 }
 
 void Player::Start()
@@ -80,27 +70,39 @@ void Player::Start()
 void Player::Update()
 {
 	/*TEMPORAIRE en attendant que le system d'evenements logiques soit fini*/
+	IntRect rectSourceSprite(0, 0, 28, 32);
 
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
-		sprite.move(0, 1 / 3.f);
+		sprite.setTextureRect(rectSourceSprite);
+		sprite.move(0, 1 / 10.f);
+		
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Z))
 	{
-		sprite.move(0, -1 / 3.f);
+		sprite.move(0, -1 / 10.f);
+		rectSourceSprite.top += 96;
+		sprite.setTextureRect(rectSourceSprite);
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
-		sprite.move(1 / 3.f, 0.f);
+		sprite.move(1 / 10.f, 0.f);
+		rectSourceSprite.top += 64;
+		sprite.setTextureRect(rectSourceSprite);
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
-		sprite.move(-1 / 3.f, 0.f);
+		
+		sprite.move(-1 / 10.f, 0.f);
+		rectSourceSprite.top += 32;
+		sprite.setTextureRect(rectSourceSprite);
+		
 	}
 }
 
 void Player::Draw()
 {
+	
 	motor->window->draw(sprite);
 }
 
