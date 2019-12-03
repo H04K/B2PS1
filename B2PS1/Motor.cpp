@@ -1,33 +1,66 @@
 #include "Motor.h"
 
 Motor::Motor() {}
-
-void Motor::SetLevel(int index) 
+/*
+Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- rajouter le template de code suivant a la suite du if :
+if (ElementsMaps[index][y][x] == ##ID de l'element dans la map)
 {
+	## creation / ajout de parametres a l'element bref le code sp�cifique a element
+	## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
+
+	level->GameElements.push_back( ##Element );
+}
+*/
+
+void Motor::LoadLevel(string path)
+{
+	events.clear();
 	delete level;
+	isLevelEnded = false;
 	level = new Level();
 
-	if (index == 0) 
+	try
 	{
-		/*TEMPORAIRE*/
+		ifstream fileStream = ifstream(path);
+		vector<vector<int>> csvLevel = vector<vector<int>>();
 
-		Player* p1 = new Player();
-		p1->position = Vector2f(100, 100);
-		level->GameElements.push_back(p1);
+		string line;
+		while (getline(fileStream, line))
+		{
+			vector<int> levelRow = vector<int>();
+			stringstream lineStream = stringstream(line);
 
-		Player* p2 = new Player();
-		p2->position = Vector2f(200, 200);
-		level->GameElements.push_back(p2);
+			string cell;
+			while (getline(lineStream, cell, ','))
+				levelRow.push_back(stoi(cell));
+			csvLevel.push_back(levelRow);
+		}
 
-		Player* p3 = new Player();
-		p3->position = Vector2f(300, 200);
-		level->GameElements.push_back(p3);
+		int xTilesSize = WindowWidth / csvLevel[0].size();
+		int yTilesSize = WindowHeight / csvLevel.size();
 
-		cout << "Successful Loaded Level " << index << endl;
+		for (unsigned y = 0; y < csvLevel.size(); y++)
+		{
+			for (unsigned x = 0; x < csvLevel[y].size(); x++)
+			{
+				// Obliger d'utiliser un if car les case ne sont pas des bloc et donc pas possible de faire des declarations a l'interieur
+
+				if (csvLevel[y][x] == 1)
+				{
+					Player* player = new Player();
+					player->position->x = xTilesSize * x;
+					player->position->y = yTilesSize * y;
+					level->GameElements.push_back(player);
+				}
+			}
+		}
+
+		cout << "Successful Loaded Level " << path << endl;
 	}
-	else
+	catch (exception & ex)
 	{
-		cout << "Failed Loading Level : Level index " << index << " out of range" << endl;
+		cout << "Failed Loading Level : Level " << path << " not found " << ex.what() << endl;
 	}
 }
 
@@ -37,33 +70,177 @@ void Motor::Play(RenderWindow &window) {
 
 	for (GameElement* gameElement : level->GameElements)
 	{
-		gameElement->Init(&window, &events);
+		gameElement->motor = this;
+		gameElement->LoadSprites();
 		gameElement->Start();
 	}
 
-	while (window.isOpen())
+	while (window.isOpen() && !isLevelEnded)
 	{
 		RefreshEvents();
-		
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window.close();
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape) 
+		{
+			isLevelEnded = true;
+		}
+		/*PROTOTYPING pour tester si le code de verification des chaines d'instructions*/
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
+		{
+			cout << "Entrer un sequence logique : ";
+			char tabCode[50];
+			cin.getline(tabCode, 50);
+			string code(tabCode);
+			sendLogicalSequence(code);
+		}
+
 		window.clear(Color::Black);
 
 		for (GameElement* gameElement : level->GameElements)
 		{
 			gameElement->Update();
+		}
+
+		for (GameElement* gameElement : level->GameElements)
+		{
 			gameElement->Draw();
 		}
 
 		window.display();
 	}
 }
+/*
+fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+/*PROTOTYPING pour tester le code de verification des chaines d'instructions*/
+void Motor::sendLogicalSequence(string code)
+{
+	string instruction = "";
+	list<string> logicSequenceString = list<string>();
+	for (unsigned i = 0; i < code.size(); i++)
+	{
+		if (code[i] == ' ')
+		{
+			logicSequenceString.push_back(instruction);
+			instruction = "";
+		} 
+		else
+			instruction += code[i];
+
+		if (i + 1 == code.size() && instruction != "")
+			logicSequenceString.push_back(instruction);
+	}
+
+	list<Logic> logicSequence = list<Logic>();
+
+	for (string logicString : logicSequenceString)
+	{
+		if (logicString == "player" || logicString == "Player")
+			logicSequence.push_back(Logic(ElementType::Player));
+		else if (logicString == "wall" || logicString == "Wall")
+			logicSequence.push_back(Logic(ElementType::Wall));
+		else if (logicString == "is" || logicString == "Is")
+			logicSequence.push_back(Logic(OperateurType::Is));
+		else if (logicString == "and" || logicString == "And")
+			logicSequence.push_back(Logic(OperateurType::And));
+		else if (logicString == "stop" || logicString == "Stop")
+			logicSequence.push_back(Logic(InstructionType::Stop));
+		else if (logicString == "you" || logicString == "You")
+			logicSequence.push_back(Logic(InstructionType::You));
+		
+
+		// error manager
+		else
+		{
+			cout << "--- Logic_Sequence Unexpected error at :" << endl;
+			for (string s : logicSequenceString)
+			{
+				cout << s + " ";
+				if (s == logicString)
+				{
+					cout << "<--" << endl;
+					return;
+				}
+			}
+		}
+	}
+
+	bool isSequenceValid = isLogicSequenceValid(logicSequence);
+	cout << "Sequence " << (isSequenceValid ? "valide" : "invalide") << endl;
+	if (!isSequenceValid)
+		return;
+
+
+}
+
+//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+bool Motor::isLogicSequenceValid(list<Logic>& logicSequence)
+{
+	int i = 0;
+	for (Logic logic : logicSequence)
+	{
+		if (i == 0 && 
+			logic.logicType != LogicType::Element)
+		{
+			return false;
+		}
+
+		else if (i != 0 && i % 2 != 0 &&
+			logic.logicType != LogicType::Operateur)
+		{
+			return false;
+		}
+
+		else if (i != 0 && i % 2 == 0 && 
+			(logic.logicType != LogicType::Element && logic.logicType != LogicType::Instruction))
+		{
+			return false;
+		}
+
+		if (i != 0 && i == logicSequence.size() &&
+			logic.logicType != LogicType::Operateur)
+		{
+			return false;
+		}
+		i++;
+	}
+
+	return true;
+}
+
+void Motor::applyLogicalSequence(list<Logic>& logicSequence)
+{
+	ElementType element = ElementType::None;
+	list<InstructionType> instructions = list<InstructionType>();
+
+	int i = 0;
+	for (Logic logic : logicSequence)
+	{
+		if (logic.logicType == LogicType::Element)
+		{
+			if (i == 0)
+			{
+				element = logic.elementType;
+			}
+			else
+			{
+				cout << "Elements type " << (int)element << " is now type " << (int)logic.elementType << endl;
+			}
+		}
+		if (logic.logicType == LogicType::Instruction)
+		{
+			instructions.push_back(logic.instructionType);
+		}
+
+		i++;
+	}
+}
 
 void Motor::RefreshEvents()
 {
 	events.clear();
-	
 	Event event;
-	int eventsCount = 0;
-	
 	while (window->pollEvent(event))
 		events.push_back(event);
 }
