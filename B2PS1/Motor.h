@@ -23,7 +23,9 @@ public:
 	Level* level = nullptr;
 	bool isLevelEnded = false;
 
-	bool isLogicSequenceValid(vector<Logic>& sequence);
+	void sendLogicalSequence(string code);
+	bool isLogicSequenceValid(list<Logic>& logicSequence);
+	void applyLogicalSequence(list<Logic>& logicSequence);
 
 	// Contient tout les evenements actuels
 	list<Event> events = list<Event>();

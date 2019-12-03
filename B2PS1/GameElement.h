@@ -16,23 +16,23 @@
 using namespace sf;
 using namespace std;
 
-enum class Type { Instruction, Element, Operateur, None };
+enum class LogicType { Instruction, Element, Operateur, None };
 enum class OperateurType { Is, And, None };
-enum class ElementType { Baba, Wall, None };
+enum class ElementType { Player, Wall, None };
 enum class InstructionType { Stop, You, None };
 
 struct Logic
 {
-	Type type = Type::None;
+	LogicType logicType = LogicType::None;
 
 	OperateurType operateurType = OperateurType::None;
 	ElementType elementType = ElementType::None;
 	InstructionType instructionType = InstructionType::None;
 
 	Logic() = default;
-	Logic(Type type, OperateurType type2) : type(type), operateurType(type2) {}
-	Logic(Type type, ElementType type2) : type(type), elementType(type2) {}
-	Logic(Type type, InstructionType type2) : type(type), instructionType(type2) {}
+	Logic(OperateurType opType) : logicType(LogicType::Operateur), operateurType(opType) {}
+	Logic(ElementType elemType) : logicType(LogicType::Element), elementType(elemType) {}
+	Logic(InstructionType instrType) : logicType(LogicType::Instruction), instructionType(instrType) {}
 };
 
 // Pour que le type Motor soit accessible depuis la declaration des de GameElement
@@ -43,7 +43,7 @@ protected:
 	void Stop();
 	void You();
 public:
-	list<InstructionType> instructions = list<InstructionType>();
+	static list<InstructionType>* instructions;
 	void ApplyLogicalEvents();
 
 	string name = "UnamedGameElement";
@@ -71,6 +71,7 @@ Le nom Player est vou� a changer pour un nom comme BABA ou autre chose
 */
 class Player : public GameElement {
 public:
+	static list<InstructionType>* instructions;
 	string name = "UnamedPlayer";
 
 	void LoadSprites();
@@ -79,6 +80,11 @@ public:
 	void Update();
 	void Draw();
 };
+
+
+
+
+
 
 class Lim : public GameElement
 {
