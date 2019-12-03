@@ -1,13 +1,35 @@
 #include "Motor.h"
 
-GameElement::GameElement() 
-{
+GameElement::GameElement() {}
+void GameElement::Stop() {}
+void GameElement::You() {}
 
+list<InstructionType>* GameElement::instructions = new list<InstructionType>();
+
+void GameElement::ApplyLogicalEvents()
+{
+	for (InstructionType instruction : *instructions)
+	{
+		switch (instruction)
+		{
+		case InstructionType::Stop:
+			Stop();
+			break;
+		case InstructionType::You:
+			You();
+			break;
+		case InstructionType::None:
+			break;
+		}
+	}
 }
+Texture* GameElement::texture = nullptr;
+
+void GameElement::LoadSprites() {}
 
 bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
 {
-	for (Event event : *events)
+	for (Event event : motor->events)
 	{
 		if (event.type == eventType)
 		{
@@ -19,58 +41,47 @@ bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
 	return false;
 }
 
-void GameElement::Init(RenderWindow* window, list<Event>* events)
+void GameElement::Start() {}
+void GameElement::Update() {}
+void GameElement::Draw() {};
+
+
+
+void Player::LoadSprites()
 {
-	this->window = window;
-	this->events = events;
-}
+	string path = "Assets/Sprites/Player/baba_0_1.png";
 
-void GameElement::Start()
-{
-	cout << "Starting " + name << endl;
-}
+	if (texture == nullptr)
+	{
+		texture = new Texture();
 
-void GameElement::Update()
-{
-	cout << "Updating " + name << endl;
-}
+		if (texture->loadFromFile(path))
+		{
+			sprite.setTexture(*texture);
+			sprite.setPosition(*position);
 
-void GameElement::Draw() {
-	cout << "Drawing " + name << endl;
-};
+			cout << "Successful Loaded " << path << endl;
+		}
+	}
+	else
+	{
+		sprite.setTexture(*texture);
+		sprite.setPosition(*position);
 
-void GameElement::Destroy()
-{
-	cout << "Destroying " + name << endl;
-}
-
-
-
-
-Player::Player() 
-{
-
+		cout << "Successful Loaded " << path << endl;
+	}
 }
 
 void Player::Start()
 {
-	cout << "--- Starting " + name << endl;
 
-	string path = "Assets/baba_0_1.png";
-
-	if (texture.loadFromFile(path))
-	{
-		sprite.setTexture(texture);
-		sprite.setPosition(position);
-
-		cout << "Successful Loaded " << path << endl;
-	}
-	else {}
 }
 
 void Player::Update()
 {
-	if (Keyboard::isKeyPressed(Keyboard::S)) 
+	/*TEMPORAIRE en attendant que le system d'evenements logiques soit fini*/
+
+	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
 		sprite.move(0, 1 / 3.f);
 	}
@@ -90,12 +101,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	window->draw(sprite);
-}
-
-void Player::Destroy()
-{
-	cout << "Destroying " + name << endl;
+	motor->window->draw(sprite);
 }
 
 void Lim::Start()
@@ -109,7 +115,7 @@ void Lim::Update()
 }
 void Lim::Draw()
 {
-	window->draw(Limite);
+	motor->window->draw(Limite);
 }
 
 void Instructions::Start()
@@ -121,7 +127,7 @@ void Instructions::Start()
 
 void Instructions::Update()
 {
-	Vector2i mpos = Mouse::getPosition(*window);
+	Vector2i mpos = Mouse::getPosition(*motor->window);
 	FloatRect Opos = Inst.getGlobalBounds();
 	if (Mouse::isButtonPressed(Mouse::Left) && Opos.contains(mpos.x, mpos.y))
 	{
@@ -137,5 +143,5 @@ void Instructions::Update()
 
 void Instructions::Draw()
 {
-	window->draw(Inst);
+	motor->window->draw(Inst);
 }
