@@ -51,8 +51,10 @@ public:
 	Motor* motor = nullptr;
 
 	/*Les textures et sprites sont vou� a changer pour un system animable*/
-	static Texture* texture;
+
 	Sprite sprite;
+	Texture texture;
+	
 	virtual void LoadSprites();
 	
 	/**/

@@ -2,7 +2,7 @@
 
 void GameElement::Stop() 
 {
-	cout << "ça stop bien la" << endl;
+	cout << "ï¿½a stop bien la" << endl;
 }
 void GameElement::You() 
 {
@@ -42,7 +42,6 @@ void GameElement::ApplyLogicInstructions()
 	}
 }
 
-Texture* GameElement::texture = nullptr;
 
 void GameElement::LoadSprites() {}
 
@@ -73,27 +72,17 @@ Texture* Player::texture = nullptr;
 
 void Player::LoadSprites()
 {
-	string path = "Assets/Sprites/Player/baba_0_1.png";
 
-	if (Player::texture == nullptr)
+	IntRect rectSourceSprite(0, 0, 28, 32);
+	
+	if (!texture.loadFromFile("Assets/baba/sprite2.png"))
 	{
-		Player::texture = new Texture();
-
-		if (texture->loadFromFile(path))
-		{
-			sprite.setTexture(*Player::texture);
-			sprite.setPosition(*position);
-
-			cout << "Successful Loaded " << path << endl;
-		}
+		// erreur...
 	}
-	else
-	{
-		sprite.setTexture(*Player::texture);
-		sprite.setPosition(*position);
-
-		cout << "Successful Loaded " << path << endl;
-	}
+	texture.setRepeated(true);
+	texture.setSmooth(true);
+	sprite.setTexture(texture);
+	sprite.setTextureRect(IntRect(rectSourceSprite));
 }
 
 void Player::Start()
@@ -107,6 +96,7 @@ void Player::Update()
 
 void Player::Draw()
 {
+	
 	motor->window->draw(sprite);
 }
 
