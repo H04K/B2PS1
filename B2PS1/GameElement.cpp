@@ -1,86 +1,11 @@
 #include "Motor.h"
 
-GameElement::GameElement() {}
-void GameElement::Stop() {}
-void GameElement::You() {}
-
-list<InstructionType>* GameElement::instructions = new list<InstructionType>();
-
-void GameElement::ApplyLogicalEvents()
+void GameElement::Stop() 
 {
-	for (InstructionType instruction : *instructions)
-	{
-		switch (instruction)
-		{
-		case InstructionType::Stop:
-			Stop();
-			break;
-		case InstructionType::You:
-			You();
-			break;
-		case InstructionType::None:
-			break;
-		}
-	}
+	cout << "ça stop bien la" << endl;
 }
-Texture* GameElement::texture = nullptr;
-
-void GameElement::LoadSprites() {}
-
-bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
+void GameElement::You() 
 {
-	for (Event event : motor->events)
-	{
-		if (event.type == eventType)
-		{
-			_event = event;
-			return true;
-		}
-	}
-
-	return false;
-}
-
-void GameElement::Start() {}
-void GameElement::Update() {}
-void GameElement::Draw() {};
-
-
-
-void Player::LoadSprites()
-{
-	string path = "Assets/Sprites/Player/baba_0_1.png";
-
-	if (texture == nullptr)
-	{
-		texture = new Texture();
-
-		if (texture->loadFromFile(path))
-		{
-			sprite.setTexture(*texture);
-			sprite.setPosition(*position);
-
-			cout << "Successful Loaded " << path << endl;
-		}
-	}
-	else
-	{
-		sprite.setTexture(*texture);
-		sprite.setPosition(*position);
-
-		cout << "Successful Loaded " << path << endl;
-	}
-}
-
-void Player::Start()
-{
-
-}
-
-void Player::Update()
-{
-	/*TEMPORAIRE en attendant que le system d'evenements logiques soit fini*/
-
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
 		sprite.move(0, 1 / 3.f);
@@ -99,10 +24,96 @@ void Player::Update()
 	}
 }
 
+void GameElement::ApplyLogicInstructions()
+{
+	for (InstructionType instruction : *logicInstructions)
+	{
+		switch (instruction)
+		{
+		case InstructionType::Stop:
+			Stop();
+			break;
+		case InstructionType::You:
+			You();
+			break;
+		case InstructionType::None:
+			break;
+		}
+	}
+}
+
+Texture* GameElement::texture = nullptr;
+
+void GameElement::LoadSprites() {}
+
+GameElement::GameElement() {}
+GameElement::~GameElement() {}
+
+bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
+{
+	for (Event event : motor->events)
+	{
+		if (event.type == eventType)
+		{
+			_event = event;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void GameElement::Start() {}
+void GameElement::Update() {}
+void GameElement::Draw() {}
+
+list<InstructionType> Player::LogicInstructions = list<InstructionType>();
+
+Texture* Player::texture = nullptr;
+
+void Player::LoadSprites()
+{
+	string path = "Assets/Sprites/Player/baba_0_1.png";
+
+	if (Player::texture == nullptr)
+	{
+		Player::texture = new Texture();
+
+		if (texture->loadFromFile(path))
+		{
+			sprite.setTexture(*Player::texture);
+			sprite.setPosition(*position);
+
+			cout << "Successful Loaded " << path << endl;
+		}
+	}
+	else
+	{
+		sprite.setTexture(*Player::texture);
+		sprite.setPosition(*position);
+
+		cout << "Successful Loaded " << path << endl;
+	}
+}
+
+void Player::Start()
+{
+	logicInstructions = &Player::LogicInstructions;
+}
+
+void Player::Update()
+{
+}
+
 void Player::Draw()
 {
 	motor->window->draw(sprite);
 }
+
+
+
+
+
 
 void Lim::Start()
 {

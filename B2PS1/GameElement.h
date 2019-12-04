@@ -35,7 +35,7 @@ struct Logic
 	Logic(InstructionType instrType) : logicType(LogicType::Instruction), instructionType(instrType) {}
 };
 
-// Pour que le type Motor soit accessible depuis la declaration des de GameElement
+// Pour que le type Motor soit accessible depuis la declaration de GameElement
 class Motor;
 
 class GameElement {
@@ -43,11 +43,11 @@ protected:
 	void Stop();
 	void You();
 public:
-	static list<InstructionType>* instructions;
-	void ApplyLogicalEvents();
+	list<InstructionType>* logicInstructions = nullptr;
+
+	void ApplyLogicInstructions();
 
 	string name = "UnamedGameElement";
-
 	Motor* motor = nullptr;
 
 	/*Les textures et sprites sont vou� a changer pour un system animable*/
@@ -59,6 +59,7 @@ public:
 	Vector2f* position = new Vector2f();
 
 	GameElement();
+	~GameElement();
 	bool GetEvent(Event& _event, Event::EventType eventType);
 
 	virtual void Start();
@@ -71,17 +72,15 @@ Le nom Player est vou� a changer pour un nom comme BABA ou autre chose
 */
 class Player : public GameElement {
 public:
-	static list<InstructionType>* instructions;
-	string name = "UnamedPlayer";
+	static list<InstructionType> LogicInstructions;
 
+	static Texture* texture;
 	void LoadSprites();
 
 	void Start();
 	void Update();
 	void Draw();
 };
-
-
 
 
 
