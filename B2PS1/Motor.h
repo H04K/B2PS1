@@ -25,7 +25,7 @@ public:
 
 	void sendLogicalSequence(string code);
 	bool isLogicSequenceValid(list<Logic>& logicSequence);
-	void applyLogicalSequence(list<Logic>& logicSequence);
+	void applyLogicSequence(list<Logic>& logicSequence);
 
 	// Contient tout les evenements actuels
 	list<Event> events = list<Event>();
