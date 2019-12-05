@@ -44,13 +44,13 @@ void Motor::LoadLevel(string path)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				// Obliger d'utiliser un if car les case ne sont pas des bloc et donc pas possible de faire des declarations a l'interieur
+				// utiliser un if car les case ne sont pas des bloc
 
 				if (csvLevel[y][x] == 1)
 				{
 					Player* player = new Player();
-					player->position->x = xTilesSize * x;
-					player->position->y = yTilesSize * y;
+					player->position.x = xTilesSize * x;
+					player->position.y = yTilesSize * y;
 					level->GameElements.push_back(player);
 				}
 			}

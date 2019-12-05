@@ -2,26 +2,58 @@
 
 void GameElement::Stop() 
 {
-	cout << "ça stop bien la" << endl;
+	cout << "ï¿½a stop bien la" << endl;
 }
-void GameElement::You() 
+void GameElement::You()
 {
+	/*IntRect rectSourceSprite(0, 0, 28, 32);*/
+
+	bool isMoving = false;
+
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
-		sprite.move(0, 1 / 3.f);
+		Move(0, 1 / 10.f);
+		isMoving = true;
+		/*sprite.move(0, 1 / 10.f); 
+		sprite.setTextureRect(rectSourceSprite);*/
+		
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Z))
 	{
-		sprite.move(0, -1 / 3.f);
+		Move(0, -1 / 5.f);
+		isMoving = true;
+		/*sprite.move(0, -1 / 10.f);
+		rectSourceSprite.top += 96;
+		sprite.setTextureRect(rectSourceSprite);*/
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
-		sprite.move(1 / 3.f, 0.f);
+		Move(1 / 5.f, 0.f);
+		isMoving = true;
+		/*sprite.move(1 / 10.f, 0.f);
+		rectSourceSprite.top += 64;
+		sprite.setTextureRect(rectSourceSprite);*/
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
-		sprite.move(-1 / 3.f, 0.f);
+		Move(-1 / 5.f, 0.f);
+		isMoving = true;
+		/*sprite.move(-1 / 10.f, 0.f);
+		rectSourceSprite.top += 32;
+		sprite.setTextureRect(rectSourceSprite);*/
 	}
+	
+	if (isMoving)
+	{
+		animatedSprite.Animate();
+	}
+
+}
+
+void GameElement::Move(float x, float y)
+{
+	position.x += x;
+	position.y += y;
 }
 
 void GameElement::ApplyLogicInstructions()
@@ -42,58 +74,71 @@ void GameElement::ApplyLogicInstructions()
 	}
 }
 
-Texture* GameElement::texture = nullptr;
-
 void GameElement::LoadSprites() {}
-
 GameElement::GameElement() {}
 GameElement::~GameElement() {}
-
-bool GameElement::GetEvent(Event& _event, Event::EventType eventType)
-{
-	for (Event event : motor->events)
-	{
-		if (event.type == eventType)
-		{
-			_event = event;
-			return true;
-		}
-	}
-
-	return false;
-}
-
 void GameElement::Start() {}
 void GameElement::Update() {}
 void GameElement::Draw() {}
 
 list<InstructionType> Player::LogicInstructions = list<InstructionType>();
 
-Texture* Player::texture = nullptr;
+//Texture* Player::texture = nullptr;
+list<Texture*>* Player::textures = nullptr;
 
 void Player::LoadSprites()
 {
-	string path = "Assets/Sprites/Player/baba_0_1.png";
+	string path = "Assets/Sprites/Player/baba";
+	int count = 12;
+	string pathEnd = ".png";
+
+	if (Player::textures == nullptr)
+	{
+		Player::textures = new list<Texture*>();
+		for (int i = 0; i < count; i++)
+		{
+			Texture* texture = new Texture();
+
+			if (texture->loadFromFile(path + to_string(i) + pathEnd))
+			{
+				texture->setRepeated(true);
+				texture->setSmooth(true);
+				Player::textures->push_back(texture);
+				
+				cout << "Sucessfull Loaded " << path << i << pathEnd << endl;
+			}
+			else
+			{
+				cout << "Can't load " << path << i << pathEnd << endl;
+				delete Player::textures;
+				Player::textures = nullptr;
+				return;
+			}
+		}
+	}
+
+	animatedSprite.SetTextures(*Player::textures);
+
+	/*string path = "Assets/Sprites/Player/sprite2.png";
+	IntRect rectSourceSprite(0, 0, 28, 32);
 
 	if (Player::texture == nullptr)
 	{
 		Player::texture = new Texture();
+		GameElement::texture = Player::texture;
 
-		if (texture->loadFromFile(path))
-		{
-			sprite.setTexture(*Player::texture);
-			sprite.setPosition(*position);
-
+		if (Player::texture->loadFromFile(path))
 			cout << "Successful Loaded " << path << endl;
-		}
-	}
-	else
-	{
-		sprite.setTexture(*Player::texture);
-		sprite.setPosition(*position);
+		else
+			return;
 
-		cout << "Successful Loaded " << path << endl;
+		texture->setRepeated(true);
+		texture->setSmooth(true);
 	}
+
+	sprite.setPosition(startPosition);
+	sprite.setTexture(*Player::texture);
+	sprite.setTextureRect(rectSourceSprite);*/
 }
 
 void Player::Start()
@@ -107,7 +152,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	motor->window->draw(sprite);
+	animatedSprite.Draw();
 }
 
 
@@ -132,8 +177,6 @@ void Lim::Draw()
 void Instructions::Start()
 {
 	Inst.setPosition(InstPos);
-	
-	
 }
 
 void Instructions::Update()
@@ -142,13 +185,11 @@ void Instructions::Update()
 	FloatRect Opos = Inst.getGlobalBounds();
 	if (Mouse::isButtonPressed(Mouse::Left) && Opos.contains(mpos.x, mpos.y))
 	{
-
 		Inst.setPosition(mpos.x - 30, mpos.y - 30);
 		if (Opos.top >= 700.f)
 		{
 			Inst.setPosition(0.f, 700.f);
 		}
-
 	}
 }
 
