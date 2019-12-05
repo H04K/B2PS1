@@ -1,22 +1,40 @@
-﻿  GameElement.cpp
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:         with
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:         [
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:             T=int
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:         ]
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:         and
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:         [
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:             T=float
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,71): warning C4244:         ]
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:         with
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:         [
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:             T=int
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:         ]
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:         and
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:         [
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:             T=float
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(133,63): warning C4244:         ]
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(136,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\GameElement.cpp(136,27): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-  B2PS1.vcxproj -> C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\Debug\B2PS1.exe
+﻿  Components.cpp
+  GameElement.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.h(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.h(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:             T=int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:         and
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,71): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:             T=int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:         and
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(186,63): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(188,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  Main.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(188,27): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  Motor.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.h(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.h(2,10): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(52,38): warning C4244: '=' : conversion de 'unsigned int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(52,38): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(52,38): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(52,38): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(52,38): warning C4244:         ]
+  Génération de code en cours...
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(53,38): warning C4244: '=' : conversion de 'unsigned int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(53,38): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(53,38): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(53,38): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(53,38): warning C4244:         ]
+  B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe

@@ -1,20 +1,5 @@
 #pragma once
-#include <SFML/Audio.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/GpuPreference.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/Main.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <thread>
-#include <iostream>
-#include <iterator>
-#include <fstream>
-#include <sstream>
-#include <list>
-
-using namespace sf;
-using namespace std;
+#include "Components.h";
 
 enum class LogicType { Instruction, Element, Operateur, None };
 enum class OperateurType { Is, And, None };
@@ -35,33 +20,31 @@ struct Logic
 	Logic(InstructionType instrType) : logicType(LogicType::Instruction), instructionType(instrType) {}
 };
 
-// Pour que le type Motor soit accessible depuis la declaration des de GameElement
+// Pour que le type Motor soit accessible depuis la declaration de GameElement
 class Motor;
 
 class GameElement {
 protected:
 	void Stop();
 	void You();
+
+	void Move(float x, float y);
 public:
-	static list<InstructionType>* instructions;
-	void ApplyLogicalEvents();
+	list<InstructionType>* logicInstructions = nullptr;
+	void ApplyLogicInstructions();
 
-	string name = "UnamedGameElement";
-
+	string name = "Unamed";
+	Vector2f position = Vector2f();
 	Motor* motor = nullptr;
 
-	/*Les textures et sprites sont vou� a changer pour un system animable*/
+	/*Texture* texture;
+	Sprite sprite;*/
 
-	Sprite sprite;
-	Texture texture;
-	
+	AnimatedSprite animatedSprite = AnimatedSprite(*this);
 	virtual void LoadSprites();
-	
-	/**/
-	Vector2f* position = new Vector2f();
 
 	GameElement();
-	bool GetEvent(Event& _event, Event::EventType eventType);
+	~GameElement();
 
 	virtual void Start();
 	virtual void Update();
@@ -69,12 +52,17 @@ public:
 };
 
 /*
-Le nom Player est vou� a changer pour un nom comme BABA ou autre chose
+Le nom Player est voué a changer pour un nom comme BABA ou autre chose
 */
 class Player : public GameElement {
 public:
-	static list<InstructionType>* instructions;
-	string name = "UnamedPlayer";
+
+	ElementType type = ElementType::Player;
+
+	static list<InstructionType> LogicInstructions;
+
+	//static Texture* texture;
+	static list<Texture*>* textures;
 
 	void LoadSprites();
 
@@ -85,9 +73,6 @@ public:
 
 
 
-
-
-
 class Lim : public GameElement
 {
 public:
@@ -95,6 +80,7 @@ public:
 	Vector2i mpos = Mouse::getPosition();
 	RectangleShape Limite = RectangleShape(Vector2f(1024.f, 10.f));
 	Vector2f Lpos = Vector2f(0.f, 700.f);
+
 	void Start();
 	void Update();
 	void Draw();
