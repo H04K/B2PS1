@@ -27,6 +27,8 @@ public:
 	bool isLogicSequenceValid(list<Logic>& logicSequence);
 	void applyLogicSequence(list<Logic>& logicSequence);
 
+	void morphGameElement(ElementType oldType, ElementType newType);
+
 	// Contient tout les evenements actuels
 	list<Event> events = list<Event>();
 
