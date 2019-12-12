@@ -83,10 +83,9 @@ void Motor::Play(RenderWindow &window) {
 		if (GetEvent(event, Event::Closed))
 			window.close();
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape) 
-		{
 			isLevelEnded = true;
-		}
-		/*PROTOTYPING pour tester si le code de verification des chaines d'instructions*/
+
+		/*PROTOTYPING pour ajouter manuelement des evenements logiques*/
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
 		{
 			cout << "Entrer un sequence logique : ";
@@ -108,9 +107,9 @@ void Motor::Play(RenderWindow &window) {
 		window.display();
 	}
 }
-/*
-fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
-/*PROTOTYPING pour tester le code de verification des chaines d'instructions*/
+
+/*fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+PROTOTYPING pour ajouter manuelement des evenements logiques*/
 void Motor::sendLogicalSequence(string code)
 {
 	if (code == "" || code == " ")
@@ -209,6 +208,7 @@ bool Motor::isLogicSequenceValid(list<Logic>& logicSequence)
 	return true;
 }
 
+//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
 void Motor::applyLogicSequence(list<Logic>& logicSequence)
 {
 	ElementType element = ElementType::None;
@@ -227,8 +227,7 @@ void Motor::applyLogicSequence(list<Logic>& logicSequence)
 			}
 			else
 			{
-				// appel de la fonction qui transforme des elements en d'autres
-				cout << "Elements type " << (int)element << " is now type " << (int)logic.elementType << endl;
+				morphGameElement(element, logic.elementType);
 			}
 		}
 		if (logic.logicType == LogicType::Instruction)
@@ -248,6 +247,44 @@ void Motor::applyLogicSequence(list<Logic>& logicSequence)
 			if (isFistInstruction) isFistInstruction = false;
 		}
 	}
+}
+
+//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
+void Motor::morphGameElement(ElementType oldType, ElementType newType)
+{
+	list<GameElement*> newGameElements = list<GameElement*>();
+
+	for (GameElement* gameElement : level->GameElements)
+	{
+		if (gameElement->type == oldType)
+		{
+			GameElement* newGameElement = nullptr;
+
+			switch (newType)
+			{
+			case ElementType::Player:
+				newGameElement = new Player();
+				break;
+			case ElementType::Wall:
+				//newGameElement = new Wall();
+				break;
+			}
+
+			newGameElement->position.x = gameElement->position.x;
+			newGameElement->position.y = gameElement->position.y;
+			newGameElement->motor = gameElement->motor;
+			newGameElement->LoadSprites();
+			newGameElement->Start();
+
+			newGameElements.push_back(newGameElement);
+		}
+		else
+		{
+			newGameElements.push_back(gameElement);
+		}
+	}
+
+	level->GameElements = newGameElements;
 }
 
 void Motor::RefreshEvents()
