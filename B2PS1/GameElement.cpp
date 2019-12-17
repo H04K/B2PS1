@@ -95,9 +95,6 @@ void Player::LoadSprites()
 
 				if (texture->loadFromFile(path + to_string(i) + pathEnd))
 				{
-					cout << "x : " << texture->getSize().x << endl
-						<< "y : " << texture->getSize().y << endl;
-
 					texture->setRepeated(true);
 					texture->setSmooth(true);
 					textures.push_back(texture);

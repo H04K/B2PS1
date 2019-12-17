@@ -36,6 +36,12 @@
     <ClCompile Include="AnimatedSprite.cpp">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClCompile>
+    <ClCompile Include="LogicSequenceManager.cpp">
+      <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="Ressources.cpp">
+      <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameElement.h">
@@ -49,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="AnimatedSprite.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicSequenceManager.h">
+      <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClInclude>
+    <ClInclude Include="Ressources.h">
+      <Filter>Fichiers d%27en-tête\Motor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

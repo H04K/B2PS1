@@ -1,24 +1,7 @@
 #pragma once
 #include "Components.h"
-
-enum class LogicType { Instruction, Element, Operateur, None };
-enum class OperateurType { Is, And, None };
-enum class ElementType { Player, Wall, None };
-enum class InstructionType { Stop, You, None };
-
-struct Logic
-{
-	LogicType logicType = LogicType::None;
-
-	OperateurType operateurType = OperateurType::None;
-	ElementType elementType = ElementType::None;
-	InstructionType instructionType = InstructionType::None;
-
-	Logic() = default;
-	Logic(OperateurType opType) : logicType(LogicType::Operateur), operateurType(opType) {}
-	Logic(ElementType elemType) : logicType(LogicType::Element), elementType(elemType) {}
-	Logic(InstructionType instrType) : logicType(LogicType::Instruction), instructionType(instrType) {}
-};
+#include "LogicSequenceManager.h"
+#include "Ressources.h"
 
 // Pour que le type Motor soit accessible depuis la declaration de GameElement
 class Motor;

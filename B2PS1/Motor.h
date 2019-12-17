@@ -1,39 +1,37 @@
 #pragma once
 #include "GameElement.h"
 
-constexpr auto WindowWidth = 800;;
-constexpr auto WindowHeight = 600;;
-
 class Level {
 public:
 	list<GameElement*> GameElements = list<GameElement*>();
 };
 
+enum class MainMenuChoice { Quit, Play, Options, Credits };
+
 class Motor {
 public:
-	Motor();
 
+	Motor(RenderWindow& window) : window(&window){}
+	
+	MainMenuChoice MainMenu();
+	void LevelSelector();
 	void LoadLevel(string path);
-	void Play(RenderWindow &window);
+	void Play();
+	void PauseMenu();
 
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;
-	
-	// Le niveau actuel
+
 	Level* level = nullptr;
 	bool isLevelEnded = false;
 
-	void sendLogicalSequence(string code);
-	bool isLogicSequenceValid(list<Logic>& logicSequence);
-	void applyLogicSequence(list<Logic>& logicSequence);
-
-	void morphGameElement(ElementType oldType, ElementType newType);
+	// Permet de gerer les sequences logiques
+	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 
 	// Contient tout les evenements actuels
 	list<Event> events = list<Event>();
-
 	/*
-	Recupere et met a jours les events a chaque tour de boucle
+	Met a jours les events a chaque appels
 	*/
 	void RefreshEvents();
 	/*
