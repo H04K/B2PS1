@@ -1,6 +1,190 @@
 #include "Motor.h"
 
-Motor::Motor() {}
+MainMenuChoice Motor::MainMenu()
+{
+	// Play
+
+	Text playText = Text("PLAY", Ressources::Font_Ouders);
+	playText.setCharacterSize(150);
+
+	Vector2f playTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(playText).x / 2, 
+										(window->getSize().y / 40) * 16 - Ressources::realTextSize(playText).y / 2);
+	
+	playText.setPosition(playTextPostion);
+	playText.setFillColor(Color::White);
+
+	// Options
+	
+	Text optionText = Text("OPTIONS", Ressources::Font_Ouders);
+	optionText.setCharacterSize(110);
+
+	Vector2f optionTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(optionText).x / 2,
+											(window->getSize().y / 40) * 22 - Ressources::realTextSize(optionText).y / 2);
+
+	optionText.setPosition(optionTextPostion);
+	optionText.setFillColor(Color::White);
+
+	// Credits
+
+	Text creditsText = Text("CREDITS", Ressources::Font_Ouders);
+	creditsText.setCharacterSize(100);
+
+	Vector2f creditsTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(creditsText).x / 2,
+											(window->getSize().y / 40) * 26 - Ressources::realTextSize(creditsText).y / 2);
+
+	creditsText.setPosition(creditsTextPostion);
+	creditsText.setFillColor(Color::White);
+
+	// Quit
+
+	Text quitText = Text("QUIT", Ressources::Font_Ouders);
+	quitText.setCharacterSize(130);
+
+	Vector2f quitTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(quitText).x / 2,
+										(window->getSize().y / 40) * 36 - Ressources::realTextSize(quitText).y / 2);
+
+	quitText.setPosition(quitTextPostion);
+	quitText.setFillColor(Color::White);
+
+	// Adventure
+
+	Text adventureText = Text("Adventure", Ressources::Font_BlackGround);
+	adventureText.setCharacterSize(140);
+	adventureText.setStyle(Text::Bold);
+
+	Vector2f adventureTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(adventureText).x / 2,
+												(window->getSize().y / 40) * 6 - Ressources::realTextSize(adventureText).y / 2);
+
+	adventureText.setPosition(adventureTextPostion);
+	adventureText.setFillColor(Color(74, 168, 80));
+
+	// Brain
+
+	Text brainText = Text("Brain", Ressources::Font_LemonJuice);
+	brainText.setCharacterSize(210);
+	brainText.setStyle(Text::Bold);
+
+	Vector2f brainTextPostion = Vector2f(adventureText.getPosition().x - Ressources::realTextSize(brainText).x - adventureText.getLetterSpacing(),
+											(window->getSize().y / 20) * 2 - Ressources::realTextSize(brainText).y / 2);
+
+	brainText.setPosition(brainTextPostion);
+	brainText.setFillColor(Color(246, 152, 157));
+	
+	// Brain Corner Image
+
+	Texture brainCornerTexture = Texture();
+	Sprite brainCornerSprite = Sprite();
+	if (brainCornerTexture.loadFromFile("Assets/Sprites/Menu/brainLogo.png"))
+	{
+		brainCornerTexture.setRepeated(true);
+		brainCornerTexture.setSmooth(true);
+		brainCornerSprite.setTexture(brainCornerTexture);
+	}
+	else
+	{
+		cout << "init Menu error : can't load image" << endl;
+		return MainMenuChoice::Quit;
+	}
+
+	Vector2f brainCornerPostion = Vector2f(window->getSize().x - brainCornerSprite.getLocalBounds().width, 0);
+
+	brainCornerSprite.setPosition(brainCornerPostion);
+	 
+	// Brain Select Image
+
+	Texture brainSelectTexture = Texture();
+	Sprite brainSelectSprite = Sprite();
+	if (brainSelectTexture.loadFromFile("Assets/Sprites/Menu/brainLogo.png"))
+	{
+		brainSelectTexture.setRepeated(true);
+		brainSelectTexture.setSmooth(true);
+		brainSelectSprite.setTexture(brainSelectTexture);
+	}
+	else
+	{
+		cout << "init Menu error : can't load image" << endl;
+		return MainMenuChoice::Quit;
+	}
+
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+		
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		if (mouseX >= playText.getPosition().x && mouseX <= playText.getPosition().x + Ressources::realTextSize(playText).x &&
+			mouseY >= playText.getPosition().y && mouseY <= playText.getPosition().y + Ressources::realTextSize(playText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Play;
+		}
+
+		if (mouseX >= optionText.getPosition().x && mouseX <= optionText.getPosition().x + Ressources::realTextSize(optionText).x &&
+			mouseY >= optionText.getPosition().y && mouseY <= optionText.getPosition().y + Ressources::realTextSize(optionText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Options;
+		}
+
+		if (mouseX >= creditsText.getPosition().x && mouseX <= creditsText.getPosition().x + Ressources::realTextSize(creditsText).x &&
+			mouseY >= creditsText.getPosition().y && mouseY <= creditsText.getPosition().y + Ressources::realTextSize(creditsText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Credits;
+		}
+
+		if (mouseX >= quitText.getPosition().x && mouseX <= quitText.getPosition().x + Ressources::realTextSize(quitText).x &&
+			mouseY >= quitText.getPosition().y && mouseY <= quitText.getPosition().y + Ressources::realTextSize(quitText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Quit;
+		}
+
+		window->clear(Color::Black);
+		
+		window->draw(playText);
+		window->draw(optionText);
+		window->draw(creditsText);
+		window->draw(quitText);
+		window->draw(brainText);
+		window->draw(adventureText);
+		window->draw(brainCornerSprite);
+		//window->draw(brainSelectSprite);
+
+		window->display();
+	}
+
+	return MainMenuChoice::Quit;
+}
+
+void Motor::LevelSelector()
+{
+
+}
+
 /*
 Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
 - rajouter le template de code suivant a la suite du if :
@@ -12,7 +196,6 @@ if (csvLevel[y][x] == ##ID de l'element dans la map)
 	level->GameElements.push_back( ##Element );
 }
 */
-
 void Motor::LoadLevel(string path)
 {
 	events.clear();
@@ -37,8 +220,8 @@ void Motor::LoadLevel(string path)
 			csvLevel.push_back(levelRow);
 		}
 
-		int xTilesSize = WindowWidth / csvLevel[0].size();
-		int yTilesSize = WindowHeight / csvLevel.size();
+		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
 
 		for (unsigned y = 0; y < csvLevel.size(); y++)
 		{
@@ -64,9 +247,9 @@ void Motor::LoadLevel(string path)
 	}
 }
 
-void Motor::Play(RenderWindow &window) {
+void Motor::Play() {
 
-	this->window = &window;
+	if (level == nullptr) { cout << "Failed Play : Level is null" << endl; return; }
 
 	for (GameElement* gameElement : level->GameElements)
 	{
@@ -75,28 +258,32 @@ void Motor::Play(RenderWindow &window) {
 		gameElement->Start();
 	}
 
-	while (window.isOpen() && !isLevelEnded)
+	while (window->isOpen() && !isLevelEnded)
 	{
 		RefreshEvents();
 
 		Event event;
 		if (GetEvent(event, Event::Closed))
-			window.close();
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape) 
+			window->close();
+
+		/*Ouvir le menu pause*/
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
 		{
-			isLevelEnded = true;
+			PauseMenu();
 		}
-		/*PROTOTYPING pour tester si le code de verification des chaines d'instructions*/
+
+		/*PROTOTYPING pour ajouter manuelement des evenements logiques*/
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
 		{
 			cout << "Entrer un sequence logique : ";
 			char tabCode[50];
 			cin.getline(tabCode, 50);
 			string code(tabCode);
-			sendLogicalSequence(code);
+
+			logicSequenceManager.sendSequence(code);
 		}
 
-		window.clear(Color::Black);
+		window->clear(Color::Black);
 
 		for (GameElement* gameElement : level->GameElements)
 		{
@@ -105,148 +292,45 @@ void Motor::Play(RenderWindow &window) {
 			gameElement->Draw();
 		}
 
-		window.display();
+		window->display();
 	}
+
+	delete level;
+	level = nullptr;
 }
-/*
-fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
-/*PROTOTYPING pour tester le code de verification des chaines d'instructions*/
-void Motor::sendLogicalSequence(string code)
+
+void Motor::PauseMenu()
 {
-	if (code == "" || code == " ")
-		return;
+	Texture backgroundText = Texture();
+	backgroundText.create(window->getSize().x, window->getSize().y);
+	backgroundText.update(*window);
 
-	string instruction = "";
-	list<string> logicSequenceString = list<string>();
-	for (unsigned i = 0; i < code.size(); i++)
+	Sprite background = Sprite();
+	background.setTexture(backgroundText);
+	
+	RectangleShape shape = RectangleShape(Vector2f(50, 50));
+	shape.setFillColor(Color::Red);
+
+	while (window->isOpen())
 	{
-		if (code[i] == ' ')
-		{
-			logicSequenceString.push_back(instruction);
-			instruction = "";
-		} 
-		else
-			instruction += code[i];
+		RefreshEvents();
 
-		if (i + 1 == code.size() && instruction != "")
-			logicSequenceString.push_back(instruction);
-	}
-
-	list<Logic> logicSequence = list<Logic>();
-
-	for (string logicString : logicSequenceString)
-	{
-		if (logicString == "player" || logicString == "Player")
-			logicSequence.push_back(Logic(ElementType::Player));
-		else if (logicString == "wall" || logicString == "Wall")
-			logicSequence.push_back(Logic(ElementType::Wall));
-		else if (logicString == "is" || logicString == "Is")
-			logicSequence.push_back(Logic(OperateurType::Is));
-		else if (logicString == "and" || logicString == "And")
-			logicSequence.push_back(Logic(OperateurType::And));
-		else if (logicString == "stop" || logicString == "Stop")
-			logicSequence.push_back(Logic(InstructionType::Stop));
-		else if (logicString == "you" || logicString == "You")
-			logicSequence.push_back(Logic(InstructionType::You));
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
 		
-
-		// error manager
-		else
+		if (GetEvent(event, Event::MouseMoved))
 		{
-			cout << "--- Logic_Sequence Unexpected error at :" << endl;
-			for (string s : logicSequenceString)
-			{
-				cout << s + " ";
-				if (s == logicString)
-				{
-					cout << "<--" << endl;
-					return;
-				}
-			}
-		}
-	}
-
-	bool isSequenceValid = isLogicSequenceValid(logicSequence);
-	cout << "Sequence " << (isSequenceValid ? "valide" : "invalide") << endl;
-	if (!isSequenceValid)
-		return;
-
-	applyLogicSequence(logicSequence);
-}
-
-//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
-bool Motor::isLogicSequenceValid(list<Logic>& logicSequence)
-{
-	int i = 0;
-	for (Logic logic : logicSequence)
-	{
-		if (i == 0 && 
-			logic.logicType != LogicType::Element)
-		{
-			return false;
+			shape.setPosition(event.mouseMove.x, event.mouseMove.y);
 		}
 
-		else if (i != 0 && i % 2 != 0 &&
-			logic.logicType != LogicType::Operateur)
-		{
-			return false;
-		}
+		if (GetEvent(event, Event::KeyPressed), event.key.code == Keyboard::Escape)
+			return;
 
-		else if (i != 0 && i % 2 == 0 && 
-			(logic.logicType != LogicType::Element && logic.logicType != LogicType::Instruction))
-		{
-			return false;
-		}
+		window->draw(background);
 
-		if (i != 0 && i == logicSequence.size() &&
-			logic.logicType != LogicType::Operateur)
-		{
-			return false;
-		}
-		i++;
-	}
-
-	return true;
-}
-
-void Motor::applyLogicSequence(list<Logic>& logicSequence)
-{
-	ElementType element = ElementType::None;
-
-	bool isFistElement = true;
-	bool isFistInstruction = true;
-
-	for (Logic logic : logicSequence)
-	{
-		if (logic.logicType == LogicType::Element)
-		{
-			if (isFistElement)
-			{
-				element = logic.elementType;
-				isFistElement = false;
-			}
-			else
-			{
-				// appel de la fonction qui transforme des elements en d'autres
-				cout << "Elements type " << (int)element << " is now type " << (int)logic.elementType << endl;
-			}
-		}
-		if (logic.logicType == LogicType::Instruction)
-		{
-			switch(element)
-			{
-			case ElementType::Player :
-				if(isFistInstruction) Player::LogicInstructions.clear();
-				Player::LogicInstructions.push_back(logic.instructionType);
-				break;
-			case ElementType::Wall:
-				/*if (isFistInstruction) Wall::logicInstructions.clear();
-				Wall::logicInstructions.push_back(logic.instructionType);*/
-				break;
-			}
-
-			if (isFistInstruction) isFistInstruction = false;
-		}
+		window->draw(shape);
+		window->display();
 	}
 }
 
@@ -257,7 +341,6 @@ void Motor::RefreshEvents()
 	while (window->pollEvent(event))
 		events.push_back(event);
 }
-
 bool Motor::GetEvent(Event& _event, Event::EventType eventType)
 {
 	for (Event event : events)

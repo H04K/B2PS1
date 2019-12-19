@@ -1,24 +1,7 @@
 #pragma once
-#include "Components.h";
-
-enum class LogicType { Instruction, Element, Operateur, None };
-enum class OperateurType { Is, And, None };
-enum class ElementType { Player, Wall, None };
-enum class InstructionType { Stop, You, None };
-
-struct Logic
-{
-	LogicType logicType = LogicType::None;
-
-	OperateurType operateurType = OperateurType::None;
-	ElementType elementType = ElementType::None;
-	InstructionType instructionType = InstructionType::None;
-
-	Logic() = default;
-	Logic(OperateurType opType) : logicType(LogicType::Operateur), operateurType(opType) {}
-	Logic(ElementType elemType) : logicType(LogicType::Element), elementType(elemType) {}
-	Logic(InstructionType instrType) : logicType(LogicType::Instruction), instructionType(instrType) {}
-};
+#include "Components.h"
+#include "LogicSequenceManager.h"
+#include "Ressources.h"
 
 // Pour que le type Motor soit accessible depuis la declaration de GameElement
 class Motor;
@@ -29,7 +12,10 @@ protected:
 	void You();
 
 	void Move(float x, float y);
+
 public:
+	ElementType type = ElementType::None;
+
 	list<InstructionType>* logicInstructions = nullptr;
 	void ApplyLogicInstructions();
 
@@ -37,13 +23,10 @@ public:
 	Vector2f position = Vector2f();
 	Motor* motor = nullptr;
 
-	/*Texture* texture;
-	Sprite sprite;*/
-
 	AnimatedSprite animatedSprite = AnimatedSprite(*this);
 	virtual void LoadSprites();
 
-	GameElement();
+	GameElement() : type(ElementType::None) {}
 	~GameElement();
 
 	virtual void Start();
@@ -56,13 +39,13 @@ Le nom Player est voué a changer pour un nom comme BABA ou autre chose
 */
 class Player : public GameElement {
 public:
-
-	ElementType type = ElementType::Player;
-
 	static list<InstructionType> LogicInstructions;
 
 	//static Texture* texture;
-	static list<Texture*>* textures;
+	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
+
+	Player() { type = ElementType::Player; }
+	~Player() {}
 
 	void LoadSprites();
 
@@ -76,7 +59,6 @@ public:
 class Lim : public GameElement
 {
 public:
-
 	Vector2i mpos = Mouse::getPosition();
 	RectangleShape Limite = RectangleShape(Vector2f(1024.f, 10.f));
 	Vector2f Lpos = Vector2f(0.f, 700.f);

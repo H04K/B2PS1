@@ -2,52 +2,37 @@
 
 void GameElement::Stop() 
 {
-	cout << "�a stop bien la" << endl;
+	cout << "ca stop bien la" << endl;
 }
 void GameElement::You()
 {
-	/*IntRect rectSourceSprite(0, 0, 28, 32);*/
-
 	bool isMoving = false;
+	AnimatedSprite::Direction direction = AnimatedSprite::Direction::None;
 
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
 		Move(0, 1 / 10.f);
 		isMoving = true;
-		/*sprite.move(0, 1 / 10.f); 
-		sprite.setTextureRect(rectSourceSprite);*/
-		
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Z))
 	{
 		Move(0, -1 / 5.f);
 		isMoving = true;
-		/*sprite.move(0, -1 / 10.f);
-		rectSourceSprite.top += 96;
-		sprite.setTextureRect(rectSourceSprite);*/
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
 		Move(1 / 5.f, 0.f);
 		isMoving = true;
-		/*sprite.move(1 / 10.f, 0.f);
-		rectSourceSprite.top += 64;
-		sprite.setTextureRect(rectSourceSprite);*/
+		direction = AnimatedSprite::Direction::Right;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
 		Move(-1 / 5.f, 0.f);
 		isMoving = true;
-		/*sprite.move(-1 / 10.f, 0.f);
-		rectSourceSprite.top += 32;
-		sprite.setTextureRect(rectSourceSprite);*/
+		direction = AnimatedSprite::Direction::Left;
 	}
 	
-	if (isMoving)
-	{
-		animatedSprite.Animate();
-	}
-
+	animatedSprite.Animate(isMoving, direction);
 }
 
 void GameElement::Move(float x, float y)
@@ -75,70 +60,60 @@ void GameElement::ApplyLogicInstructions()
 }
 
 void GameElement::LoadSprites() {}
-GameElement::GameElement() {}
 GameElement::~GameElement() {}
 void GameElement::Start() {}
 void GameElement::Update() {}
 void GameElement::Draw() {}
 
 list<InstructionType> Player::LogicInstructions = list<InstructionType>();
-
-//Texture* Player::texture = nullptr;
-list<Texture*>* Player::textures = nullptr;
+map<AnimatedSprite::Direction, list<Texture*>>* Player::texturesMap = nullptr;
 
 void Player::LoadSprites()
 {
 	string path = "Assets/Sprites/Player/baba";
-	int count = 12;
 	string pathEnd = ".png";
 
-	if (Player::textures == nullptr)
+	list<AnimatedSprite::Range> ranges = 
 	{
-		Player::textures = new list<Texture*>();
-		for (int i = 0; i < count; i++)
-		{
-			Texture* texture = new Texture();
+		AnimatedSprite::Range(AnimatedSprite::Direction::Right, 0, 11),
+		AnimatedSprite::Range(AnimatedSprite::Direction::Left, 12, 26)/*,
+		AnimatedSprite::Range(AnimatedSprite::Direction::Up, 0, 12),
+		AnimatedSprite::Range(AnimatedSprite::Direction::Down, 0, 12)*/
+	};
 
-			if (texture->loadFromFile(path + to_string(i) + pathEnd))
+	if (Player::texturesMap == nullptr)
+	{
+		Player::texturesMap = new map<AnimatedSprite::Direction, list<Texture*>>();
+
+		for (AnimatedSprite::Range range : ranges)
+		{
+			list<Texture*> textures = list<Texture*>();
+
+			for (int i = range.min; i <= range.max; i++)
 			{
-				texture->setRepeated(true);
-				texture->setSmooth(true);
-				Player::textures->push_back(texture);
-				
-				cout << "Sucessfull Loaded " << path << i << pathEnd << endl;
+				Texture* texture = new Texture();
+
+				if (texture->loadFromFile(path + to_string(i) + pathEnd))
+				{
+					texture->setRepeated(true);
+					texture->setSmooth(true);
+					textures.push_back(texture);
+					cout << "Sucessfull Loaded " << path << i << pathEnd << endl;
+				}
+				else
+				{
+					delete Player::texturesMap;
+					Player::texturesMap = nullptr;
+					cout << "Can't load " << path << i << pathEnd << endl;
+					return;
+				}
 			}
-			else
-			{
-				cout << "Can't load " << path << i << pathEnd << endl;
-				delete Player::textures;
-				Player::textures = nullptr;
-				return;
-			}
+
+			Player::texturesMap->insert(make_pair(range.direction, textures));
 		}
 	}
 
-	animatedSprite.SetTextures(*Player::textures);
-
-	/*string path = "Assets/Sprites/Player/sprite2.png";
-	IntRect rectSourceSprite(0, 0, 28, 32);
-
-	if (Player::texture == nullptr)
-	{
-		Player::texture = new Texture();
-		GameElement::texture = Player::texture;
-
-		if (Player::texture->loadFromFile(path))
-			cout << "Successful Loaded " << path << endl;
-		else
-			return;
-
-		texture->setRepeated(true);
-		texture->setSmooth(true);
-	}
-
-	sprite.setPosition(startPosition);
-	sprite.setTexture(*Player::texture);
-	sprite.setTextureRect(rectSourceSprite);*/
+	animatedSprite.SetTextures(*Player::texturesMap);
 }
 
 void Player::Start()

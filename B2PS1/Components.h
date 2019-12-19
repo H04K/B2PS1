@@ -12,32 +12,13 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <vector>
 
 using namespace sf;
 using namespace std;
 
-// pour pouvoir acceder au type GameElement 
-class GameElement;
+/*
+Dictionaire qui inclu les differents components ( AnimatedSprites, Collider, ect ... )
+*/
 
-class AnimatedSprite
-{
-private:
-	GameElement* gameElement = nullptr;
-	list<Texture>* textures = nullptr;
-public :
-
-	AnimatedSprite(GameElement& gameElement) : gameElement(&gameElement){};
-	~AnimatedSprite() {};
-	
-	vector<Sprite> sprites = vector<Sprite>();
-	
-	Clock clock = Clock();
-
-	int maxFrame = NULL;
-	int currentFrame = 0;
-	int animDelay = 50000;
-
-	void SetTextures(list<Texture*>& textures);
-	void Animate();
-	void Draw();
-};
+#include "AnimatedSprite.h"

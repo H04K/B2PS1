@@ -2,12 +2,14 @@
 
 int main()
 {
-	RenderWindow window(VideoMode(WindowWidth, WindowHeight), "Baba is You 2", Style::Close | Style::Resize | Style::Titlebar);
+	Ressources ressources;
 
-	Motor GameMotor;
+	RenderWindow window(VideoMode(Ressources::WindowSize.width, Ressources::WindowSize.height), "Brain Adventure", Style::Close | Style::Resize | Style::Titlebar);
 
-	GameMotor.LoadLevel("Assets/Levels/Level0.csv");
-	GameMotor.Play(window);
-	
+
+
+	Motor GameMotor = Motor(window);
+	GameMotor.MainMenu();
+
 	return EXIT_SUCCESS;
 }
