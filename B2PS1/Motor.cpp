@@ -92,7 +92,22 @@ MainMenuChoice Motor::MainMenu()
 	 
 	// Brain Select Image
 
-	// TODO
+	Texture brainSelectTexture = Texture();
+	Sprite brainSelectSprite = Sprite();
+	if (brainSelectTexture.loadFromFile("Assets/Sprites/Menu/brainLogo.png"))
+	{
+		brainSelectTexture.setRepeated(true);
+		brainSelectTexture.setSmooth(true);
+		brainSelectSprite.setTexture(brainSelectTexture);
+	}
+	else
+	{
+		cout << "init Menu error : can't load image" << endl;
+		return MainMenuChoice::Quit;
+	}
+
+	int mouseX = -1;
+	int mouseY = -1;
 
 	while (window->isOpen())
 	{
@@ -101,13 +116,51 @@ MainMenuChoice Motor::MainMenu()
 		Event event;
 		if (GetEvent(event, Event::Closed))
 			window->close();
-		
+
 		if (GetEvent(event, Event::MouseMoved))
 		{
-			int mouseX = event.mouseButton.x;
-			int mouseY = event.mouseButton.y;
-			Mouse::Button pressedButton = event.mouseButton.button;
-			
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		if (mouseX >= playText.getPosition().x && mouseX <= playText.getPosition().x + Ressources::realTextSize(playText).x &&
+			mouseY >= playText.getPosition().y && mouseY <= playText.getPosition().y + Ressources::realTextSize(playText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Play;
+		}
+
+		if (mouseX >= optionText.getPosition().x && mouseX <= optionText.getPosition().x + Ressources::realTextSize(optionText).x &&
+			mouseY >= optionText.getPosition().y && mouseY <= optionText.getPosition().y + Ressources::realTextSize(optionText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Options;
+		}
+
+		if (mouseX >= creditsText.getPosition().x && mouseX <= creditsText.getPosition().x + Ressources::realTextSize(creditsText).x &&
+			mouseY >= creditsText.getPosition().y && mouseY <= creditsText.getPosition().y + Ressources::realTextSize(creditsText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Credits;
+		}
+
+		if (mouseX >= quitText.getPosition().x && mouseX <= quitText.getPosition().x + Ressources::realTextSize(quitText).x &&
+			mouseY >= quitText.getPosition().y && mouseY <= quitText.getPosition().y + Ressources::realTextSize(quitText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return MainMenuChoice::Quit;
 		}
 
 		window->clear(Color::Black);
@@ -119,6 +172,7 @@ MainMenuChoice Motor::MainMenu()
 		window->draw(brainText);
 		window->draw(adventureText);
 		window->draw(brainCornerSprite);
+		//window->draw(brainSelectSprite);
 
 		window->display();
 	}

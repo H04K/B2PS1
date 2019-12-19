@@ -9,6 +9,9 @@ public:
 enum class MainMenuChoice { Quit, Play, Options, Credits };
 
 class Motor {
+private:
+	// Contient tout les evenements actuels
+	list<Event> events = list<Event>();
 public:
 
 	Motor(RenderWindow& window) : window(&window){}
@@ -28,8 +31,6 @@ public:
 	// Permet de gerer les sequences logiques
 	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 
-	// Contient tout les evenements actuels
-	list<Event> events = list<Event>();
 	/*
 	Met a jours les events a chaque appels
 	*/
