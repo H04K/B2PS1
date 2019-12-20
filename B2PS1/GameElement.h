@@ -34,18 +34,16 @@ public:
 	virtual void Draw();
 };
 
-/*
-Le nom Player est voué a changer pour un nom comme BABA ou autre chose
-*/
-class Player : public GameElement {
+
+class Brain : public GameElement {
 public:
 	static list<InstructionType> LogicInstructions;
 
 	//static Texture* texture;
 	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
 
-	Player() { type = ElementType::Player; }
-	~Player() {}
+	Brain() { type = ElementType::Brain; }
+	~Brain() {}
 
 	void LoadSprites();
 
@@ -53,7 +51,6 @@ public:
 	void Update();
 	void Draw();
 };
-
 
 
 class Lim : public GameElement
