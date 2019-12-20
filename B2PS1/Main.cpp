@@ -32,9 +32,10 @@ int main()
 
 	
 	/*
-	Pour faire fonctionner le code une fois, le jeu lancé il faut appuyer sur "f"
-	et écrire "player is you" dans la console et appuyer sur Entrer pour pouvoir controler ensuite le joueur avec les touches "Z,Q,S,D"
+	Pour faire fonctionner le code une fois, le jeu lancï¿½ il faut appuyer sur "f"
+	et ï¿½crire "player is you" dans la console et appuyer sur Entrer pour pouvoir controler ensuite le joueur avec les touches "Z,Q,S,D"
 	*/
+
 
 	return EXIT_SUCCESS;
 }

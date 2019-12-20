@@ -135,9 +135,6 @@ void Brain::Draw()
 
 
 
-
-
-
 void Lim::Start()
 {
 	Limite.setPosition(Lpos);

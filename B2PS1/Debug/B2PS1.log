@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  Motor.cpp
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(367,22): warning C4018: '<' : incompatibilité signed/unsigned
@@ -15,3 +16,8 @@ C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(377,37): warning 
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(467,56): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(467,37): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe
+=======
+﻿  Main.cpp
+C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+  B2PS1.vcxproj -> C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\Debug\B2PS1.exe
+>>>>>>> Florian

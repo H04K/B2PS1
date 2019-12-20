@@ -6,6 +6,7 @@ enum class NavigationChoice { MainMenu, LevelSelect, Options, Credits, Quit };
 class Level {
 public:
 	list<GameElement*> GameElements = list<GameElement*>();
+	list<MapElement*> MapElements = list<MapElement*>();
 	bool isFinished = false;
 };
 
@@ -26,8 +27,11 @@ public:
 	NavigationChoice Options();
 	NavigationChoice Credits();
 
+	void LevelSelector();
+	void LoadGame(string pathMap, string pathLevel);
 	void LoadLevel(string path);
 	NavigationChoice Play();
+	void LoadMap(string path);
 	void PauseMenu();
 
 	// La fenetre dans laquelle tout les objets sont rendu
@@ -44,7 +48,7 @@ public:
 	if (GetEvent(event, Event::##l'event voulu)
 	{
 		## si il y a eut l'evenement
-		## toutes les données de l'évenement sont dans event
+		## toutes les donnï¿½es de l'ï¿½venement sont dans event
 	}
 	*/
 	bool GetEvent(Event& _event, Event::EventType eventType);

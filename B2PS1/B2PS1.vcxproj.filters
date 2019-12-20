@@ -42,6 +42,9 @@
     <ClCompile Include="Ressources.cpp">
       <Filter>Fichiers d%27en-tête\Motor</Filter>
     </ClCompile>
+    <ClCompile Include="MapElement.cpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameElement.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Ressources.h">
       <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapElement.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
