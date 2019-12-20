@@ -40,7 +40,7 @@ void AnimatedSprite::Animate(bool isMoving, Direction direction)
 {
 	Time time = clock.getElapsedTime();
 
-	if (time.asMicroseconds() >= animDelay)
+	/*if (time.asMicroseconds() >= animDelay)
 	{
 		if (spritesMap.count(direction))
 			currentDirection = direction;
@@ -51,7 +51,7 @@ void AnimatedSprite::Animate(bool isMoving, Direction direction)
 			currentFrame--;
 
 		clock.restart();
-	}
+	}*/
 }
 
 void AnimatedSprite::Draw()

@@ -129,8 +129,8 @@ void LogicSequenceManager::applySequence(list<Logic>& logicSequence)
 				Player::LogicInstructions.push_back(logic.instructionType);
 				break;
 			case ElementType::Wall:
-				/*if (isFistInstruction) Wall::logicInstructions.clear();
-				Wall::logicInstructions.push_back(logic.instructionType);*/
+				/*if (isFistInstruction) Wall::LogicInstructions.clear();
+				Wall::LogicInstructions.push_back(logic.instructionType);*/
 				break;
 			}
 

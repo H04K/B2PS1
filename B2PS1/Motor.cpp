@@ -196,12 +196,21 @@ if (csvLevel[y][x] == ##ID de l'element dans la map)
 	level->GameElements.push_back( ##Element );
 }
 */
-void Motor::LoadLevel(string path)
+void Motor::LoadGame(string pathMap, string pathLevel)
 {
 	events.clear();
 	delete level;
 	isLevelEnded = false;
-	level = new Level();
+	level = new Level(); 
+	LoadLevel(pathLevel);
+	LoadMap(pathMap);
+}
+void Motor::LoadLevel(string path)
+{/*
+	events.clear();
+	delete level;
+	isLevelEnded = false;
+	level = new Level();*/
 
 	try
 	{
@@ -227,6 +236,8 @@ void Motor::LoadLevel(string path)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
+				cout << csvLevel[y][x];
+
 				// utiliser un if car les case ne sont pas des bloc
 
 				if (csvLevel[y][x] == 1)
@@ -236,10 +247,74 @@ void Motor::LoadLevel(string path)
 					player->position.y = yTilesSize * y;
 					level->GameElements.push_back(player);
 				}
+				if (csvLevel[y][x] == 2)
+				{
+					Floor* Sol = new Floor();
+					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+				
+					level->MapElements.push_back(Sol);
+				}
 			}
+			cout << endl;
 		}
 
 		cout << "Successful Loaded Level " << path << endl;
+		
+		
+	}
+	catch (exception & ex)
+	{
+		cout << "Failed Loading Level : Level " << path << " not found " << ex.what() << endl;
+	}
+}
+void Motor::LoadMap(string path)
+{/*
+	events.clear();
+	delete level;
+	isLevelEnded = false;
+	level = new Level();*/
+
+	try
+	{
+		ifstream fileStream = ifstream(path);
+		vector<vector<int>> csvLevel = vector<vector<int>>();
+
+		string line;
+		while (getline(fileStream, line))
+		{
+			vector<int> levelRow = vector<int>();
+			stringstream lineStream = stringstream(line);
+
+			string cell;
+			while (getline(lineStream, cell, ','))
+				levelRow.push_back(stoi(cell));
+			csvLevel.push_back(levelRow);
+		}
+
+		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
+
+		for (unsigned y = 0; y < csvLevel.size(); y++)
+		{
+			for (unsigned x = 0; x < csvLevel[y].size(); x++)
+			{
+				cout << csvLevel[y][x];
+
+				// utiliser un if car les case ne sont pas des bloc
+				if (csvLevel[y][x] == 2)
+				{
+					Floor* Sol = new Floor();
+					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+
+					level->MapElements.push_back(Sol);
+				}
+			}
+			cout << endl;
+		}
+
+		cout << "Successful Loaded Level " << path << endl;
+
+
 	}
 	catch (exception & ex)
 	{
@@ -256,6 +331,13 @@ void Motor::Play() {
 		gameElement->motor = this;
 		gameElement->LoadSprites();
 		gameElement->Start();
+	}
+
+	for (MapElement* mapElement : level->MapElements)
+	{
+		mapElement->motor = this;
+		mapElement->LoadSprites();
+		mapElement->Start();
 	}
 
 	while (window->isOpen() && !isLevelEnded)
@@ -284,6 +366,12 @@ void Motor::Play() {
 		}
 
 		window->clear(Color::Black);
+
+		for (MapElement* mapElement : level->MapElements)
+		{
+			mapElement->Update();
+			mapElement->Draw();
+		}
 
 		for (GameElement* gameElement : level->GameElements)
 		{

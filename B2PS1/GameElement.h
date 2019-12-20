@@ -1,7 +1,8 @@
 #pragma once
-#include "Components.h"
+
 #include "LogicSequenceManager.h"
 #include "Ressources.h"
+#include "MapElement.h"
 
 // Pour que le type Motor soit accessible depuis la declaration de GameElement
 class Motor;
@@ -53,7 +54,6 @@ public:
 	void Update();
 	void Draw();
 };
-
 
 
 class Lim : public GameElement

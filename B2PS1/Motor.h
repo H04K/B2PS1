@@ -4,6 +4,7 @@
 class Level {
 public:
 	list<GameElement*> GameElements = list<GameElement*>();
+	list<MapElement*> MapElements = list<MapElement*>();
 };
 
 enum class MainMenuChoice { Quit, Play, Options, Credits };
@@ -18,7 +19,9 @@ public:
 	
 	MainMenuChoice MainMenu();
 	void LevelSelector();
+	void LoadGame(string pathMap, string pathLevel);
 	void LoadLevel(string path);
+	void LoadMap(string path);
 	void Play();
 	void PauseMenu();
 

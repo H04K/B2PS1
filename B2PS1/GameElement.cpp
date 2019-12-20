@@ -66,6 +66,7 @@ void GameElement::Update() {}
 void GameElement::Draw() {}
 
 list<InstructionType> Player::LogicInstructions = list<InstructionType>();
+
 map<AnimatedSprite::Direction, list<Texture*>>* Player::texturesMap = nullptr;
 
 void Player::LoadSprites()
@@ -129,9 +130,6 @@ void Player::Draw()
 {
 	animatedSprite.Draw();
 }
-
-
-
 
 
 
