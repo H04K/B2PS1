@@ -1,6 +1,6 @@
 #include "Motor.h"
 
-MainMenuChoice Motor::MainMenu()
+NavigationChoice Motor::MainMenu()
 {
 	// Play
 
@@ -19,7 +19,7 @@ MainMenuChoice Motor::MainMenu()
 	optionText.setCharacterSize(110);
 
 	Vector2f optionTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(optionText).x / 2,
-											(window->getSize().y / 40) * 22 - Ressources::realTextSize(optionText).y / 2);
+											(window->getSize().y / 40) * 23 - Ressources::realTextSize(optionText).y / 2);
 
 	optionText.setPosition(optionTextPostion);
 	optionText.setFillColor(Color::White);
@@ -30,7 +30,7 @@ MainMenuChoice Motor::MainMenu()
 	creditsText.setCharacterSize(100);
 
 	Vector2f creditsTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(creditsText).x / 2,
-											(window->getSize().y / 40) * 26 - Ressources::realTextSize(creditsText).y / 2);
+											(window->getSize().y / 40) * 29 - Ressources::realTextSize(creditsText).y / 2);
 
 	creditsText.setPosition(creditsTextPostion);
 	creditsText.setFillColor(Color::White);
@@ -83,7 +83,7 @@ MainMenuChoice Motor::MainMenu()
 	else
 	{
 		cout << "init Menu error : can't load image" << endl;
-		return MainMenuChoice::Quit;
+		return NavigationChoice::Quit;
 	}
 
 	Vector2f brainCornerPostion = Vector2f(window->getSize().x - brainCornerSprite.getLocalBounds().width, 0);
@@ -94,7 +94,7 @@ MainMenuChoice Motor::MainMenu()
 
 	Texture brainSelectTexture = Texture();
 	Sprite brainSelectSprite = Sprite();
-	if (brainSelectTexture.loadFromFile("Assets/Sprites/Menu/brainLogo.png"))
+	if (brainSelectTexture.loadFromFile("Assets/Sprites/Menu/litleBrain.png"))
 	{
 		brainSelectTexture.setRepeated(true);
 		brainSelectTexture.setSmooth(true);
@@ -103,7 +103,7 @@ MainMenuChoice Motor::MainMenu()
 	else
 	{
 		cout << "init Menu error : can't load image" << endl;
-		return MainMenuChoice::Quit;
+		return NavigationChoice::Quit;
 	}
 
 	int mouseX = -1;
@@ -117,6 +117,9 @@ MainMenuChoice Motor::MainMenu()
 		if (GetEvent(event, Event::Closed))
 			window->close();
 
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::Quit;
+
 		if (GetEvent(event, Event::MouseMoved))
 		{
 			mouseX = event.mouseMove.x;
@@ -129,9 +132,14 @@ MainMenuChoice Motor::MainMenu()
 			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
 			brainSelectSprite.setPosition(brainSelectPostion);
 
+			playText.setFillColor(Color(255,255,255,128));
+
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
-				return MainMenuChoice::Play;
+				return NavigationChoice::LevelSelect;
 		}
+		else
+			playText.setFillColor(Color(255, 255, 255, 255));
+
 
 		if (mouseX >= optionText.getPosition().x && mouseX <= optionText.getPosition().x + Ressources::realTextSize(optionText).x &&
 			mouseY >= optionText.getPosition().y && mouseY <= optionText.getPosition().y + Ressources::realTextSize(optionText).y)
@@ -139,9 +147,13 @@ MainMenuChoice Motor::MainMenu()
 			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
 			brainSelectSprite.setPosition(brainSelectPostion);
 
+			optionText.setFillColor(Color(255, 255, 255, 128));
+
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
-				return MainMenuChoice::Options;
+				return NavigationChoice::Options;
 		}
+		else
+			optionText.setFillColor(Color(255, 255, 255, 255));
 
 		if (mouseX >= creditsText.getPosition().x && mouseX <= creditsText.getPosition().x + Ressources::realTextSize(creditsText).x &&
 			mouseY >= creditsText.getPosition().y && mouseY <= creditsText.getPosition().y + Ressources::realTextSize(creditsText).y)
@@ -149,9 +161,13 @@ MainMenuChoice Motor::MainMenu()
 			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
 			brainSelectSprite.setPosition(brainSelectPostion);
 
+			creditsText.setFillColor(Color(255, 255, 255, 128));
+
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
-				return MainMenuChoice::Credits;
+				return NavigationChoice::Credits;
 		}
+		else
+			creditsText.setFillColor(Color(255, 255, 255, 255));
 
 		if (mouseX >= quitText.getPosition().x && mouseX <= quitText.getPosition().x + Ressources::realTextSize(quitText).x &&
 			mouseY >= quitText.getPosition().y && mouseY <= quitText.getPosition().y + Ressources::realTextSize(quitText).y)
@@ -159,9 +175,13 @@ MainMenuChoice Motor::MainMenu()
 			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
 			brainSelectSprite.setPosition(brainSelectPostion);
 
+			quitText.setFillColor(Color(255, 255, 255, 128));
+
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
-				return MainMenuChoice::Quit;
+				return NavigationChoice::Quit;
 		}
+		else
+			quitText.setFillColor(Color(255, 255, 255, 255));
 
 		window->clear(Color::Black);
 		
@@ -177,16 +197,136 @@ MainMenuChoice Motor::MainMenu()
 		window->display();
 	}
 
-	return MainMenuChoice::Quit;
+	return NavigationChoice::Quit;
 }
 
-void Motor::LevelSelector()
+NavigationChoice Motor::LevelSelector()
 {
+	RectangleShape cursor = RectangleShape(Vector2f(50, 50));
+	cursor.setFillColor(Color::Red);
 
+
+
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::MainMenu;
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Z)
+		{
+			cursor.move(0, -cursor.getSize().y);
+		}
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Q)
+		{
+			cursor.move(-cursor.getSize().x, 0);
+		}
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::S)
+		{
+			cursor.move(0, cursor.getSize().y);
+		}
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::D)
+		{
+			cursor.move(cursor.getSize().x, 0);
+		}
+
+		window->clear(Color::Black);
+
+		window->draw(cursor);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
+NavigationChoice Motor::Options()
+{
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::MainMenu;
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		window->clear(Color::Black);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
+NavigationChoice Motor::Credits()
+{
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::MainMenu;
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		window->clear(Color::Black);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
+void Motor::LoadGame(string pathMap, string pathLevel)
+{
+	events.clear();
+	delete level;
+	level = new Level();
+
+	LoadLevel(pathLevel);
+	LoadMap(pathMap);
 }
 
 /*
 Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- LogicSequenceManager : rajouter le nom du gameElement dans l'enum
 - rajouter le template de code suivant a la suite du if :
 if (csvLevel[y][x] == ##ID de l'element dans la map)
 {
@@ -198,11 +338,62 @@ if (csvLevel[y][x] == ##ID de l'element dans la map)
 */
 void Motor::LoadLevel(string path)
 {
-	events.clear();
-	delete level;
-	isLevelEnded = false;
-	level = new Level();
+	try
+	{
+		ifstream fileStream = ifstream(path);
+		vector<vector<int>> csvLevel = vector<vector<int>>();
 
+		string line;
+		while (getline(fileStream, line))
+		{
+			vector<int> levelRow = vector<int>();
+			stringstream lineStream = stringstream(line);
+
+			string cell;
+			while (getline(lineStream, cell, ','))
+				levelRow.push_back(stoi(cell));
+			csvLevel.push_back(levelRow);
+		}
+
+		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
+
+		for (auto y = 0; y < csvLevel.size(); y++)
+		{
+			for (auto x = 0; x < csvLevel[y].size(); x++)
+			{
+				cout << csvLevel[y][x];
+
+				// utiliser un if car les case ne sont pas des bloc
+
+				if (csvLevel[y][x] == 1)
+				{
+					Brain* brain = new Brain();
+					brain->position.x = xTilesSize * x;
+					brain->position.y = yTilesSize * y;
+					level->GameElements.push_back(brain);
+				}
+			}
+			cout << endl;
+		}
+
+		cout << "Successful Loaded Level " << path << endl;
+	}
+	catch (exception & ex)
+	{
+		cout << "Failed Load Level : Level " << path << " not found " << ex.what() << endl;
+	}
+}
+
+/*
+Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- rajouter le template de code suivant a la suite du if :
+if (csvLevel[y][x] == ##ID de l'element dans la map)
+{
+}
+*/
+void Motor::LoadMap(string path)
+{
 	try
 	{
 		ifstream fileStream = ifstream(path);
@@ -227,14 +418,15 @@ void Motor::LoadLevel(string path)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				// utiliser un if car les case ne sont pas des bloc
+				cout << csvLevel[y][x];
 
-				if (csvLevel[y][x] == 1)
+				// utiliser un if car les case ne sont pas des bloc
+				if (csvLevel[y][x] == 2)
 				{
-					Player* player = new Player();
-					player->position.x = xTilesSize * x;
-					player->position.y = yTilesSize * y;
-					level->GameElements.push_back(player);
+					Floor* Sol = new Floor();
+					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+
+					level->MapElements.push_back(Sol);
 				}
 			}
 		}
@@ -247,9 +439,9 @@ void Motor::LoadLevel(string path)
 	}
 }
 
-void Motor::Play() {
+NavigationChoice Motor::Play() {
 
-	if (level == nullptr) { cout << "Failed Play : Level is null" << endl; return; }
+	if (level == nullptr) { cout << "Failed Play : Level is null" << endl; return NavigationChoice::Quit; }
 
 	for (GameElement* gameElement : level->GameElements)
 	{
@@ -258,7 +450,14 @@ void Motor::Play() {
 		gameElement->Start();
 	}
 
-	while (window->isOpen() && !isLevelEnded)
+	for (MapElement* mapElement : level->MapElements)
+	{
+		mapElement->motor = this;
+		mapElement->LoadSprites();
+		mapElement->Start();
+	}
+
+	while (window->isOpen() && !level->isFinished)
 	{
 		RefreshEvents();
 
@@ -285,6 +484,12 @@ void Motor::Play() {
 
 		window->clear(Color::Black);
 
+		for (MapElement* mapElement : level->MapElements)
+		{
+			mapElement->Update();
+			mapElement->Draw();
+		}
+
 		for (GameElement* gameElement : level->GameElements)
 		{
 			gameElement->ApplyLogicInstructions();
@@ -294,6 +499,8 @@ void Motor::Play() {
 
 		window->display();
 	}
+
+	return NavigationChoice::LevelSelect;
 
 	delete level;
 	level = nullptr;

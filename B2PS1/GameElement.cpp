@@ -11,23 +11,25 @@ void GameElement::You()
 
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
-		Move(0, 1 / 10.f);
+		Move(0, 0.75f);
 		isMoving = true;
+		direction = AnimatedSprite::Direction::Down;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Z))
 	{
-		Move(0, -1 / 5.f);
+		Move(0, -0.75f);
 		isMoving = true;
+		direction = AnimatedSprite::Direction::Up;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
-		Move(1 / 5.f, 0.f);
+		Move(0.75f, 0.f);
 		isMoving = true;
 		direction = AnimatedSprite::Direction::Right;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
-		Move(-1 / 5.f, 0.f);
+		Move(-0.75f, 0.f);
 		isMoving = true;
 		direction = AnimatedSprite::Direction::Left;
 	}
@@ -65,25 +67,25 @@ void GameElement::Start() {}
 void GameElement::Update() {}
 void GameElement::Draw() {}
 
-list<InstructionType> Player::LogicInstructions = list<InstructionType>();
-map<AnimatedSprite::Direction, list<Texture*>>* Player::texturesMap = nullptr;
+list<InstructionType> Brain::LogicInstructions = list<InstructionType>();
+map<AnimatedSprite::Direction, list<Texture*>>* Brain::texturesMap = nullptr;
 
-void Player::LoadSprites()
+void Brain::LoadSprites()
 {
-	string path = "Assets/Sprites/Player/baba";
+	string path = "Assets/Sprites/Brain/brain";
 	string pathEnd = ".png";
 
 	list<AnimatedSprite::Range> ranges = 
 	{
-		AnimatedSprite::Range(AnimatedSprite::Direction::Right, 0, 11),
-		AnimatedSprite::Range(AnimatedSprite::Direction::Left, 12, 26)/*,
-		AnimatedSprite::Range(AnimatedSprite::Direction::Up, 0, 12),
-		AnimatedSprite::Range(AnimatedSprite::Direction::Down, 0, 12)*/
+		AnimatedSprite::Range(AnimatedSprite::Direction::Up, 0, 3),
+		AnimatedSprite::Range(AnimatedSprite::Direction::Down, 4, 7),
+		AnimatedSprite::Range(AnimatedSprite::Direction::Right, 8, 11),
+		AnimatedSprite::Range(AnimatedSprite::Direction::Left, 12, 15)
 	};
 
-	if (Player::texturesMap == nullptr)
+	if (Brain::texturesMap == nullptr)
 	{
-		Player::texturesMap = new map<AnimatedSprite::Direction, list<Texture*>>();
+		Brain::texturesMap = new map<AnimatedSprite::Direction, list<Texture*>>();
 
 		for (AnimatedSprite::Range range : ranges)
 		{
@@ -102,36 +104,34 @@ void Player::LoadSprites()
 				}
 				else
 				{
-					delete Player::texturesMap;
-					Player::texturesMap = nullptr;
+					delete Brain::texturesMap;
+					Brain::texturesMap = nullptr;
 					cout << "Can't load " << path << i << pathEnd << endl;
 					return;
 				}
 			}
 
-			Player::texturesMap->insert(make_pair(range.direction, textures));
+			Brain::texturesMap->insert(make_pair(range.direction, textures));
 		}
 	}
 
-	animatedSprite.SetTextures(*Player::texturesMap);
+	animatedSprite.animDelay = 100;
+	animatedSprite.SetTextures(*Brain::texturesMap);
 }
 
-void Player::Start()
+void Brain::Start()
 {
-	logicInstructions = &Player::LogicInstructions;
+	logicInstructions = &Brain::LogicInstructions;
 }
 
-void Player::Update()
+void Brain::Update()
 {
 }
 
-void Player::Draw()
+void Brain::Draw()
 {
 	animatedSprite.Draw();
 }
-
-
-
 
 
 

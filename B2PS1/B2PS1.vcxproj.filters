@@ -19,13 +19,13 @@
     <Filter Include="Fichiers d%27en-tête\Motor">
       <UniqueIdentifier>{e7e53f27-aa6e-4900-b68d-4416558e813d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Elements">
+      <UniqueIdentifier>{edff4886-27c0-44e4-af96-f5f5f38e2f65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GameElement.cpp">
-      <Filter>Fichiers d%27en-tête</Filter>
     </ClCompile>
     <ClCompile Include="Components.cpp">
       <Filter>Fichiers d%27en-tête\Components</Filter>
@@ -42,11 +42,14 @@
     <ClCompile Include="Ressources.cpp">
       <Filter>Fichiers d%27en-tête\Motor</Filter>
     </ClCompile>
+    <ClCompile Include="GameElement.cpp">
+      <Filter>Fichiers d%27en-tête\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="MapElement.cpp">
+      <Filter>Fichiers d%27en-tête\Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameElement.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Components.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
@@ -61,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="Ressources.h">
       <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapElement.h">
+      <Filter>Fichiers d%27en-tête\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GameElement.h">
+      <Filter>Fichiers d%27en-tête\Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

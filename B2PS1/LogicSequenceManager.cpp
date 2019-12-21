@@ -27,8 +27,8 @@ void LogicSequenceManager::sendSequence(string code)
 
 	for (string logicString : logicSequenceString)
 	{
-		if (logicString == "player" || logicString == "Player")
-			logicSequence.push_back(Logic(ElementType::Player));
+		if (logicString == "brain" || logicString == "Brain")
+			logicSequence.push_back(Logic(ElementType::Brain));
 		else if (logicString == "wall" || logicString == "Wall")
 			logicSequence.push_back(Logic(ElementType::Wall));
 		else if (logicString == "is" || logicString == "Is")
@@ -124,13 +124,13 @@ void LogicSequenceManager::applySequence(list<Logic>& logicSequence)
 		{
 			switch (element)
 			{
-			case ElementType::Player:
-				if (isFistInstruction) Player::LogicInstructions.clear();
-				Player::LogicInstructions.push_back(logic.instructionType);
+			case ElementType::Brain:
+				if (isFistInstruction) Brain::LogicInstructions.clear();
+				Brain::LogicInstructions.push_back(logic.instructionType);
 				break;
 			case ElementType::Wall:
-				/*if (isFistInstruction) Wall::logicInstructions.clear();
-				Wall::logicInstructions.push_back(logic.instructionType);*/
+				/*if (isFistInstruction) Wall::LogicInstructions.clear();
+				Wall::LogicInstructions.push_back(logic.instructionType);*/
 				break;
 			}
 
@@ -151,8 +151,8 @@ void LogicSequenceManager::morphGameElement(ElementType oldType, ElementType new
 
 			switch (newType)
 			{
-			case ElementType::Player:
-				newGameElement = new Player();
+			case ElementType::Brain:
+				newGameElement = new Brain();
 				break;
 			case ElementType::Wall:
 				//newGameElement = new Wall();

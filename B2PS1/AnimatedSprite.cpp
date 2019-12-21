@@ -40,11 +40,11 @@ void AnimatedSprite::Animate(bool isMoving, Direction direction)
 {
 	Time time = clock.getElapsedTime();
 
-	if (time.asMicroseconds() >= animDelay)
-	{
-		if (spritesMap.count(direction))
-			currentDirection = direction;
+	if (spritesMap.count(direction))
+		currentDirection = direction;
 
+	if (time.asMilliseconds() >= animDelay)
+	{
 		if (isMoving)
 			currentFrame = (currentFrame + 1) % maxFrame;
 		else if (currentFrame != 0)

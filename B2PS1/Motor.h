@@ -1,47 +1,53 @@
 #pragma once
 #include "GameElement.h"
 
+enum class NavigationChoice { MainMenu, LevelSelect, Options, Credits, Quit };
+
 class Level {
 public:
 	list<GameElement*> GameElements = list<GameElement*>();
+	list<MapElement*> MapElements = list<MapElement*>();
+	bool isFinished = false;
 };
-
-enum class MainMenuChoice { Quit, Play, Options, Credits };
 
 class Motor {
 private:
+
+	//Met a jours les events a chaque appels
+	void RefreshEvents();
+
 	// Contient tout les evenements actuels
 	list<Event> events = list<Event>();
 public:
 
 	Motor(RenderWindow& window) : window(&window){}
 	
-	MainMenuChoice MainMenu();
-	void LevelSelector();
+	NavigationChoice MainMenu();
+	NavigationChoice LevelSelector();
+	NavigationChoice Options();
+	NavigationChoice Credits();
+
+	void LoadGame(string pathMap, string pathLevel);
 	void LoadLevel(string path);
-	void Play();
+	NavigationChoice Play();
+	void LoadMap(string path);
 	void PauseMenu();
 
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;
 
 	Level* level = nullptr;
-	bool isLevelEnded = false;
 
 	// Permet de gerer les sequences logiques
 	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 
-	/*
-	Met a jours les events a chaque appels
-	*/
-	void RefreshEvents();
 	/*
 	Utilisation Type de GetEvent() :
 	Event event;
 	if (GetEvent(event, Event::##l'event voulu)
 	{
 		## si il y a eut l'evenement
-		## toutes les données de l'évenement sont dans event
+		## toutes les donnï¿½es de l'ï¿½venement sont dans event
 	}
 	*/
 	bool GetEvent(Event& _event, Event::EventType eventType);

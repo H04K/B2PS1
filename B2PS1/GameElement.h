@@ -1,7 +1,8 @@
 #pragma once
-#include "Components.h"
+
 #include "LogicSequenceManager.h"
 #include "Ressources.h"
+#include "MapElement.h"
 
 // Pour que le type Motor soit accessible depuis la declaration de GameElement
 class Motor;
@@ -19,7 +20,6 @@ public:
 	list<InstructionType>* logicInstructions = nullptr;
 	void ApplyLogicInstructions();
 
-	string name = "Unamed";
 	Vector2f position = Vector2f();
 	Motor* motor = nullptr;
 
@@ -34,18 +34,16 @@ public:
 	virtual void Draw();
 };
 
-/*
-Le nom Player est voué a changer pour un nom comme BABA ou autre chose
-*/
-class Player : public GameElement {
+
+class Brain : public GameElement {
 public:
 	static list<InstructionType> LogicInstructions;
 
 	//static Texture* texture;
 	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
 
-	Player() { type = ElementType::Player; }
-	~Player() {}
+	Brain() { type = ElementType::Brain; }
+	~Brain() {}
 
 	void LoadSprites();
 
@@ -53,7 +51,6 @@ public:
 	void Update();
 	void Draw();
 };
-
 
 
 class Lim : public GameElement

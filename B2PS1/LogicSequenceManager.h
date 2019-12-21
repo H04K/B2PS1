@@ -8,7 +8,7 @@ using namespace std;
 
 enum class LogicType { Instruction, Element, Operateur, None };
 enum class OperateurType { Is, And, None };
-enum class ElementType { Player, Wall, None };
+enum class ElementType { Brain, Wall, None };
 enum class InstructionType { Stop, You, None };
 
 struct Logic
