@@ -37,7 +37,7 @@ public:
 
 	int maxFrame = NULL;
 	int currentFrame = 0;
-	int animDelay = 40000;
+	int animDelay = 100;
 
 	void SetTextures(list<Texture*>& textures);
 	void SetTextures(map<Direction, list<Texture*>>& texturesMap);

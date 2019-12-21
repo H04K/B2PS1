@@ -1,8 +1,332 @@
 #include "Motor.h"
 
-Motor::Motor() {}
+NavigationChoice Motor::MainMenu()
+{
+	// Play
+
+	Text playText = Text("PLAY", Ressources::Font_Ouders);
+	playText.setCharacterSize(150);
+
+	Vector2f playTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(playText).x / 2, 
+										(window->getSize().y / 40) * 16 - Ressources::realTextSize(playText).y / 2);
+	
+	playText.setPosition(playTextPostion);
+	playText.setFillColor(Color::White);
+
+	// Options
+	
+	Text optionText = Text("OPTIONS", Ressources::Font_Ouders);
+	optionText.setCharacterSize(110);
+
+	Vector2f optionTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(optionText).x / 2,
+											(window->getSize().y / 40) * 23 - Ressources::realTextSize(optionText).y / 2);
+
+	optionText.setPosition(optionTextPostion);
+	optionText.setFillColor(Color::White);
+
+	// Credits
+
+	Text creditsText = Text("CREDITS", Ressources::Font_Ouders);
+	creditsText.setCharacterSize(100);
+
+	Vector2f creditsTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(creditsText).x / 2,
+											(window->getSize().y / 40) * 29 - Ressources::realTextSize(creditsText).y / 2);
+
+	creditsText.setPosition(creditsTextPostion);
+	creditsText.setFillColor(Color::White);
+
+	// Quit
+
+	Text quitText = Text("QUIT", Ressources::Font_Ouders);
+	quitText.setCharacterSize(130);
+
+	Vector2f quitTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(quitText).x / 2,
+										(window->getSize().y / 40) * 36 - Ressources::realTextSize(quitText).y / 2);
+
+	quitText.setPosition(quitTextPostion);
+	quitText.setFillColor(Color::White);
+
+	// Adventure
+
+	Text adventureText = Text("Adventure", Ressources::Font_BlackGround);
+	adventureText.setCharacterSize(140);
+	adventureText.setStyle(Text::Bold);
+
+	Vector2f adventureTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(adventureText).x / 2,
+												(window->getSize().y / 40) * 6 - Ressources::realTextSize(adventureText).y / 2);
+
+	adventureText.setPosition(adventureTextPostion);
+	adventureText.setFillColor(Color(74, 168, 80));
+
+	// Brain
+
+	Text brainText = Text("Brain", Ressources::Font_LemonJuice);
+	brainText.setCharacterSize(210);
+	brainText.setStyle(Text::Bold);
+
+	Vector2f brainTextPostion = Vector2f(adventureText.getPosition().x - Ressources::realTextSize(brainText).x - adventureText.getLetterSpacing(),
+											(window->getSize().y / 20) * 2 - Ressources::realTextSize(brainText).y / 2);
+
+	brainText.setPosition(brainTextPostion);
+	brainText.setFillColor(Color(246, 152, 157));
+	
+	// Brain Corner Image
+
+	Texture brainCornerTexture = Texture();
+	Sprite brainCornerSprite = Sprite();
+	if (brainCornerTexture.loadFromFile("Assets/Sprites/Menu/brainLogo.png"))
+	{
+		brainCornerTexture.setRepeated(true);
+		brainCornerTexture.setSmooth(true);
+		brainCornerSprite.setTexture(brainCornerTexture);
+	}
+	else
+	{
+		cout << "init Menu error : can't load image" << endl;
+		return NavigationChoice::Quit;
+	}
+
+	Vector2f brainCornerPostion = Vector2f(window->getSize().x - brainCornerSprite.getLocalBounds().width, 0);
+
+	brainCornerSprite.setPosition(brainCornerPostion);
+	 
+	// Brain Select Image
+
+	Texture brainSelectTexture = Texture();
+	Sprite brainSelectSprite = Sprite();
+	if (brainSelectTexture.loadFromFile("Assets/Sprites/Menu/litleBrain.png"))
+	{
+		brainSelectTexture.setRepeated(true);
+		brainSelectTexture.setSmooth(true);
+		brainSelectSprite.setTexture(brainSelectTexture);
+	}
+	else
+	{
+		cout << "init Menu error : can't load image" << endl;
+		return NavigationChoice::Quit;
+	}
+
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+		
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::Quit;
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		if (mouseX >= playText.getPosition().x && mouseX <= playText.getPosition().x + Ressources::realTextSize(playText).x &&
+			mouseY >= playText.getPosition().y && mouseY <= playText.getPosition().y + Ressources::realTextSize(playText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			playText.setFillColor(Color(255,255,255,128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::LevelSelect;
+		}
+		else
+			playText.setFillColor(Color(255, 255, 255, 255));
+
+
+		if (mouseX >= optionText.getPosition().x && mouseX <= optionText.getPosition().x + Ressources::realTextSize(optionText).x &&
+			mouseY >= optionText.getPosition().y && mouseY <= optionText.getPosition().y + Ressources::realTextSize(optionText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			optionText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::Options;
+		}
+		else
+			optionText.setFillColor(Color(255, 255, 255, 255));
+
+		if (mouseX >= creditsText.getPosition().x && mouseX <= creditsText.getPosition().x + Ressources::realTextSize(creditsText).x &&
+			mouseY >= creditsText.getPosition().y && mouseY <= creditsText.getPosition().y + Ressources::realTextSize(creditsText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			creditsText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::Credits;
+		}
+		else
+			creditsText.setFillColor(Color(255, 255, 255, 255));
+
+		if (mouseX >= quitText.getPosition().x && mouseX <= quitText.getPosition().x + Ressources::realTextSize(quitText).x &&
+			mouseY >= quitText.getPosition().y && mouseY <= quitText.getPosition().y + Ressources::realTextSize(quitText).y)
+		{
+			Vector2f brainSelectPostion = Vector2f(window->getSize().x - brainSelectSprite.getLocalBounds().width, 0);
+			brainSelectSprite.setPosition(brainSelectPostion);
+
+			quitText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::Quit;
+		}
+		else
+			quitText.setFillColor(Color(255, 255, 255, 255));
+
+		window->clear(Color::Black);
+		
+		window->draw(playText);
+		window->draw(optionText);
+		window->draw(creditsText);
+		window->draw(quitText);
+		window->draw(brainText);
+		window->draw(adventureText);
+		window->draw(brainCornerSprite);
+		//window->draw(brainSelectSprite);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
+NavigationChoice Motor::LevelSelector()
+{
+	RectangleShape cursor = RectangleShape(Vector2f(50, 50));
+	cursor.setFillColor(Color::Red);
+
+
+
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::MainMenu;
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Z)
+		{
+			cursor.move(0, -cursor.getSize().y);
+		}
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Q)
+		{
+			cursor.move(-cursor.getSize().x, 0);
+		}
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::S)
+		{
+			cursor.move(0, cursor.getSize().y);
+		}
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::D)
+		{
+			cursor.move(cursor.getSize().x, 0);
+		}
+
+		window->clear(Color::Black);
+
+		window->draw(cursor);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
+NavigationChoice Motor::Options()
+{
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::MainMenu;
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		window->clear(Color::Black);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
+NavigationChoice Motor::Credits()
+{
+	int mouseX = -1;
+	int mouseY = -1;
+
+	while (window->isOpen())
+	{
+		RefreshEvents();
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+			return NavigationChoice::MainMenu;
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		window->clear(Color::Black);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
+void Motor::LoadGame(string pathMap, string pathLevel)
+{
+	events.clear();
+	delete level;
+	level = new Level();
+
+	LoadLevel(pathLevel);
+	LoadMap(pathMap);
+}
+
 /*
 Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- LogicSequenceManager : rajouter le nom du gameElement dans l'enum
 - rajouter le template de code suivant a la suite du if :
 if (csvLevel[y][x] == ##ID de l'element dans la map)
 {
@@ -12,14 +336,8 @@ if (csvLevel[y][x] == ##ID de l'element dans la map)
 	level->GameElements.push_back( ##Element );
 }
 */
-
 void Motor::LoadLevel(string path)
 {
-	events.clear();
-	delete level;
-	isLevelEnded = false;
-	level = new Level();
-
 	try
 	{
 		ifstream fileStream = ifstream(path);
@@ -37,21 +355,78 @@ void Motor::LoadLevel(string path)
 			csvLevel.push_back(levelRow);
 		}
 
-		int xTilesSize = WindowWidth / csvLevel[0].size();
-		int yTilesSize = WindowHeight / csvLevel.size();
+		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
+
+		for (auto y = 0; y < csvLevel.size(); y++)
+		{
+			for (auto x = 0; x < csvLevel[y].size(); x++)
+			{
+				cout << csvLevel[y][x];
+
+				// utiliser un if car les case ne sont pas des bloc
+
+				if (csvLevel[y][x] == 1)
+				{
+					Brain* brain = new Brain();
+					brain->position.x = xTilesSize * x;
+					brain->position.y = yTilesSize * y;
+					level->GameElements.push_back(brain);
+				}
+			}
+			cout << endl;
+		}
+
+		cout << "Successful Loaded Level " << path << endl;
+	}
+	catch (exception & ex)
+	{
+		cout << "Failed Load Level : Level " << path << " not found " << ex.what() << endl;
+	}
+}
+
+/*
+Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- rajouter le template de code suivant a la suite du if :
+if (csvLevel[y][x] == ##ID de l'element dans la map)
+{
+}
+*/
+void Motor::LoadMap(string path)
+{
+	try
+	{
+		ifstream fileStream = ifstream(path);
+		vector<vector<int>> csvLevel = vector<vector<int>>();
+
+		string line;
+		while (getline(fileStream, line))
+		{
+			vector<int> levelRow = vector<int>();
+			stringstream lineStream = stringstream(line);
+
+			string cell;
+			while (getline(lineStream, cell, ','))
+				levelRow.push_back(stoi(cell));
+			csvLevel.push_back(levelRow);
+		}
+
+		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
 
 		for (unsigned y = 0; y < csvLevel.size(); y++)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				// utiliser un if car les case ne sont pas des bloc
+				cout << csvLevel[y][x];
 
-				if (csvLevel[y][x] == 1)
+				// utiliser un if car les case ne sont pas des bloc
+				if (csvLevel[y][x] == 2)
 				{
-					Player* player = new Player();
-					player->position.x = xTilesSize * x;
-					player->position.y = yTilesSize * y;
-					level->GameElements.push_back(player);
+					Floor* Sol = new Floor();
+					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+
+					level->MapElements.push_back(Sol);
 				}
 			}
 		}
@@ -64,9 +439,9 @@ void Motor::LoadLevel(string path)
 	}
 }
 
-void Motor::Play(RenderWindow &window) {
+NavigationChoice Motor::Play() {
 
-	this->window = &window;
+	if (level == nullptr) { cout << "Failed Play : Level is null" << endl; return NavigationChoice::Quit; }
 
 	for (GameElement* gameElement : level->GameElements)
 	{
@@ -75,15 +450,26 @@ void Motor::Play(RenderWindow &window) {
 		gameElement->Start();
 	}
 
-	while (window.isOpen() && !isLevelEnded)
+	for (MapElement* mapElement : level->MapElements)
+	{
+		mapElement->motor = this;
+		mapElement->LoadSprites();
+		mapElement->Start();
+	}
+
+	while (window->isOpen() && !level->isFinished)
 	{
 		RefreshEvents();
 
 		Event event;
 		if (GetEvent(event, Event::Closed))
-			window.close();
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape) 
-			isLevelEnded = true;
+			window->close();
+
+		/*Ouvir le menu pause*/
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+		{
+			PauseMenu();
+		}
 
 		/*PROTOTYPING pour ajouter manuelement des evenements logiques*/
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
@@ -92,10 +478,17 @@ void Motor::Play(RenderWindow &window) {
 			char tabCode[50];
 			cin.getline(tabCode, 50);
 			string code(tabCode);
-			sendLogicalSequence(code);
+
+			logicSequenceManager.sendSequence(code);
 		}
 
-		window.clear(Color::Black);
+		window->clear(Color::Black);
+
+		for (MapElement* mapElement : level->MapElements)
+		{
+			mapElement->Update();
+			mapElement->Draw();
+		}
 
 		for (GameElement* gameElement : level->GameElements)
 		{
@@ -104,187 +497,48 @@ void Motor::Play(RenderWindow &window) {
 			gameElement->Draw();
 		}
 
-		window.display();
+		window->display();
 	}
+
+	return NavigationChoice::LevelSelect;
+
+	delete level;
+	level = nullptr;
 }
 
-/*fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
-PROTOTYPING pour ajouter manuelement des evenements logiques*/
-void Motor::sendLogicalSequence(string code)
+void Motor::PauseMenu()
 {
-	if (code == "" || code == " ")
-		return;
+	Texture backgroundText = Texture();
+	backgroundText.create(window->getSize().x, window->getSize().y);
+	backgroundText.update(*window);
 
-	string instruction = "";
-	list<string> logicSequenceString = list<string>();
-	for (unsigned i = 0; i < code.size(); i++)
+	Sprite background = Sprite();
+	background.setTexture(backgroundText);
+	
+	RectangleShape shape = RectangleShape(Vector2f(50, 50));
+	shape.setFillColor(Color::Red);
+
+	while (window->isOpen())
 	{
-		if (code[i] == ' ')
-		{
-			logicSequenceString.push_back(instruction);
-			instruction = "";
-		} 
-		else
-			instruction += code[i];
+		RefreshEvents();
 
-		if (i + 1 == code.size() && instruction != "")
-			logicSequenceString.push_back(instruction);
-	}
-
-	list<Logic> logicSequence = list<Logic>();
-
-	for (string logicString : logicSequenceString)
-	{
-		if (logicString == "player" || logicString == "Player")
-			logicSequence.push_back(Logic(ElementType::Player));
-		else if (logicString == "wall" || logicString == "Wall")
-			logicSequence.push_back(Logic(ElementType::Wall));
-		else if (logicString == "is" || logicString == "Is")
-			logicSequence.push_back(Logic(OperateurType::Is));
-		else if (logicString == "and" || logicString == "And")
-			logicSequence.push_back(Logic(OperateurType::And));
-		else if (logicString == "stop" || logicString == "Stop")
-			logicSequence.push_back(Logic(InstructionType::Stop));
-		else if (logicString == "you" || logicString == "You")
-			logicSequence.push_back(Logic(InstructionType::You));
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
 		
-
-		// error manager
-		else
+		if (GetEvent(event, Event::MouseMoved))
 		{
-			cout << "--- Logic_Sequence Unexpected error at :" << endl;
-			for (string s : logicSequenceString)
-			{
-				cout << s + " ";
-				if (s == logicString)
-				{
-					cout << "<--" << endl;
-					return;
-				}
-			}
+			shape.setPosition(event.mouseMove.x, event.mouseMove.y);
 		}
+
+		if (GetEvent(event, Event::KeyPressed), event.key.code == Keyboard::Escape)
+			return;
+
+		window->draw(background);
+
+		window->draw(shape);
+		window->display();
 	}
-
-	bool isSequenceValid = isLogicSequenceValid(logicSequence);
-	cout << "Sequence " << (isSequenceValid ? "valide" : "invalide") << endl;
-	if (!isSequenceValid)
-		return;
-
-	applyLogicSequence(logicSequence);
-}
-
-//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
-bool Motor::isLogicSequenceValid(list<Logic>& logicSequence)
-{
-	int i = 0;
-	for (Logic logic : logicSequence)
-	{
-		if (i == 0 && 
-			logic.logicType != LogicType::Element)
-		{
-			return false;
-		}
-
-		else if (i != 0 && i % 2 != 0 &&
-			logic.logicType != LogicType::Operateur)
-		{
-			return false;
-		}
-
-		else if (i != 0 && i % 2 == 0 && 
-			(logic.logicType != LogicType::Element && logic.logicType != LogicType::Instruction))
-		{
-			return false;
-		}
-
-		if (i != 0 && i == logicSequence.size() &&
-			logic.logicType != LogicType::Operateur)
-		{
-			return false;
-		}
-		i++;
-	}
-
-	return true;
-}
-
-//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
-void Motor::applyLogicSequence(list<Logic>& logicSequence)
-{
-	ElementType element = ElementType::None;
-
-	bool isFistElement = true;
-	bool isFistInstruction = true;
-
-	for (Logic logic : logicSequence)
-	{
-		if (logic.logicType == LogicType::Element)
-		{
-			if (isFistElement)
-			{
-				element = logic.elementType;
-				isFistElement = false;
-			}
-			else
-			{
-				morphGameElement(element, logic.elementType);
-			}
-		}
-		if (logic.logicType == LogicType::Instruction)
-		{
-			switch(element)
-			{
-			case ElementType::Player :
-				if(isFistInstruction) Player::LogicInstructions.clear();
-				Player::LogicInstructions.push_back(logic.instructionType);
-				break;
-			case ElementType::Wall:
-				/*if (isFistInstruction) Wall::logicInstructions.clear();
-				Wall::logicInstructions.push_back(logic.instructionType);*/
-				break;
-			}
-
-			if (isFistInstruction) isFistInstruction = false;
-		}
-	}
-}
-
-//fonction voué a changer de place pour aller dans la class que gerera les evenements logiques
-void Motor::morphGameElement(ElementType oldType, ElementType newType)
-{
-	list<GameElement*> newGameElements = list<GameElement*>();
-
-	for (GameElement* gameElement : level->GameElements)
-	{
-		if (gameElement->type == oldType)
-		{
-			GameElement* newGameElement = nullptr;
-
-			switch (newType)
-			{
-			case ElementType::Player:
-				newGameElement = new Player();
-				break;
-			case ElementType::Wall:
-				//newGameElement = new Wall();
-				break;
-			}
-
-			newGameElement->position.x = gameElement->position.x;
-			newGameElement->position.y = gameElement->position.y;
-			newGameElement->motor = gameElement->motor;
-			newGameElement->LoadSprites();
-			newGameElement->Start();
-
-			newGameElements.push_back(newGameElement);
-		}
-		else
-		{
-			newGameElements.push_back(gameElement);
-		}
-	}
-
-	level->GameElements = newGameElements;
 }
 
 void Motor::RefreshEvents()
@@ -294,7 +548,6 @@ void Motor::RefreshEvents()
 	while (window->pollEvent(event))
 		events.push_back(event);
 }
-
 bool Motor::GetEvent(Event& _event, Event::EventType eventType)
 {
 	for (Event event : events)

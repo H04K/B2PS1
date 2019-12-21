@@ -18,7 +18,7 @@ using namespace sf;
 using namespace std;
 
 /*
-Dictionaire qui inclu les diffrents comonents ( AnimatedSprites, Collider, ect ... )
+Dictionaire qui inclu les differents components ( AnimatedSprites, Collider, ect ... )
 */
 
 #include "AnimatedSprite.h"

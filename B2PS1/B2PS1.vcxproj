@@ -132,14 +132,20 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="GameElement.cpp" />
+    <ClCompile Include="LogicSequenceManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MapElement.cpp" />
     <ClCompile Include="Motor.cpp" />
+    <ClCompile Include="Ressources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="GameElement.h" />
+    <ClInclude Include="LogicSequenceManager.h" />
+    <ClInclude Include="MapElement.h" />
     <ClInclude Include="Motor.h" />
+    <ClInclude Include="Ressources.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
