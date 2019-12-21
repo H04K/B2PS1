@@ -22,12 +22,10 @@ class Floor : public MapElement
 public:
 	
 	static Texture* texture;
-	//Sprite sprite;
 
 	void LoadSprites();
 
 	void Start();
 	void Update();
 	void Draw();
-
 };

@@ -51,7 +51,7 @@ void AnimatedSprite::Animate(bool isMoving, Direction direction)
 			currentFrame--;
 
 		clock.restart();
-	}*/
+	}
 }
 
 void AnimatedSprite::Draw()

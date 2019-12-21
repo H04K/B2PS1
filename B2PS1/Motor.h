@@ -27,7 +27,6 @@ public:
 	NavigationChoice Options();
 	NavigationChoice Credits();
 
-	void LevelSelector();
 	void LoadGame(string pathMap, string pathLevel);
 	void LoadLevel(string path);
 	NavigationChoice Play();

@@ -202,9 +202,10 @@ NavigationChoice Motor::MainMenu()
 
 NavigationChoice Motor::LevelSelector()
 {
-
 	RectangleShape cursor = RectangleShape(Vector2f(50, 50));
 	cursor.setFillColor(Color::Red);
+
+
 
 	int mouseX = -1;
 	int mouseY = -1;
@@ -313,6 +314,16 @@ NavigationChoice Motor::Credits()
 	return NavigationChoice::Quit;
 }
 
+void Motor::LoadGame(string pathMap, string pathLevel)
+{
+	events.clear();
+	delete level;
+	level = new Level();
+
+	LoadLevel(pathLevel);
+	LoadMap(pathMap);
+}
+
 /*
 Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
 - LogicSequenceManager : rajouter le nom du gameElement dans l'enum
@@ -325,23 +336,8 @@ if (csvLevel[y][x] == ##ID de l'element dans la map)
 	level->GameElements.push_back( ##Element );
 }
 */
-void Motor::LoadGame(string pathMap, string pathLevel)
-{
-	events.clear();
-	delete level;
-	isLevelEnded = false;
-	level = new Level(); 
-	LoadLevel(pathLevel);
-	LoadMap(pathMap);
-}
 void Motor::LoadLevel(string path)
-{/*
-	events.clear();
-	delete level;
-	isLevelEnded = false;
-	level = new Level();*/
-	level = new Level();
-
+{
 	try
 	{
 		ifstream fileStream = ifstream(path);
@@ -377,33 +373,27 @@ void Motor::LoadLevel(string path)
 					brain->position.y = yTilesSize * y;
 					level->GameElements.push_back(brain);
 				}
-				if (csvLevel[y][x] == 2)
-				{
-					Floor* Sol = new Floor();
-					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
-				
-					level->MapElements.push_back(Sol);
-				}
 			}
 			cout << endl;
 		}
 
 		cout << "Successful Loaded Level " << path << endl;
-		
-		
 	}
 	catch (exception & ex)
 	{
 		cout << "Failed Load Level : Level " << path << " not found " << ex.what() << endl;
 	}
 }
-void Motor::LoadMap(string path)
-{/*
-	events.clear();
-	delete level;
-	isLevelEnded = false;
-	level = new Level();*/
 
+/*
+Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- rajouter le template de code suivant a la suite du if :
+if (csvLevel[y][x] == ##ID de l'element dans la map)
+{
+}
+*/
+void Motor::LoadMap(string path)
+{
 	try
 	{
 		ifstream fileStream = ifstream(path);
@@ -439,12 +429,9 @@ void Motor::LoadMap(string path)
 					level->MapElements.push_back(Sol);
 				}
 			}
-			cout << endl;
 		}
 
 		cout << "Successful Loaded Level " << path << endl;
-
-
 	}
 	catch (exception & ex)
 	{
@@ -452,7 +439,6 @@ void Motor::LoadMap(string path)
 	}
 }
 
-void Motor::Play() {
 NavigationChoice Motor::Play() {
 
 	if (level == nullptr) { cout << "Failed Play : Level is null" << endl; return NavigationChoice::Quit; }
@@ -471,7 +457,6 @@ NavigationChoice Motor::Play() {
 		mapElement->Start();
 	}
 
-	while (window->isOpen() && !isLevelEnded)
 	while (window->isOpen() && !level->isFinished)
 	{
 		RefreshEvents();

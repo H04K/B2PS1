@@ -20,7 +20,6 @@ public:
 	list<InstructionType>* logicInstructions = nullptr;
 	void ApplyLogicInstructions();
 
-	string name = "Unamed";
 	Vector2f position = Vector2f();
 	Motor* motor = nullptr;
 

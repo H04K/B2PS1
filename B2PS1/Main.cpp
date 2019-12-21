@@ -16,26 +16,19 @@ int main()
 		case NavigationChoice::MainMenu :
 			NavChoice = GameMotor.MainMenu();
 			break;
-		case NavigationChoice::LevelSelect:
+		case NavigationChoice::LevelSelect :
 			NavChoice = GameMotor.LevelSelector();
 			break;
-		case NavigationChoice::Options:
+		case NavigationChoice::Options :
 			NavChoice = GameMotor.Options();
 			break;
-		case NavigationChoice::Credits:
+		case NavigationChoice::Credits :
 			NavChoice = GameMotor.Credits();
 			break;
-		case NavigationChoice::Quit:
+		case NavigationChoice::Quit :
 			return EXIT_SUCCESS;
 		}
 	}
-
-	
-	/*
-	Pour faire fonctionner le code une fois, le jeu lanc� il faut appuyer sur "f"
-	et �crire "player is you" dans la console et appuyer sur Entrer pour pouvoir controler ensuite le joueur avec les touches "Z,Q,S,D"
-	*/
-
 
 	return EXIT_SUCCESS;
 }
