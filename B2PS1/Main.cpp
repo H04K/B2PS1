@@ -9,6 +9,8 @@ int main()
 
 	NavigationChoice NavChoice = NavigationChoice::MainMenu;
 
+	//GameMotor.LevelSelector();
+
 	while (true)
 	{
 		switch (NavChoice)
@@ -24,6 +26,9 @@ int main()
 			break;
 		case NavigationChoice::Credits :
 			NavChoice = GameMotor.Credits();
+			break;
+		case NavigationChoice::Play:
+			NavChoice = GameMotor.Play();
 			break;
 		case NavigationChoice::Quit :
 			return EXIT_SUCCESS;

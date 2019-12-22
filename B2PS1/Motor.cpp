@@ -202,16 +202,99 @@ NavigationChoice Motor::MainMenu()
 
 NavigationChoice Motor::LevelSelector()
 {
-	RectangleShape cursor = RectangleShape(Vector2f(50, 50));
-	cursor.setFillColor(Color::Red);
+	struct UILevelData
+	{
+		Vector2f position;
+		bool isMapChanger = false;
+		int Map = -1;
+		string TileMapPath;
+		string LevelPath;
+		
+		UILevelData(Vector2f position, const char* TileMapPath, const char* LevelPath) : position(position), TileMapPath(string(TileMapPath)), LevelPath(string(LevelPath)){}
+		UILevelData(Vector2f position, int Map) : position(position), isMapChanger(true), Map(Map){}
+	};
 
+	struct UIMapData
+	{
+		string backgroundPath;
+		vector<UILevelData> UIlevels;
 
+		UIMapData(vector<UILevelData> UIlevels, const char* backgroundPath) : UIlevels(UIlevels), backgroundPath(string(backgroundPath)) {}
+	};
 
-	int mouseX = -1;
-	int mouseY = -1;
+	Texture backgroundTexture = Texture();
+	backgroundTexture.loadFromFile("Assets/Sprites/Menu/1.png");
+	backgroundTexture.setSmooth(true);
+
+	Sprite background = Sprite();
+	background.setTexture(backgroundTexture);
+	background.setScale(1.5, 1.5);
+
+	background.setPosition(
+		Vector2f(window->getSize().x / 2 - (background.getLocalBounds().width / 2) * background.getScale().x,
+			window->getSize().y / 2 - (background.getLocalBounds().height / 2) * background.getScale().y)
+	);
+
+	float wMargin = background.getPosition().x;
+	float hMargin = background.getPosition().y;
+
+	//cout << "Background margin " << wMargin << ',' << hMargin << endl;
+
+	vector<UIMapData> UIMaps =
+	{
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 370, hMargin + 542), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 490, hMargin + 308), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 630, hMargin + 367), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 1046, hMargin + 397), 1)
+			},
+			"Assets/Sprites/Menu/1.png"
+		),
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 100, hMargin + 200), 0),
+				UILevelData(Vector2f(wMargin + 200, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 300, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 400, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 500, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 600, hMargin + 200), 2)
+			},
+			"Assets/Sprites/Menu/2.gif"
+		),
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 100, hMargin + 300), 1),
+				UILevelData(Vector2f(wMargin + 200, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 300, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 400, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 500, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+			},
+			"Assets/Sprites/Menu/3.gif"
+		)
+	};
+
+	Texture cursorTecture = Texture();
+	if(!cursorTecture.loadFromFile("Assets/Sprites/Menu/Cursor.png"))
+		cout << "can't load Cursor image" << endl;
+	
+	Sprite cursor = Sprite();
+	cursor.setTexture(cursorTecture);
 
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
+		static int currentMap = 0;
+		static int currentLevel = 0;
+
 		RefreshEvents();
 
 		Event event;
@@ -225,27 +308,54 @@ NavigationChoice Motor::LevelSelector()
 		{
 			mouseX = event.mouseMove.x;
 			mouseY = event.mouseMove.y;
+
+			//cout << "Mouse position : " << mouseX << ',' << mouseY << endl;
 		}
 
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Z)
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Right)
 		{
-			cursor.move(0, -cursor.getSize().y);
+			if (currentLevel < UIMaps[currentMap].UIlevels.size() - 1)
+				currentLevel++;
+			else if (UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			{
+				currentMap = UIMaps[currentMap].UIlevels[currentLevel].Map;
+				currentLevel = 0;
+				
+				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
+					cout << "can't load next map : background path incorrect" << endl;
+			}
 		}
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Q)
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Left)
 		{
-			cursor.move(-cursor.getSize().x, 0);
+			if (currentLevel > 0)
+				currentLevel--;
+			else if(UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			{
+				currentMap = UIMaps[currentMap].UIlevels[currentLevel].Map;
+				currentLevel = UIMaps[currentMap].UIlevels.size() - 1;
+
+				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
+					cout << "can't load next map : background path incorrect" << endl;
+			}
 		}
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::S)
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter)
 		{
-			cursor.move(0, cursor.getSize().y);
+			if (!UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			{
+				cout << "Loading Level " + UIMaps[currentLevel].UIlevels[currentLevel].LevelPath << " and tileMap " << UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath << endl;
+				LoadGame(UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath, UIMaps[currentLevel].UIlevels[currentLevel].LevelPath);
+				
+				return NavigationChoice::Play;
+			}
 		}
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::D)
-		{
-			cursor.move(cursor.getSize().x, 0);
-		}
+
+		cursor.setPosition(UIMaps[currentMap].UIlevels[currentLevel].position);
 
 		window->clear(Color::Black);
 
+		window->draw(background);
 		window->draw(cursor);
 
 		window->display();
@@ -314,14 +424,14 @@ NavigationChoice Motor::Credits()
 	return NavigationChoice::Quit;
 }
 
-void Motor::LoadGame(string pathMap, string pathLevel)
+void Motor::LoadGame(string pathTileMap, string pathLevel)
 {
 	events.clear();
 	delete level;
 	level = new Level();
 
 	LoadLevel(pathLevel);
-	LoadMap(pathMap);
+	LoadMap(pathTileMap);
 }
 
 /*
@@ -362,8 +472,6 @@ void Motor::LoadLevel(string path)
 		{
 			for (auto x = 0; x < csvLevel[y].size(); x++)
 			{
-				cout << csvLevel[y][x];
-
 				// utiliser un if car les case ne sont pas des bloc
 
 				if (csvLevel[y][x] == 1)
@@ -374,7 +482,6 @@ void Motor::LoadLevel(string path)
 					level->GameElements.push_back(brain);
 				}
 			}
-			cout << endl;
 		}
 
 		cout << "Successful Loaded Level " << path << endl;
@@ -418,8 +525,6 @@ void Motor::LoadMap(string path)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				cout << csvLevel[y][x];
-
 				// utiliser un if car les case ne sont pas des bloc
 				if (csvLevel[y][x] == 2)
 				{

@@ -1,3 +1,58 @@
-﻿  Main.cpp
+﻿  AnimatedSprite.cpp
+  GameElement.cpp
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:             T=int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:         and
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,71): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:             T=int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:         and
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(161,63): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(163,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  LogicSequenceManager.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\GameElement.cpp(163,27): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  Main.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+  MapElement.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+  Motor.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(317,21): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(471,22): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(473,23): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(480,37): warning C4244: '=' : conversion de 'int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(480,37): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(480,37): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(480,37): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(480,37): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(481,37): warning C4244: '=' : conversion de 'int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(481,37): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(481,37): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(481,37): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(481,37): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(532,57): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(532,41): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(636,56): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  Ressources.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(636,37): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+  Génération de code en cours...
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.cpp(28,106): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.cpp(28,106): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.cpp(28,106): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.cpp(28,106): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.cpp(28,106): warning C4244:         ]
   B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe
