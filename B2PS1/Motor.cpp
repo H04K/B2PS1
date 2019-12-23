@@ -106,11 +106,11 @@ NavigationChoice Motor::MainMenu()
 		return NavigationChoice::Quit;
 	}
 
-	int mouseX = -1;
-	int mouseY = -1;
-
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
 		RefreshEvents();
 		
 		Event event;
@@ -200,7 +200,7 @@ NavigationChoice Motor::MainMenu()
 	return NavigationChoice::Quit;
 }
 
-NavigationChoice Motor::LevelSelector()
+NavigationChoice Motor::LevelSelect()
 {
 	struct UILevelData
 	{
@@ -238,8 +238,6 @@ NavigationChoice Motor::LevelSelector()
 	float wMargin = background.getPosition().x;
 	float hMargin = background.getPosition().y;
 
-	//cout << "Background margin " << wMargin << ',' << hMargin << endl;
-
 	vector<UIMapData> UIMaps =
 	{
 		UIMapData
@@ -247,8 +245,8 @@ NavigationChoice Motor::LevelSelector()
 			vector<UILevelData>() =
 			{
 				UILevelData(Vector2f(wMargin + 370, hMargin + 542), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 490, hMargin + 308), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 630, hMargin + 367), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 490, hMargin + 305), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 630, hMargin + 365), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
 				UILevelData(Vector2f(wMargin + 1046, hMargin + 397), 1)
 			},
 			"Assets/Sprites/Menu/1.png"
@@ -309,7 +307,8 @@ NavigationChoice Motor::LevelSelector()
 			mouseX = event.mouseMove.x;
 			mouseY = event.mouseMove.y;
 
-			//cout << "Mouse position : " << mouseX << ',' << mouseY << endl;
+			// ligne de maping pour savoir ou placer le curseur
+			cout << "Mouse position : " << mouseX - wMargin << ',' << mouseY - hMargin<< endl;
 		}
 
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Right)
@@ -573,7 +572,10 @@ NavigationChoice Motor::Play() {
 		/*Ouvir le menu pause*/
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
 		{
-			PauseMenu();
+			NavigationChoice navChoice = PauseMenu();
+			if (navChoice != NavigationChoice::Play)
+				return navChoice;
+
 		}
 
 		/*PROTOTYPING pour ajouter manuelement des evenements logiques*/
@@ -606,42 +608,112 @@ NavigationChoice Motor::Play() {
 	}
 
 	return NavigationChoice::LevelSelect;
-
-	delete level;
-	level = nullptr;
 }
 
-void Motor::PauseMenu()
+NavigationChoice Motor::PauseMenu()
 {
 	Texture backgroundText = Texture();
 	backgroundText.create(window->getSize().x, window->getSize().y);
 	backgroundText.update(*window);
 
 	Sprite background = Sprite();
+	background.setPosition(0, 0);
 	background.setTexture(backgroundText);
+	background.setColor(Color(128, 128, 128, 100));
 	
-	RectangleShape shape = RectangleShape(Vector2f(50, 50));
-	shape.setFillColor(Color::Red);
+	// Main Menu
+
+	Text mainMenuText = Text("Main Menu", Ressources::Font_Ouders);
+	mainMenuText.setCharacterSize(100);
+
+	Vector2f mainMenuTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(mainMenuText).x / 2,
+		(window->getSize().y / 40) * 16 - Ressources::realTextSize(mainMenuText).y / 2);
+
+	mainMenuText.setPosition(mainMenuTextPostion);
+	mainMenuText.setFillColor(Color::White);
+
+	// Options
+
+	Text levelSectionText = Text("Level Selection", Ressources::Font_Ouders);
+	levelSectionText.setCharacterSize(100);
+
+	Vector2f levelSectionTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(levelSectionText).x / 2,
+		(window->getSize().y / 40) * 23 - Ressources::realTextSize(levelSectionText).y / 2);
+
+	levelSectionText.setPosition(levelSectionTextPostion);
+	levelSectionText.setFillColor(Color::White);
+
+	// Quit
+
+	Text quitText = Text("QUIT", Ressources::Font_Ouders);
+	quitText.setCharacterSize(100);
+
+	Vector2f quitTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(quitText).x / 2,
+		(window->getSize().y / 40) * 29 - Ressources::realTextSize(quitText).y / 2);
+
+	quitText.setPosition(quitTextPostion);
+	quitText.setFillColor(Color::White);
 
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
 		RefreshEvents();
 
 		Event event;
 		if (GetEvent(event, Event::Closed))
 			window->close();
-		
+	
 		if (GetEvent(event, Event::MouseMoved))
 		{
-			shape.setPosition(event.mouseMove.x, event.mouseMove.y);
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
 		}
 
 		if (GetEvent(event, Event::KeyPressed), event.key.code == Keyboard::Escape)
-			return;
+			return NavigationChoice::Play;
+
+		if (mouseX >= mainMenuText.getPosition().x && mouseX <= mainMenuText.getPosition().x + Ressources::realTextSize(mainMenuText).x &&
+			mouseY >= mainMenuText.getPosition().y && mouseY <= mainMenuText.getPosition().y + Ressources::realTextSize(mainMenuText).y)
+		{
+			mainMenuText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::MainMenu;
+		}
+		else
+			mainMenuText.setFillColor(Color(255, 255, 255, 255));
+
+
+		if (mouseX >= levelSectionText.getPosition().x && mouseX <= levelSectionText.getPosition().x + Ressources::realTextSize(levelSectionText).x &&
+			mouseY >= levelSectionText.getPosition().y && mouseY <= levelSectionText.getPosition().y + Ressources::realTextSize(levelSectionText).y)
+		{
+			levelSectionText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::LevelSelect;
+		}
+		else
+			levelSectionText.setFillColor(Color(255, 255, 255, 255));
+
+		if (mouseX >= quitText.getPosition().x && mouseX <= quitText.getPosition().x + Ressources::realTextSize(quitText).x &&
+			mouseY >= quitText.getPosition().y && mouseY <= quitText.getPosition().y + Ressources::realTextSize(quitText).y)
+		{
+			quitText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::Quit;
+		}
+		else
+			quitText.setFillColor(Color(255, 255, 255, 255));
 
 		window->draw(background);
 
-		window->draw(shape);
+		window->draw(mainMenuText);
+		window->draw(levelSectionText);
+		window->draw(quitText);
+
 		window->display();
 	}
 }

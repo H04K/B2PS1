@@ -27,12 +27,12 @@ public:
 	Motor(RenderWindow& window) : window(&window){}
 	
 	NavigationChoice MainMenu();
-	NavigationChoice LevelSelector();
+	NavigationChoice LevelSelect();
 	NavigationChoice Options();
 	NavigationChoice Credits();
 
 	NavigationChoice Play();
-	void PauseMenu();
+	NavigationChoice PauseMenu();
 
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;
