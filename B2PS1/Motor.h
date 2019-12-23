@@ -1,7 +1,7 @@
 #pragma once
 #include "GameElement.h"
 
-enum class NavigationChoice { MainMenu, LevelSelect, Options, Credits, Quit };
+enum class NavigationChoice { MainMenu, LevelSelect, Options, Credits, Play, Quit };
 
 class Level {
 public:
@@ -18,20 +18,21 @@ private:
 
 	// Contient tout les evenements actuels
 	list<Event> events = list<Event>();
+
+	void LoadGame(string pathTileMap, string pathLevel);
+	void LoadLevel(string path);
+	void LoadMap(string path);
 public:
 
 	Motor(RenderWindow& window) : window(&window){}
 	
 	NavigationChoice MainMenu();
-	NavigationChoice LevelSelector();
+	NavigationChoice LevelSelect();
 	NavigationChoice Options();
 	NavigationChoice Credits();
 
-	void LoadGame(string pathMap, string pathLevel);
-	void LoadLevel(string path);
 	NavigationChoice Play();
-	void LoadMap(string path);
-	void PauseMenu();
+	NavigationChoice PauseMenu();
 
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;

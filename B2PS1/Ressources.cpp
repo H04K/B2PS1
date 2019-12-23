@@ -1,6 +1,6 @@
 #include "Motor.h"
 
-Ressources::windowSize Ressources::WindowSize = Ressources::windowSize(1600, 900);
+Ressources::windowSize Ressources::WindowSize = Ressources::windowSize(1850, 1000);
 // w -> 1300 mini
 
 

@@ -106,11 +106,11 @@ NavigationChoice Motor::MainMenu()
 		return NavigationChoice::Quit;
 	}
 
-	int mouseX = -1;
-	int mouseY = -1;
-
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
 		RefreshEvents();
 		
 		Event event;
@@ -200,18 +200,99 @@ NavigationChoice Motor::MainMenu()
 	return NavigationChoice::Quit;
 }
 
-NavigationChoice Motor::LevelSelector()
+NavigationChoice Motor::LevelSelect()
 {
-	RectangleShape cursor = RectangleShape(Vector2f(50, 50));
-	cursor.setFillColor(Color::Red);
+	struct UILevelData
+	{
+		Vector2f position;
+		bool isMapChanger = false;
+		int Map = -1;
+		string TileMapPath;
+		string LevelPath;
+		
+		UILevelData(Vector2f position, const char* TileMapPath, const char* LevelPath) : position(position), TileMapPath(string(TileMapPath)), LevelPath(string(LevelPath)){}
+		UILevelData(Vector2f position, int Map) : position(position), isMapChanger(true), Map(Map){}
+	};
 
+	struct UIMapData
+	{
+		string backgroundPath;
+		vector<UILevelData> UIlevels;
 
+		UIMapData(vector<UILevelData> UIlevels, const char* backgroundPath) : UIlevels(UIlevels), backgroundPath(string(backgroundPath)) {}
+	};
 
-	int mouseX = -1;
-	int mouseY = -1;
+	Texture backgroundTexture = Texture();
+	backgroundTexture.loadFromFile("Assets/Sprites/Menu/1.png");
+	backgroundTexture.setSmooth(true);
+
+	Sprite background = Sprite();
+	background.setTexture(backgroundTexture);
+	background.setScale(1.5, 1.5);
+
+	background.setPosition(
+		Vector2f(window->getSize().x / 2 - (background.getLocalBounds().width / 2) * background.getScale().x,
+			window->getSize().y / 2 - (background.getLocalBounds().height / 2) * background.getScale().y)
+	);
+
+	float wMargin = background.getPosition().x;
+	float hMargin = background.getPosition().y;
+
+	vector<UIMapData> UIMaps =
+	{
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 370, hMargin + 542), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 490, hMargin + 305), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 630, hMargin + 365), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 1046, hMargin + 397), 1)
+			},
+			"Assets/Sprites/Menu/1.png"
+		),
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 100, hMargin + 200), 0),
+				UILevelData(Vector2f(wMargin + 200, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 300, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 400, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 500, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 600, hMargin + 200), 2)
+			},
+			"Assets/Sprites/Menu/2.gif"
+		),
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 100, hMargin + 300), 1),
+				UILevelData(Vector2f(wMargin + 200, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 300, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 400, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 500, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+			},
+			"Assets/Sprites/Menu/3.gif"
+		)
+	};
+
+	Texture cursorTecture = Texture();
+	if(!cursorTecture.loadFromFile("Assets/Sprites/Menu/Cursor.png"))
+		cout << "can't load Cursor image" << endl;
+	
+	Sprite cursor = Sprite();
+	cursor.setTexture(cursorTecture);
 
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
+		static int currentMap = 0;
+		static int currentLevel = 0;
+
 		RefreshEvents();
 
 		Event event;
@@ -225,27 +306,55 @@ NavigationChoice Motor::LevelSelector()
 		{
 			mouseX = event.mouseMove.x;
 			mouseY = event.mouseMove.y;
+
+			// ligne de maping pour savoir ou placer le curseur
+			cout << "Mouse position : " << mouseX - wMargin << ',' << mouseY - hMargin<< endl;
 		}
 
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Z)
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Right)
 		{
-			cursor.move(0, -cursor.getSize().y);
+			if (currentLevel < UIMaps[currentMap].UIlevels.size() - 1)
+				currentLevel++;
+			else if (UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			{
+				currentMap = UIMaps[currentMap].UIlevels[currentLevel].Map;
+				currentLevel = 0;
+				
+				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
+					cout << "can't load next map : background path incorrect" << endl;
+			}
 		}
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Q)
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Left)
 		{
-			cursor.move(-cursor.getSize().x, 0);
+			if (currentLevel > 0)
+				currentLevel--;
+			else if(UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			{
+				currentMap = UIMaps[currentMap].UIlevels[currentLevel].Map;
+				currentLevel = UIMaps[currentMap].UIlevels.size() - 1;
+
+				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
+					cout << "can't load next map : background path incorrect" << endl;
+			}
 		}
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::S)
+
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter)
 		{
-			cursor.move(0, cursor.getSize().y);
+			if (!UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			{
+				cout << "Loading Level " + UIMaps[currentLevel].UIlevels[currentLevel].LevelPath << " and tileMap " << UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath << endl;
+				LoadGame(UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath, UIMaps[currentLevel].UIlevels[currentLevel].LevelPath);
+				
+				return NavigationChoice::Play;
+			}
 		}
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::D)
-		{
-			cursor.move(cursor.getSize().x, 0);
-		}
+
+		cursor.setPosition(UIMaps[currentMap].UIlevels[currentLevel].position);
 
 		window->clear(Color::Black);
 
+		window->draw(background);
 		window->draw(cursor);
 
 		window->display();
@@ -314,14 +423,14 @@ NavigationChoice Motor::Credits()
 	return NavigationChoice::Quit;
 }
 
-void Motor::LoadGame(string pathMap, string pathLevel)
+void Motor::LoadGame(string pathTileMap, string pathLevel)
 {
 	events.clear();
 	delete level;
 	level = new Level();
 
 	LoadLevel(pathLevel);
-	LoadMap(pathMap);
+	LoadMap(pathTileMap);
 }
 
 /*
@@ -362,8 +471,6 @@ void Motor::LoadLevel(string path)
 		{
 			for (auto x = 0; x < csvLevel[y].size(); x++)
 			{
-				cout << csvLevel[y][x];
-
 				// utiliser un if car les case ne sont pas des bloc
 
 				if (csvLevel[y][x] == 1)
@@ -374,7 +481,6 @@ void Motor::LoadLevel(string path)
 					level->GameElements.push_back(brain);
 				}
 			}
-			cout << endl;
 		}
 
 		cout << "Successful Loaded Level " << path << endl;
@@ -418,8 +524,6 @@ void Motor::LoadMap(string path)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				cout << csvLevel[y][x];
-
 				// utiliser un if car les case ne sont pas des bloc
 				if (csvLevel[y][x] == 2)
 				{
@@ -468,7 +572,10 @@ NavigationChoice Motor::Play() {
 		/*Ouvir le menu pause*/
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
 		{
-			PauseMenu();
+			NavigationChoice navChoice = PauseMenu();
+			if (navChoice != NavigationChoice::Play)
+				return navChoice;
+
 		}
 
 		/*PROTOTYPING pour ajouter manuelement des evenements logiques*/
@@ -501,42 +608,112 @@ NavigationChoice Motor::Play() {
 	}
 
 	return NavigationChoice::LevelSelect;
-
-	delete level;
-	level = nullptr;
 }
 
-void Motor::PauseMenu()
+NavigationChoice Motor::PauseMenu()
 {
 	Texture backgroundText = Texture();
 	backgroundText.create(window->getSize().x, window->getSize().y);
 	backgroundText.update(*window);
 
 	Sprite background = Sprite();
+	background.setPosition(0, 0);
 	background.setTexture(backgroundText);
+	background.setColor(Color(128, 128, 128, 100));
 	
-	RectangleShape shape = RectangleShape(Vector2f(50, 50));
-	shape.setFillColor(Color::Red);
+	// Main Menu
+
+	Text mainMenuText = Text("Main Menu", Ressources::Font_Ouders);
+	mainMenuText.setCharacterSize(100);
+
+	Vector2f mainMenuTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(mainMenuText).x / 2,
+		(window->getSize().y / 40) * 16 - Ressources::realTextSize(mainMenuText).y / 2);
+
+	mainMenuText.setPosition(mainMenuTextPostion);
+	mainMenuText.setFillColor(Color::White);
+
+	// Options
+
+	Text levelSectionText = Text("Level Selection", Ressources::Font_Ouders);
+	levelSectionText.setCharacterSize(100);
+
+	Vector2f levelSectionTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(levelSectionText).x / 2,
+		(window->getSize().y / 40) * 23 - Ressources::realTextSize(levelSectionText).y / 2);
+
+	levelSectionText.setPosition(levelSectionTextPostion);
+	levelSectionText.setFillColor(Color::White);
+
+	// Quit
+
+	Text quitText = Text("QUIT", Ressources::Font_Ouders);
+	quitText.setCharacterSize(100);
+
+	Vector2f quitTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(quitText).x / 2,
+		(window->getSize().y / 40) * 29 - Ressources::realTextSize(quitText).y / 2);
+
+	quitText.setPosition(quitTextPostion);
+	quitText.setFillColor(Color::White);
 
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
 		RefreshEvents();
 
 		Event event;
 		if (GetEvent(event, Event::Closed))
 			window->close();
-		
+	
 		if (GetEvent(event, Event::MouseMoved))
 		{
-			shape.setPosition(event.mouseMove.x, event.mouseMove.y);
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
 		}
 
 		if (GetEvent(event, Event::KeyPressed), event.key.code == Keyboard::Escape)
-			return;
+			return NavigationChoice::Play;
+
+		if (mouseX >= mainMenuText.getPosition().x && mouseX <= mainMenuText.getPosition().x + Ressources::realTextSize(mainMenuText).x &&
+			mouseY >= mainMenuText.getPosition().y && mouseY <= mainMenuText.getPosition().y + Ressources::realTextSize(mainMenuText).y)
+		{
+			mainMenuText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::MainMenu;
+		}
+		else
+			mainMenuText.setFillColor(Color(255, 255, 255, 255));
+
+
+		if (mouseX >= levelSectionText.getPosition().x && mouseX <= levelSectionText.getPosition().x + Ressources::realTextSize(levelSectionText).x &&
+			mouseY >= levelSectionText.getPosition().y && mouseY <= levelSectionText.getPosition().y + Ressources::realTextSize(levelSectionText).y)
+		{
+			levelSectionText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::LevelSelect;
+		}
+		else
+			levelSectionText.setFillColor(Color(255, 255, 255, 255));
+
+		if (mouseX >= quitText.getPosition().x && mouseX <= quitText.getPosition().x + Ressources::realTextSize(quitText).x &&
+			mouseY >= quitText.getPosition().y && mouseY <= quitText.getPosition().y + Ressources::realTextSize(quitText).y)
+		{
+			quitText.setFillColor(Color(255, 255, 255, 128));
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				return NavigationChoice::Quit;
+		}
+		else
+			quitText.setFillColor(Color(255, 255, 255, 255));
 
 		window->draw(background);
 
-		window->draw(shape);
+		window->draw(mainMenuText);
+		window->draw(levelSectionText);
+		window->draw(quitText);
+
 		window->display();
 	}
 }
