@@ -1,0 +1,80 @@
+[
+  {
+    "levels" :
+    [
+      {
+        "x": 370, "y": 542,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 490, "y": 305,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 630, "y": 365,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 1046, "y": 397,
+        "map" : 1
+      }
+    ],
+    "backgroundPath": "Assets/Sprites/Menu/1.png"
+  },
+  {
+    "levels" : 
+    [
+      {
+        "x": 0, "y": 397,
+        "map" : 0
+      },
+      {
+        "x": 370, "y": 542,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 490, "y": 305,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 630, "y": 365,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 630, "y": 365,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 1046, "y": 397,
+        "map" : 2
+      }
+    ],
+    "backgroundPath": "Assets/Sprites/Menu/2.gif"
+  },
+  {
+    "levels" : 
+    [
+      {
+        "x": 0, "y": 397,
+        "map" : 1
+      },
+      {
+        "x": 370, "y": 542,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 490, "y": 305,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 630, "y": 365,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      },
+      {
+        "x": 630, "y": 365,
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv"
+      }
+    ],
+    "backgroundPath": "Assets/Sprites/Menu/3.gif"
+  }
+]

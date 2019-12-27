@@ -3,7 +3,6 @@
 Ressources::windowSize Ressources::WindowSize = Ressources::windowSize(1850, 1000);
 // w -> 1300 mini
 
-
 Font Ressources::Font_Arial = Font();
 Font Ressources::Font_BlackGround = Font();
 Font Ressources::Font_LemonJuice = Font();

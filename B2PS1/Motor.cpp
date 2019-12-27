@@ -106,6 +106,10 @@ NavigationChoice Motor::MainMenu()
 		return NavigationChoice::Quit;
 	}
 
+	/*reset save manager*/
+	delete saveManager;
+	saveManager = nullptr;
+
 	while (window->isOpen())
 	{
 		static int mouseX = -1;
@@ -135,7 +139,7 @@ NavigationChoice Motor::MainMenu()
 			playText.setFillColor(Color(255,255,255,128));
 
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
-				return NavigationChoice::LevelSelect;
+				return NavigationChoice::SelectSaveSlot;
 		}
 		else
 			playText.setFillColor(Color(255, 255, 255, 255));
@@ -200,6 +204,137 @@ NavigationChoice Motor::MainMenu()
 	return NavigationChoice::Quit;
 }
 
+NavigationChoice Motor::SelectSaveSlot()
+{
+	struct Slot
+	{
+		int index = -1;
+		bool isEmpty;
+		RectangleShape body;
+		Text text;
+		Color color;
+		Color hoverColor;
+		
+		Slot(int index, bool isEmpty, float tx, float ty, float x, float y, Color color, Color hoverColor,string text, Color textColor) : index(index), isEmpty(isEmpty), color(color), hoverColor(hoverColor)
+		{
+			body = RectangleShape(Vector2f(tx, ty));
+			body.setPosition(x - body.getSize().x / 2, y - body.getSize().y / 2);
+			body.setFillColor(color);
+
+			body.setOutlineThickness(body.getSize().y / 30);
+			body.setOutlineColor(Color(78, 90, 148));
+
+			this->text = Text(text, Ressources::Font_Arial);
+			this->text.setFillColor(textColor);
+
+			this->text.setPosition
+			(
+				(body.getPosition().x + body.getSize().x / 2) - Ressources::realTextSize(this->text).x / 2,
+				(body.getPosition().y + body.getSize().y / 2) - Ressources::realTextSize(this->text).y / 2
+			);
+		}
+		void Draw(RenderWindow& window) { window.draw(body); window.draw(text); }
+	};
+
+	list<Slot> slots = list<Slot>();
+
+	int intervalScale = window->getSize().y / 24;
+	int intervalStart = 7;
+	int interval = 4;
+
+	for (int i = 0; i < 3; i++)
+	{
+		ifstream slotFile("Assets/Saves/Slot" + to_string(i) + ".json", ifstream::binary);
+		Json::Value slotValue;
+		slotFile >> slotValue;
+
+		if (!slotValue["isEmpty"])
+		{
+			slots.push_back(
+				Slot
+				(
+					i, false, (window->getSize().x / 3) * 2, 150, window->getSize().x / 2, intervalScale* (intervalStart + interval * i),
+					Color(78, 90, 148), Color(100, 130, 190),
+					"Slot " + to_string(i) + " - " + slotValue["name"].asString(), Color::White
+				)
+			);
+		}
+		else
+		{
+			slots.push_back(
+				Slot
+				(
+					i, true, (window->getSize().x / 3) * 2, 150, window->getSize().x / 2, intervalScale * (intervalStart + interval * i),
+					Color(35, 41, 67), Color(60, 75, 110),
+					"Slot " + to_string(i) + " - Empty", Color::White
+				)
+			);
+		}
+	}
+
+	saveManager = new SaveManager(*this);
+
+	while (window->isOpen())
+	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
+		RefreshEvents();
+
+		Event event;
+		if (GetEvent(event, Event::Closed))
+			window->close();
+
+		if (GetEvent(event, Event::MouseMoved))
+		{
+			mouseX = event.mouseMove.x;
+			mouseY = event.mouseMove.y;
+		}
+
+		if (GetEvent(event, Event::KeyPressed), event.key.code == Keyboard::Escape)
+			return NavigationChoice::MainMenu;
+		
+		for (Slot& slot : slots)
+		{
+			if (mouseX >= slot.body.getPosition().x && mouseX <= slot.body.getPosition().x + slot.body.getSize().x &&
+				mouseY >= slot.body.getPosition().y && mouseY <= slot.body.getPosition().y + slot.body.getSize().y)
+			{
+				slot.body.setFillColor(slot.hoverColor);
+
+				Event event;
+				if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				{
+					if (!slot.isEmpty)
+					{
+						saveManager->SaveSlot = slot.index;
+						saveManager->LoadGame();
+						return NavigationChoice::LevelSelect;
+					}
+					else
+					{
+						saveManager->SaveSlot = slot.index;
+						saveManager->BuildNewSave();
+						return NavigationChoice::LevelSelect;
+					}
+				}
+			}
+			else
+			{
+				slot.body.setFillColor(slot.color);
+			}
+		}
+
+		window->clear();
+
+		for (Slot& slot : slots)
+			slot.Draw(*window);
+
+		window->display();
+	}
+
+	return NavigationChoice::Quit;
+}
+
 NavigationChoice Motor::LevelSelect()
 {
 	struct UILevelData
@@ -208,9 +343,9 @@ NavigationChoice Motor::LevelSelect()
 		bool isMapChanger = false;
 		int Map = -1;
 		string TileMapPath;
-		string LevelPath;
+		string ElementsMapPath;
 		
-		UILevelData(Vector2f position, const char* TileMapPath, const char* LevelPath) : position(position), TileMapPath(string(TileMapPath)), LevelPath(string(LevelPath)){}
+		UILevelData(Vector2f position, string TileMapPath, string ElementsMapPath) : position(position), TileMapPath(TileMapPath), ElementsMapPath(ElementsMapPath){}
 		UILevelData(Vector2f position, int Map) : position(position), isMapChanger(true), Map(Map){}
 	};
 
@@ -219,7 +354,7 @@ NavigationChoice Motor::LevelSelect()
 		string backgroundPath;
 		vector<UILevelData> UIlevels;
 
-		UIMapData(vector<UILevelData> UIlevels, const char* backgroundPath) : UIlevels(UIlevels), backgroundPath(string(backgroundPath)) {}
+		UIMapData(vector<UILevelData> UIlevels, string backgroundPath) : UIlevels(UIlevels), backgroundPath(backgroundPath) {}
 	};
 
 	Texture backgroundTexture = Texture();
@@ -238,52 +373,38 @@ NavigationChoice Motor::LevelSelect()
 	float wMargin = background.getPosition().x;
 	float hMargin = background.getPosition().y;
 
-	vector<UIMapData> UIMaps =
-	{
-		UIMapData
-		(
-			vector<UILevelData>() =
-			{
-				UILevelData(Vector2f(wMargin + 370, hMargin + 542), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 490, hMargin + 305), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 630, hMargin + 365), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 1046, hMargin + 397), 1)
-			},
-			"Assets/Sprites/Menu/1.png"
-		),
-		UIMapData
-		(
-			vector<UILevelData>() =
-			{
-				UILevelData(Vector2f(wMargin + 100, hMargin + 200), 0),
-				UILevelData(Vector2f(wMargin + 200, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 300, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 400, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 500, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 600, hMargin + 200), 2)
-			},
-			"Assets/Sprites/Menu/2.gif"
-		),
-		UIMapData
-		(
-			vector<UILevelData>() =
-			{
-				UILevelData(Vector2f(wMargin + 100, hMargin + 300), 1),
-				UILevelData(Vector2f(wMargin + 200, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 300, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 400, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-				UILevelData(Vector2f(wMargin + 500, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
-			},
-			"Assets/Sprites/Menu/3.gif"
-		)
-	};
+	ifstream* mapsConfigFile = new ifstream("Assets/Levels/mapsConfig.json", ifstream::binary);
+	Json::Value* maps = new Json::Value();
+	*mapsConfigFile >> *maps;
 
-	Texture cursorTecture = Texture();
-	if(!cursorTecture.loadFromFile("Assets/Sprites/Menu/Cursor.png"))
+	vector<UIMapData> UIMaps = vector<UIMapData>();
+
+	for (Json::Value& map : *maps)
+	{
+		vector<UILevelData> uiLevelsDatas = vector<UILevelData>();
+
+		for (Json::Value& level : map["levels"])
+		{
+			Vector2f position = Vector2f(level["x"].asInt() + wMargin, level["y"].asInt() + hMargin);
+
+			if (!level["map"])
+				uiLevelsDatas.push_back(UILevelData(position, level["tileMapPath"].asString(), level["elementsMapPath"].asString()));
+			else
+				uiLevelsDatas.push_back(UILevelData(position, level["map"].asInt()));
+		}
+
+		UIMaps.push_back( UIMapData(uiLevelsDatas, map["backgroundPath"].asString()) );
+	}
+
+	delete maps;
+	delete mapsConfigFile;
+
+	Texture cursorTexture = Texture();
+	if(!cursorTexture.loadFromFile("Assets/Sprites/Menu/Cursor.png"))
 		cout << "can't load Cursor image" << endl;
 	
 	Sprite cursor = Sprite();
-	cursor.setTexture(cursorTecture);
+	cursor.setTexture(cursorTexture);
 
 	while (window->isOpen())
 	{
@@ -300,7 +421,7 @@ NavigationChoice Motor::LevelSelect()
 			window->close();
 
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
-			return NavigationChoice::MainMenu;
+			return NavigationChoice::SelectSaveSlot;	// temporaire remplacer par MainMenu
 
 		if (GetEvent(event, Event::MouseMoved))
 		{
@@ -329,6 +450,7 @@ NavigationChoice Motor::LevelSelect()
 		{
 			if (currentLevel > 0)
 				currentLevel--;
+
 			else if(UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
 			{
 				currentMap = UIMaps[currentMap].UIlevels[currentLevel].Map;
@@ -339,12 +461,12 @@ NavigationChoice Motor::LevelSelect()
 			}
 		}
 
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter)
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter ||
+			GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
 		{
 			if (!UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
 			{
-				cout << "Loading Level " + UIMaps[currentLevel].UIlevels[currentLevel].LevelPath << " and tileMap " << UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath << endl;
-				LoadGame(UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath, UIMaps[currentLevel].UIlevels[currentLevel].LevelPath);
+				LoadLevel(UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath, UIMaps[currentLevel].UIlevels[currentLevel].ElementsMapPath);
 				
 				return NavigationChoice::Play;
 			}
@@ -423,126 +545,6 @@ NavigationChoice Motor::Credits()
 	return NavigationChoice::Quit;
 }
 
-void Motor::LoadGame(string pathTileMap, string pathLevel)
-{
-	events.clear();
-	delete level;
-	level = new Level();
-
-	LoadLevel(pathLevel);
-	LoadMap(pathTileMap);
-}
-
-/*
-Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
-- LogicSequenceManager : rajouter le nom du gameElement dans l'enum
-- rajouter le template de code suivant a la suite du if :
-if (csvLevel[y][x] == ##ID de l'element dans la map)
-{
-	## creation / ajout de parametres a l'element bref le code sp�cifique a element
-	## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
-
-	level->GameElements.push_back( ##Element );
-}
-*/
-void Motor::LoadLevel(string path)
-{
-	try
-	{
-		ifstream fileStream = ifstream(path);
-		vector<vector<int>> csvLevel = vector<vector<int>>();
-
-		string line;
-		while (getline(fileStream, line))
-		{
-			vector<int> levelRow = vector<int>();
-			stringstream lineStream = stringstream(line);
-
-			string cell;
-			while (getline(lineStream, cell, ','))
-				levelRow.push_back(stoi(cell));
-			csvLevel.push_back(levelRow);
-		}
-
-		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
-		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
-
-		for (auto y = 0; y < csvLevel.size(); y++)
-		{
-			for (auto x = 0; x < csvLevel[y].size(); x++)
-			{
-				// utiliser un if car les case ne sont pas des bloc
-
-				if (csvLevel[y][x] == 1)
-				{
-					Brain* brain = new Brain();
-					brain->position.x = xTilesSize * x;
-					brain->position.y = yTilesSize * y;
-					level->GameElements.push_back(brain);
-				}
-			}
-		}
-
-		cout << "Successful Loaded Level " << path << endl;
-	}
-	catch (exception & ex)
-	{
-		cout << "Failed Load Level : Level " << path << " not found " << ex.what() << endl;
-	}
-}
-
-/*
-Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
-- rajouter le template de code suivant a la suite du if :
-if (csvLevel[y][x] == ##ID de l'element dans la map)
-{
-}
-*/
-void Motor::LoadMap(string path)
-{
-	try
-	{
-		ifstream fileStream = ifstream(path);
-		vector<vector<int>> csvLevel = vector<vector<int>>();
-
-		string line;
-		while (getline(fileStream, line))
-		{
-			vector<int> levelRow = vector<int>();
-			stringstream lineStream = stringstream(line);
-
-			string cell;
-			while (getline(lineStream, cell, ','))
-				levelRow.push_back(stoi(cell));
-			csvLevel.push_back(levelRow);
-		}
-
-		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
-		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
-
-		for (unsigned y = 0; y < csvLevel.size(); y++)
-		{
-			for (unsigned x = 0; x < csvLevel[y].size(); x++)
-			{
-				// utiliser un if car les case ne sont pas des bloc
-				if (csvLevel[y][x] == 2)
-				{
-					Floor* Sol = new Floor();
-					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
-
-					level->MapElements.push_back(Sol);
-				}
-			}
-		}
-
-		cout << "Successful Loaded Level " << path << endl;
-	}
-	catch (exception & ex)
-	{
-		cout << "Failed Loading Level : Level " << path << " not found " << ex.what() << endl;
-	}
-}
-
 NavigationChoice Motor::Play() {
 
 	if (level == nullptr) { cout << "Failed Play : Level is null" << endl; return NavigationChoice::Quit; }
@@ -561,7 +563,7 @@ NavigationChoice Motor::Play() {
 		mapElement->Start();
 	}
 
-	while (window->isOpen() && !level->isFinished)
+	while (window->isOpen() && !level->isWin)
 	{
 		RefreshEvents();
 
@@ -620,7 +622,7 @@ NavigationChoice Motor::PauseMenu()
 	background.setPosition(0, 0);
 	background.setTexture(backgroundText);
 	background.setColor(Color(128, 128, 128, 100));
-	
+
 	// Main Menu
 
 	Text mainMenuText = Text("Main Menu", Ressources::Font_Ouders);
@@ -645,7 +647,7 @@ NavigationChoice Motor::PauseMenu()
 
 	// Quit
 
-	Text quitText = Text("QUIT", Ressources::Font_Ouders);
+	Text quitText = Text("Save & Quit", Ressources::Font_Ouders);
 	quitText.setCharacterSize(100);
 
 	Vector2f quitTextPostion = Vector2f(window->getSize().x / 2 - Ressources::realTextSize(quitText).x / 2,
@@ -664,7 +666,7 @@ NavigationChoice Motor::PauseMenu()
 		Event event;
 		if (GetEvent(event, Event::Closed))
 			window->close();
-	
+
 		if (GetEvent(event, Event::MouseMoved))
 		{
 			mouseX = event.mouseMove.x;
@@ -703,7 +705,10 @@ NavigationChoice Motor::PauseMenu()
 			quitText.setFillColor(Color(255, 255, 255, 128));
 
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+			{
+				//SaveGame();
 				return NavigationChoice::Quit;
+			}
 		}
 		else
 			quitText.setFillColor(Color(255, 255, 255, 255));
@@ -715,6 +720,126 @@ NavigationChoice Motor::PauseMenu()
 		window->draw(quitText);
 
 		window->display();
+	}
+}
+
+void Motor::LoadLevel(string pathTileMap, string pathElements)
+{
+	events.clear();
+	delete level;
+	level = new Level();
+
+	LoadElements(pathElements);
+	LoadTileMap(pathTileMap);
+}
+
+/*
+Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- LogicSequenceManager : rajouter le nom du gameElement dans l'enum
+- rajouter le template de code suivant a la suite du if :
+if (csvLevel[y][x] == ##ID de l'element dans la map)
+{
+	## creation / ajout de parametres a l'element bref le code sp�cifique a element
+	## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
+
+	level->GameElements.push_back( ##Element );
+}
+*/
+void Motor::LoadElements(string path)
+{
+	try
+	{
+		ifstream fileStream = ifstream(path);
+		vector<vector<int>> csvLevel = vector<vector<int>>();
+
+		string line;
+		while (getline(fileStream, line))
+		{
+			vector<int> levelRow = vector<int>();
+			stringstream lineStream = stringstream(line);
+
+			string cell;
+			while (getline(lineStream, cell, ','))
+				levelRow.push_back(stoi(cell));
+			csvLevel.push_back(levelRow);
+		}
+
+		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
+
+		for (auto y = 0; y < csvLevel.size(); y++)
+		{
+			for (auto x = 0; x < csvLevel[y].size(); x++)
+			{
+				// utiliser un if car les case ne sont pas des bloc
+
+				if (csvLevel[y][x] == 1)
+				{
+					Brain* brain = new Brain();
+					brain->position.x = xTilesSize * x;
+					brain->position.y = yTilesSize * y;
+					level->GameElements.push_back(brain);
+				}
+			}
+		}
+
+		cout << "Successful Loaded Elements " << path << endl;
+	}
+	catch (exception & ex)
+	{
+		cout << "Failed Load Elements : Elements " << path << " not found " << ex.what() << endl;
+	}
+}
+
+/*
+Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+- rajouter le template de code suivant a la suite du if :
+if (csvLevel[y][x] == ##ID de l'element dans la map)
+{
+}
+*/
+void Motor::LoadTileMap(string path)
+{
+	try
+	{
+		ifstream fileStream = ifstream(path);
+		vector<vector<int>> csvLevel = vector<vector<int>>();
+
+		string line;
+		while (getline(fileStream, line))
+		{
+			vector<int> levelRow = vector<int>();
+			stringstream lineStream = stringstream(line);
+
+			string cell;
+			while (getline(lineStream, cell, ','))
+				levelRow.push_back(stoi(cell));
+			csvLevel.push_back(levelRow);
+		}
+
+		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
+
+		for (unsigned y = 0; y < csvLevel.size(); y++)
+		{
+			for (unsigned x = 0; x < csvLevel[y].size(); x++)
+			{
+				// utiliser un if car les case ne sont pas des bloc
+				if (csvLevel[y][x] == 2)
+				{
+					Floor* Sol = new Floor();
+					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+
+					level->MapElements.push_back(Sol);
+				}
+			}
+		}
+
+		cout << "Successful Loaded TileMap " << path << endl;
+	}
+	catch (exception & ex)
+	{
+		cout << "Failed Loading TileMap : TileMap " << path << " not found " << ex.what() << endl;
 	}
 }
 

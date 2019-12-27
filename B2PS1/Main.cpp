@@ -7,7 +7,7 @@ int main()
 	RenderWindow window(VideoMode(Ressources::WindowSize.width, Ressources::WindowSize.height), "Brain Adventure", Style::Close | Style::Titlebar);
 	Motor GameMotor = Motor(window);
 
-	while (true)
+	while (window.isOpen())
 	{
 		static NavigationChoice NavChoice = NavigationChoice::MainMenu;
 
@@ -15,6 +15,9 @@ int main()
 		{
 		case NavigationChoice::MainMenu :
 			NavChoice = GameMotor.MainMenu();
+			break;
+		case NavigationChoice::SelectSaveSlot:
+			NavChoice = GameMotor.SelectSaveSlot();
 			break;
 		case NavigationChoice::LevelSelect :
 			NavChoice = GameMotor.LevelSelect();

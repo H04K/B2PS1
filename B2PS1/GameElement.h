@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LogicSequenceManager.h"
+#include "SaveManager.h"
 #include "Ressources.h"
 #include "MapElement.h"
 
