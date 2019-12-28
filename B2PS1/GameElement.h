@@ -52,28 +52,3 @@ public:
 	void Update();
 	void Draw();
 };
-
-
-class Lim : public GameElement
-{
-public:
-	Vector2i mpos = Mouse::getPosition();
-	RectangleShape Limite = RectangleShape(Vector2f(1024.f, 10.f));
-	Vector2f Lpos = Vector2f(0.f, 700.f);
-
-	void Start();
-	void Update();
-	void Draw();
-};
-
-class Instructions : public GameElement
-{
-public:
-	
-	RectangleShape Inst = RectangleShape(Vector2f(70.f, 70.f));
-	Vector2f InstPos = Vector2f(500.f, 500.f);
-	
-	void Start();
-	void Update();
-	void Draw();
- };

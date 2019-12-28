@@ -23,12 +23,12 @@ private:
 	void LoadElements(string path);
 	void LoadTileMap(string path);
 
-	SaveManager* saveManager = new SaveManager(*this);
+	SaveManager* saveManager = nullptr;
 
 public:
 
 	Motor(RenderWindow& window) : window(&window){}
-	~Motor() { delete level; }
+	~Motor() { delete level; delete saveManager; }
 	
 	NavigationChoice MainMenu();
 	NavigationChoice SelectSaveSlot();
