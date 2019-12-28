@@ -28,6 +28,6 @@ static struct Ressources
 	static Font Font_TheAbsolute;
 	static Font Font_TheAbsoluteBrush;
 	static Font Font_MedievalScroll;
-	
+
 	static Vector2f realTextSize(Text& text);
 };

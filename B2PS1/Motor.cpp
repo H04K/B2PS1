@@ -214,15 +214,17 @@ NavigationChoice Motor::SelectSaveSlot()
 		Text text;
 		Color color;
 		Color hoverColor;
+		Color borderColor;
 		
-		Slot(int index, bool isEmpty, float tx, float ty, float x, float y, Color color, Color hoverColor,string text, Color textColor) : index(index), isEmpty(isEmpty), color(color), hoverColor(hoverColor)
+		Slot(int index, bool isEmpty, float tx, float ty, float x, float y, Color color, Color hoverColor, Color borderColor, string text, Color textColor) 
+			: index(index), isEmpty(isEmpty), color(color), hoverColor(hoverColor), borderColor(borderColor)
 		{
 			body = RectangleShape(Vector2f(tx, ty));
 			body.setPosition(x - body.getSize().x / 2, y - body.getSize().y / 2);
 			body.setFillColor(color);
 
 			body.setOutlineThickness(body.getSize().y / 30);
-			body.setOutlineColor(Color(78, 90, 148));
+			body.setOutlineColor(borderColor);
 
 			this->text = Text(text, Ressources::Font_Arial);
 			this->text.setFillColor(textColor);
@@ -236,12 +238,15 @@ NavigationChoice Motor::SelectSaveSlot()
 		void Draw(RenderWindow& window) { window.draw(body); window.draw(text); }
 	};
 
+	saveManager = new SaveManager(*this);
+
 	list<Slot> slots = list<Slot>();
 
 	int intervalScale = window->getSize().y / 24;
 	int intervalStart = 7;
 	int interval = 4;
 
+	// initialiser les 3 slots
 	for (int i = 0; i < 3; i++)
 	{
 		ifstream slotFile("Assets/Saves/Slot" + to_string(i) + ".json", ifstream::binary);
@@ -254,8 +259,9 @@ NavigationChoice Motor::SelectSaveSlot()
 				Slot
 				(
 					i, false, (window->getSize().x / 3) * 2, 150, window->getSize().x / 2, intervalScale* (intervalStart + interval * i),
-					Color(78, 90, 148), Color(100, 130, 190),
-					"Slot " + to_string(i) + " - " + slotValue["name"].asString(), Color::White
+					Color(78, 90, 148), Color(100, 130, 190), Color(78, 90, 148),
+					"Slot " + to_string(i) + " - " + slotValue["name"].asString() + " | Level " + to_string(slotValue["levelsDone"].asInt()) + " / " + to_string(saveManager->getLevelsCount()),
+					Color::White
 				)
 			);
 		}
@@ -265,14 +271,22 @@ NavigationChoice Motor::SelectSaveSlot()
 				Slot
 				(
 					i, true, (window->getSize().x / 3) * 2, 150, window->getSize().x / 2, intervalScale * (intervalStart + interval * i),
-					Color(35, 41, 67), Color(60, 75, 110),
+					Color(35, 41, 67), Color(60, 75, 110), Color(78, 90, 148),
 					"Slot " + to_string(i) + " - Empty", Color::White
 				)
 			);
 		}
 	}
 
-	saveManager = new SaveManager(*this);
+	// il serais preferable de faire un ensemble de class pour les UI avec collection des event ect mais pas le temps
+	Slot eraseModeButton = Slot
+	(
+		-1, false, (window->getSize().x / 3) * 2, 60, window->getSize().x / 2, intervalScale * 20,
+		Color(78, 90, 148), Color(35, 41, 67), Color(35, 41, 67),
+		"Empty slot", Color::White
+	);
+
+	bool eraseMode = false;
 
 	while (window->isOpen())
 	{
@@ -296,38 +310,93 @@ NavigationChoice Motor::SelectSaveSlot()
 		
 		for (Slot& slot : slots)
 		{
+			// hovering
 			if (mouseX >= slot.body.getPosition().x && mouseX <= slot.body.getPosition().x + slot.body.getSize().x &&
 				mouseY >= slot.body.getPosition().y && mouseY <= slot.body.getPosition().y + slot.body.getSize().y)
 			{
-				slot.body.setFillColor(slot.hoverColor);
-
-				Event event;
-				if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				// load mode
+				if (!eraseMode)
 				{
-					if (!slot.isEmpty)
+					slot.body.setFillColor(slot.hoverColor);
+					slot.body.setOutlineColor(slot.borderColor);
+
+					if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
 					{
-						saveManager->SaveSlot = slot.index;
-						saveManager->LoadGame();
-						return NavigationChoice::LevelSelect;
+						if (!slot.isEmpty)
+						{
+							cout << "Loading Slot " + to_string(slot.index) << endl;
+							saveManager->SaveSlot = slot.index;
+							saveManager->LoadGame();
+							return NavigationChoice::LevelSelect;
+						}
+						else
+						{
+							cout << "Loading Build Slot " + to_string(slot.index) << endl;
+							saveManager->SaveSlot = slot.index;
+							saveManager->SaveGame();
+							return NavigationChoice::SelectSaveSlot;
+						}
 					}
-					else
+				}
+				// erase Mode
+				else
+				{
+					slot.body.setFillColor(Color(229, 83, 59));
+					slot.body.setOutlineColor(Color(103, 37, 27));
+
+					Event event;
+					if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
 					{
-						saveManager->SaveSlot = slot.index;
-						saveManager->BuildNewSave();
-						return NavigationChoice::LevelSelect;
+						cout << "Empty Slot " + to_string(slot.index) << endl;
+						saveManager->EmptySlot(slot.index);
+						// pas opti du tout mais y'a pas le temps
+						return NavigationChoice::SelectSaveSlot;
 					}
 				}
 			}
+			// not hovering
 			else
 			{
-				slot.body.setFillColor(slot.color);
+				// load mode
+				if (!eraseMode)
+				{
+					slot.body.setFillColor(slot.color);
+					slot.body.setOutlineColor(slot.borderColor);
+				}
+				// erase mode
+				else
+				{
+					slot.body.setFillColor(Color(103, 37, 27));
+					slot.body.setOutlineColor(Color(229, 83, 59));
+				}
 			}
+		}
+
+		if (mouseX >= eraseModeButton.body.getPosition().x && mouseX <= eraseModeButton.body.getPosition().x + eraseModeButton.body.getSize().x &&
+			mouseY >= eraseModeButton.body.getPosition().y && mouseY <= eraseModeButton.body.getPosition().y + eraseModeButton.body.getSize().y)
+		{
+			if(!eraseMode)
+				eraseModeButton.body.setFillColor(eraseModeButton.hoverColor);
+			else
+				eraseModeButton.body.setFillColor(eraseModeButton.color);
+
+			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+				eraseMode = !eraseMode;
+		}
+		else
+		{
+			if (!eraseMode)
+				eraseModeButton.body.setFillColor(eraseModeButton.color);
+			else
+				eraseModeButton.body.setFillColor(eraseModeButton.hoverColor);
 		}
 
 		window->clear();
 
 		for (Slot& slot : slots)
 			slot.Draw(*window);
+
+		eraseModeButton.Draw(*window);
 
 		window->display();
 	}
@@ -341,24 +410,69 @@ NavigationChoice Motor::LevelSelect()
 	{
 		Vector2f position;
 		bool isMapChanger = false;
+		bool isUnlocked = true;
 		int Map = -1;
 		string TileMapPath;
 		string ElementsMapPath;
 		
-		UILevelData(Vector2f position, string TileMapPath, string ElementsMapPath) : position(position), TileMapPath(TileMapPath), ElementsMapPath(ElementsMapPath){}
-		UILevelData(Vector2f position, int Map) : position(position), isMapChanger(true), Map(Map){}
+		Sprite sprite;
+		Text text;
+
+		void Draw(RenderWindow& window) { window.draw(sprite); window.draw(text); }
+
+		UILevelData(Texture& texture, string text, bool isUnlocked, Vector2f position, string TileMapPath, string ElementsMapPath)
+			: sprite(Sprite(texture)), isUnlocked(isUnlocked), position(position), TileMapPath(TileMapPath), ElementsMapPath(ElementsMapPath)
+		{ 
+			sprite.setPosition(position);
+
+			this->text = Text(text, Ressources::Font_BlackGround);
+			this->text.setCharacterSize(40);
+			this->text.setStyle(Text::Bold);
+
+			if(!isUnlocked)
+				this->text.setFillColor(Color::Red);
+			this->text.setPosition
+			(
+				(sprite.getPosition().x + sprite.getLocalBounds().width / 2) - Ressources::realTextSize(this->text).x / 2,
+				(sprite.getPosition().y + sprite.getLocalBounds().height / 2) - Ressources::realTextSize(this->text).y / 2
+			);
+		}
+
+		UILevelData(Texture& texture, Vector2f position, int Map)
+			: sprite(Sprite(texture)), position(position), isMapChanger(true), Map(Map)
+		{
+			sprite.setPosition(position);
+		}
 	};
 
 	struct UIMapData
 	{
 		string backgroundPath;
 		vector<UILevelData> UIlevels;
+		UILevelData operator[](int index) { return  UIlevels[index]; }
 
 		UIMapData(vector<UILevelData> UIlevels, string backgroundPath) : UIlevels(UIlevels), backgroundPath(backgroundPath) {}
 	};
 
+	Texture UILevelsTextures[3];
+
+	Texture* UILevelsTexture = new Texture; UILevelsTexture->loadFromFile("Assets/Sprites/Menu/LevelBack.png");
+	UILevelsTextures[0] = *UILevelsTexture;
+	delete UILevelsTexture;
+	
+	UILevelsTexture = new Texture; UILevelsTexture->loadFromFile("Assets/Sprites/Menu/arrow_right.png");
+	UILevelsTextures[1] = *UILevelsTexture;
+	delete UILevelsTexture;
+
+	UILevelsTexture = new Texture; UILevelsTexture->loadFromFile("Assets/Sprites/Menu/arrow_left.png");
+	UILevelsTextures[2] = *UILevelsTexture;
+	delete UILevelsTexture;
+
+	static int currentMap = 0;
+	static int currentLevel = 0;
+
 	Texture backgroundTexture = Texture();
-	backgroundTexture.loadFromFile("Assets/Sprites/Menu/1.png");
+	backgroundTexture.loadFromFile("Assets/Sprites/Menu/" + to_string(currentMap) +".gif");
 	backgroundTexture.setSmooth(true);
 
 	Sprite background = Sprite();
@@ -379,21 +493,46 @@ NavigationChoice Motor::LevelSelect()
 
 	vector<UIMapData> UIMaps = vector<UIMapData>();
 
+	int globalLevelsCount = 0;
+	int saveMap = 0;
+	
 	for (Json::Value& map : *maps)
 	{
 		vector<UILevelData> uiLevelsDatas = vector<UILevelData>();
+		int saveLevel = 0;
 
 		for (Json::Value& level : map["levels"])
 		{
 			Vector2f position = Vector2f(level["x"].asInt() + wMargin, level["y"].asInt() + hMargin);
 
 			if (!level["map"])
-				uiLevelsDatas.push_back(UILevelData(position, level["tileMapPath"].asString(), level["elementsMapPath"].asString()));
+			{
+				string UIlevelText;
+
+				if (globalLevelsCount >= 10)
+					UIlevelText = to_string(globalLevelsCount);
+				else
+					UIlevelText = '0' + to_string(globalLevelsCount);
+
+				uiLevelsDatas.push_back(
+					UILevelData(UILevelsTextures[level["backgroundType"].asInt()],
+						UIlevelText, saveManager->Maps[saveMap][saveLevel].isUnlocked,
+						position, level["tileMapPath"].asString(), level["elementsMapPath"].asString())
+				);
+				saveLevel++;
+				globalLevelsCount++;
+			}
 			else
-				uiLevelsDatas.push_back(UILevelData(position, level["map"].asInt()));
+			{
+				uiLevelsDatas.push_back(
+					UILevelData(UILevelsTextures[level["backgroundType"].asInt()],
+						position, level["map"].asInt())
+				);
+			}
 		}
 
 		UIMaps.push_back( UIMapData(uiLevelsDatas, map["backgroundPath"].asString()) );
+		saveMap++;
 	}
 
 	delete maps;
@@ -406,14 +545,19 @@ NavigationChoice Motor::LevelSelect()
 	Sprite cursor = Sprite();
 	cursor.setTexture(cursorTexture);
 
+	Texture lockTexture = Texture();
+	if (!lockTexture.loadFromFile("Assets/Sprites/Menu/lock2.png"))
+		cout << "can't load lock image" << endl;
+
+	Sprite lock = Sprite();
+	lock.setTexture(lockTexture);
+	lock.setColor(Color(255, 255, 255, 200));
+
+	int mouseX = -1;
+	int mouseY = -1;
+
 	while (window->isOpen())
 	{
-		static int mouseX = -1;
-		static int mouseY = -1;
-
-		static int currentMap = 0;
-		static int currentLevel = 0;
-
 		RefreshEvents();
 
 		Event event;
@@ -423,22 +567,21 @@ NavigationChoice Motor::LevelSelect()
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
 			return NavigationChoice::SelectSaveSlot;	// temporaire remplacer par MainMenu
 
-		if (GetEvent(event, Event::MouseMoved))
-		{
-			mouseX = event.mouseMove.x;
-			mouseY = event.mouseMove.y;
+		if (GetEvent(event, Event::MouseMoved)) { mouseX = event.mouseMove.x; mouseY = event.mouseMove.y; }
 
-			// ligne de maping pour savoir ou placer le curseur
-			cout << "Mouse position : " << mouseX - wMargin << ',' << mouseY - hMargin<< endl;
-		}
+		// ligne de maping pour savoir ou placer le curseur
+		if (GetEvent(event, Event::MouseButtonPressed))
+			cout << "Mouse position : " << mouseX - wMargin << ',' << mouseY - hMargin << endl;
 
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Right)
 		{
-			if (currentLevel < UIMaps[currentMap].UIlevels.size() - 1)
-				currentLevel++;
-			else if (UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			if (currentLevel < UIMaps[currentMap].UIlevels.size() - 1 && UIMaps[currentMap][currentLevel + 1].isUnlocked)
 			{
-				currentMap = UIMaps[currentMap].UIlevels[currentLevel].Map;
+				currentLevel++;
+			}
+			else if (UIMaps[currentMap][currentLevel].isMapChanger)
+			{
+				currentMap = UIMaps[currentMap][currentLevel].Map;
 				currentLevel = 0;
 				
 				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
@@ -448,12 +591,14 @@ NavigationChoice Motor::LevelSelect()
 
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Left)
 		{
-			if (currentLevel > 0)
-				currentLevel--;
-
-			else if(UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			if (currentLevel > 0 && UIMaps[currentMap][currentLevel - 1].isUnlocked)
 			{
-				currentMap = UIMaps[currentMap].UIlevels[currentLevel].Map;
+				currentLevel--;
+			}
+
+			else if(UIMaps[currentMap][currentLevel].isMapChanger)
+			{
+				currentMap = UIMaps[currentMap][currentLevel].Map;
 				currentLevel = UIMaps[currentMap].UIlevels.size() - 1;
 
 				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
@@ -461,22 +606,33 @@ NavigationChoice Motor::LevelSelect()
 			}
 		}
 
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter ||
-			GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter)
 		{
-			if (!UIMaps[currentMap].UIlevels[currentLevel].isMapChanger)
+			if (!UIMaps[currentMap][currentLevel].isMapChanger)
 			{
-				LoadLevel(UIMaps[currentLevel].UIlevels[currentLevel].TileMapPath, UIMaps[currentLevel].UIlevels[currentLevel].ElementsMapPath);
-				
+				LoadLevel(UIMaps[currentMap][currentLevel].TileMapPath, UIMaps[currentMap][currentLevel].ElementsMapPath);
 				return NavigationChoice::Play;
 			}
 		}
 
-		cursor.setPosition(UIMaps[currentMap].UIlevels[currentLevel].position);
+		cursor.setPosition(UIMaps[currentMap][currentLevel].position);
 
 		window->clear(Color::Black);
 
 		window->draw(background);
+
+		for (UILevelData& level : UIMaps[currentMap].UIlevels)
+		{
+			level.Draw(*window);
+
+			if (!level.isMapChanger && !level.isUnlocked)
+			{
+				lock.setPosition(level.position);
+				window->draw(lock);
+			}
+		}
+		
+
 		window->draw(cursor);
 
 		window->display();
@@ -563,13 +719,19 @@ NavigationChoice Motor::Play() {
 		mapElement->Start();
 	}
 
-	while (window->isOpen() && !level->isWin)
+	while (window->isOpen())
 	{
 		RefreshEvents();
 
 		Event event;
 		if (GetEvent(event, Event::Closed))
 			window->close();
+
+		if (level->isWin)
+		{
+			saveManager->SaveGame();
+			return NavigationChoice::LevelSelect;
+		}
 
 		/*Ouvir le menu pause*/
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
@@ -609,7 +771,8 @@ NavigationChoice Motor::Play() {
 		window->display();
 	}
 
-	return NavigationChoice::LevelSelect;
+	saveManager->SaveGame();
+	return NavigationChoice::Quit;
 }
 
 NavigationChoice Motor::PauseMenu()
@@ -682,7 +845,10 @@ NavigationChoice Motor::PauseMenu()
 			mainMenuText.setFillColor(Color(255, 255, 255, 128));
 
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+			{
+				saveManager->SaveGame();
 				return NavigationChoice::MainMenu;
+			}
 		}
 		else
 			mainMenuText.setFillColor(Color(255, 255, 255, 255));
@@ -694,7 +860,10 @@ NavigationChoice Motor::PauseMenu()
 			levelSectionText.setFillColor(Color(255, 255, 255, 128));
 
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
+			{
+				saveManager->SaveGame();
 				return NavigationChoice::LevelSelect;
+			}
 		}
 		else
 			levelSectionText.setFillColor(Color(255, 255, 255, 255));
@@ -706,7 +875,7 @@ NavigationChoice Motor::PauseMenu()
 
 			if (GetEvent(event, Event::MouseButtonPressed) && event.mouseButton.button == Mouse::Button::Left)
 			{
-				//SaveGame();
+				saveManager->SaveGame();
 				return NavigationChoice::Quit;
 			}
 		}

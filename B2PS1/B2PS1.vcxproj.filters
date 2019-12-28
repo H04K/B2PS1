@@ -51,11 +51,11 @@
     <ClCompile Include="MapElement.cpp">
       <Filter>Fichiers d%27en-tête\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="jsoncpp.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="SaveManager.cpp">
       <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="jsoncpp.cpp">
+      <Filter>Fichiers de ressources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
