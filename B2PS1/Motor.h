@@ -1,32 +1,39 @@
 #pragma once
 #include "GameElement.h"
 
-enum class NavigationChoice { MainMenu, LevelSelect, Options, Credits, Play, Quit };
+enum class NavigationChoice { MainMenu, SelectSaveSlot, LevelSelect, Options, Credits, Play, Quit };
 
 class Level {
 public:
 	list<GameElement*> GameElements = list<GameElement*>();
 	list<MapElement*> MapElements = list<MapElement*>();
-	bool isFinished = false;
+	bool isWin = false;
+	float timeDone = 0.f;
+
+	int mapIndex = -1;
+	int levelIndex = -1;
 };
 
 class Motor {
 private:
-
-	//Met a jours les events a chaque appels
+	//Met a jours les events a chaque appel
 	void RefreshEvents();
 
-	// Contient tout les evenements actuels
+	// Contient tout les evenements actuel
 	list<Event> events = list<Event>();
 
-	void LoadGame(string pathTileMap, string pathLevel);
-	void LoadLevel(string path);
-	void LoadMap(string path);
+	void LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex);
+	void LoadElements(string path);
+	void LoadTileMap(string path);
+
+	SaveManager* saveManager = nullptr;
 public:
 
 	Motor(RenderWindow& window) : window(&window){}
+	~Motor() { delete level; delete saveManager; }
 	
 	NavigationChoice MainMenu();
+	NavigationChoice SelectSaveSlot();
 	NavigationChoice LevelSelect();
 	NavigationChoice Options();
 	NavigationChoice Credits();

@@ -22,6 +22,9 @@
     <Filter Include="Fichiers d%27en-tête\Elements">
       <UniqueIdentifier>{edff4886-27c0-44e4-af96-f5f5f38e2f65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Fichiers de configuration">
+      <UniqueIdentifier>{83fdb27a-d3ad-4e5d-9e22-6d2f340fe670}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -48,6 +51,12 @@
     <ClCompile Include="MapElement.cpp">
       <Filter>Fichiers d%27en-tête\Elements</Filter>
     </ClCompile>
+    <ClCompile Include="SaveManager.cpp">
+      <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClCompile>
+    <ClCompile Include="jsoncpp.cpp">
+      <Filter>Fichiers de ressources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components.h">
@@ -71,5 +80,22 @@
     <ClInclude Include="GameElement.h">
       <Filter>Fichiers d%27en-tête\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="SaveManager.h">
+      <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Saves\Slot1.json">
+      <Filter>Fichiers d%27en-tête\Fichiers de configuration</Filter>
+    </None>
+    <None Include="Assets\Levels\levelsConfig.json">
+      <Filter>Fichiers d%27en-tête\Fichiers de configuration</Filter>
+    </None>
+    <None Include="Assets\Saves\Slot0.json">
+      <Filter>Fichiers d%27en-tête\Fichiers de configuration</Filter>
+    </None>
+    <None Include="Assets\Saves\Slot2.json">
+      <Filter>Fichiers d%27en-tête\Fichiers de configuration</Filter>
+    </None>
   </ItemGroup>
 </Project>

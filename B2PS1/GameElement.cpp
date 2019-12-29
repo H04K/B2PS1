@@ -90,7 +90,7 @@ void Brain::LoadSprites()
 		for (AnimatedSprite::Range range : ranges)
 		{
 			list<Texture*> textures = list<Texture*>();
-
+			
 			for (int i = range.min; i <= range.max; i++)
 			{
 				Texture* texture = new Texture();
@@ -110,7 +110,6 @@ void Brain::LoadSprites()
 					return;
 				}
 			}
-
 			Brain::texturesMap->insert(make_pair(range.direction, textures));
 		}
 	}
@@ -131,44 +130,4 @@ void Brain::Update()
 void Brain::Draw()
 {
 	animatedSprite.Draw();
-}
-
-
-
-void Lim::Start()
-{
-	Limite.setPosition(Lpos);
-}
-
-void Lim::Update()
-{
-	
-}
-void Lim::Draw()
-{
-	motor->window->draw(Limite);
-}
-
-void Instructions::Start()
-{
-	Inst.setPosition(InstPos);
-}
-
-void Instructions::Update()
-{
-	Vector2i mpos = Mouse::getPosition(*motor->window);
-	FloatRect Opos = Inst.getGlobalBounds();
-	if (Mouse::isButtonPressed(Mouse::Left) && Opos.contains(mpos.x, mpos.y))
-	{
-		Inst.setPosition(mpos.x - 30, mpos.y - 30);
-		if (Opos.top >= 700.f)
-		{
-			Inst.setPosition(0.f, 700.f);
-		}
-	}
-}
-
-void Instructions::Draw()
-{
-	motor->window->draw(Inst);
 }

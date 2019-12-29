@@ -30,8 +30,6 @@ void AnimatedSprite::SetTextures(map<Direction, list<Texture*>>& texturesMap)
 		maxFrame = spritesMap[currentDirection].size();
 	else if (spritesMap.count(Direction::None))
 		maxFrame = spritesMap[Direction::None].size();
-	else
-		cout << "can't found sprite Direction " << (int)currentDirection << " in sprites map" << endl;
 }
 
 void AnimatedSprite::Animate() { Animate(true, Direction::None); }
