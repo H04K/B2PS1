@@ -9,6 +9,9 @@ public:
 	list<MapElement*> MapElements = list<MapElement*>();
 	bool isWin = false;
 	float timeDone = 0.f;
+
+	int mapIndex = -1;
+	int levelIndex = -1;
 };
 
 class Motor {
@@ -19,12 +22,11 @@ private:
 	// Contient tout les evenements actuel
 	list<Event> events = list<Event>();
 
-	void LoadLevel(string pathTileMap, string pathElements);
+	void LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex);
 	void LoadElements(string path);
 	void LoadTileMap(string path);
 
 	SaveManager* saveManager = nullptr;
-
 public:
 
 	Motor(RenderWindow& window) : window(&window){}

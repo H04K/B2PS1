@@ -406,6 +406,8 @@ NavigationChoice Motor::SelectSaveSlot()
 
 NavigationChoice Motor::LevelSelect()
 {
+#pragma region Declaration Struct
+
 	struct UILevelData
 	{
 		Vector2f position;
@@ -454,6 +456,10 @@ NavigationChoice Motor::LevelSelect()
 		UIMapData(vector<UILevelData> UIlevels, string backgroundPath) : UIlevels(UIlevels), backgroundPath(backgroundPath) {}
 	};
 
+#pragma endregion
+
+#pragma region Création Sprites
+
 	Texture UILevelsTextures[3];
 
 	Texture* UILevelsTexture = new Texture; UILevelsTexture->loadFromFile("Assets/Sprites/Menu/LevelBack.png");
@@ -468,8 +474,27 @@ NavigationChoice Motor::LevelSelect()
 	UILevelsTextures[2] = *UILevelsTexture;
 	delete UILevelsTexture;
 
+	Texture cursorTexture = Texture();
+	if (!cursorTexture.loadFromFile("Assets/Sprites/Menu/Cursor.png"))
+		cout << "can't load Cursor image" << endl;
+
+	Sprite cursor = Sprite();
+	cursor.setTexture(cursorTexture);
+
+	Texture lockTexture = Texture();
+	if (!lockTexture.loadFromFile("Assets/Sprites/Menu/lock2.png"))
+		cout << "can't load lock image" << endl;
+
+	Sprite lock = Sprite();
+	lock.setTexture(lockTexture);
+	lock.setColor(Color(255, 255, 255, 200));
+
+#pragma endregion
+
 	static int currentMap = 0;
 	static int currentLevel = 0;
+
+#pragma region Init BackGround
 
 	Texture backgroundTexture = Texture();
 	backgroundTexture.loadFromFile("Assets/Sprites/Menu/" + to_string(currentMap) +".gif");
@@ -484,8 +509,12 @@ NavigationChoice Motor::LevelSelect()
 			window->getSize().y / 2 - (background.getLocalBounds().height / 2) * background.getScale().y)
 	);
 
+#pragma endregion
+
 	float wMargin = background.getPosition().x;
 	float hMargin = background.getPosition().y;
+
+#pragma region Build UIMaps
 
 	ifstream* mapsConfigFile = new ifstream("Assets/Levels/mapsConfig.json", ifstream::binary);
 	Json::Value* maps = new Json::Value();
@@ -495,7 +524,7 @@ NavigationChoice Motor::LevelSelect()
 
 	int globalLevelsCount = 0;
 	int saveMap = 0;
-	
+
 	for (Json::Value& map : *maps)
 	{
 		vector<UILevelData> uiLevelsDatas = vector<UILevelData>();
@@ -538,20 +567,7 @@ NavigationChoice Motor::LevelSelect()
 	delete maps;
 	delete mapsConfigFile;
 
-	Texture cursorTexture = Texture();
-	if(!cursorTexture.loadFromFile("Assets/Sprites/Menu/Cursor.png"))
-		cout << "can't load Cursor image" << endl;
-	
-	Sprite cursor = Sprite();
-	cursor.setTexture(cursorTexture);
-
-	Texture lockTexture = Texture();
-	if (!lockTexture.loadFromFile("Assets/Sprites/Menu/lock2.png"))
-		cout << "can't load lock image" << endl;
-
-	Sprite lock = Sprite();
-	lock.setTexture(lockTexture);
-	lock.setColor(Color(255, 255, 255, 200));
+#pragma endregion
 
 	int mouseX = -1;
 	int mouseY = -1;
@@ -565,7 +581,10 @@ NavigationChoice Motor::LevelSelect()
 			window->close();
 
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
+		{
+			saveManager->SaveGame();
 			return NavigationChoice::SelectSaveSlot;	// temporaire remplacer par MainMenu
+		}
 
 		if (GetEvent(event, Event::MouseMoved)) { mouseX = event.mouseMove.x; mouseY = event.mouseMove.y; }
 
@@ -610,7 +629,7 @@ NavigationChoice Motor::LevelSelect()
 		{
 			if (!UIMaps[currentMap][currentLevel].isMapChanger)
 			{
-				LoadLevel(UIMaps[currentMap][currentLevel].TileMapPath, UIMaps[currentMap][currentLevel].ElementsMapPath);
+				LoadLevel(UIMaps[currentMap][currentLevel].TileMapPath, UIMaps[currentMap][currentLevel].ElementsMapPath, currentMap, currentLevel);
 				return NavigationChoice::Play;
 			}
 		}
@@ -643,11 +662,11 @@ NavigationChoice Motor::LevelSelect()
 
 NavigationChoice Motor::Options()
 {
-	int mouseX = -1;
-	int mouseY = -1;
-
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
 		RefreshEvents();
 
 		Event event;
@@ -673,11 +692,11 @@ NavigationChoice Motor::Options()
 
 NavigationChoice Motor::Credits()
 {
-	int mouseX = -1;
-	int mouseY = -1;
-
 	while (window->isOpen())
 	{
+		static int mouseX = -1;
+		static int mouseY = -1;
+
 		RefreshEvents();
 
 		Event event;
@@ -721,6 +740,7 @@ NavigationChoice Motor::Play() {
 
 	while (window->isOpen())
 	{
+		// refresh elements list
 		RefreshEvents();
 
 		Event event;
@@ -729,11 +749,25 @@ NavigationChoice Motor::Play() {
 
 		if (level->isWin)
 		{
+			// get mapConfig
+			ifstream mapsConfigFile("Assets/Levels/mapsConfig.json", ifstream::binary);
+			Json::Value maps; mapsConfigFile >> maps;
+
+			// save timedone
+			saveManager->Maps[level->mapIndex][level->levelIndex].timeDone = level->timeDone;
+
+			// unlock next map
+			int unlockMap = maps[level->mapIndex]["levels"][level->mapIndex]["unLockLevel"][0].asInt();
+			int unlockLevel = maps[level->mapIndex]["levels"][level->mapIndex]["unLockLevel"][1].asInt();
+			
+			saveManager->Maps[unlockMap][unlockLevel].isUnlocked = true;
+
+			// save & return
 			saveManager->SaveGame();
 			return NavigationChoice::LevelSelect;
 		}
 
-		/*Ouvir le menu pause*/
+		//Ouvir le menu pause
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Escape)
 		{
 			NavigationChoice navChoice = PauseMenu();
@@ -742,7 +776,7 @@ NavigationChoice Motor::Play() {
 
 		}
 
-		/*PROTOTYPING pour ajouter manuelement des evenements logiques*/
+		//PROTOTYPING pour ajouter manuelement des evenements logiques
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
 		{
 			cout << "Entrer un sequence logique : ";
@@ -892,18 +926,20 @@ NavigationChoice Motor::PauseMenu()
 	}
 }
 
-void Motor::LoadLevel(string pathTileMap, string pathElements)
+void Motor::LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex)
 {
 	events.clear();
 	delete level;
 	level = new Level();
+	level->mapIndex = mapIndex;
+	level->levelIndex = levelIndex;
 
 	LoadElements(pathElements);
 	LoadTileMap(pathTileMap);
 }
 
 /*
-Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+Methode pour rajouter un nouvel element : 
 - LogicSequenceManager : rajouter le nom du gameElement dans l'enum
 - rajouter le template de code suivant a la suite du if :
 if (csvLevel[y][x] == ##ID de l'element dans la map)
@@ -961,7 +997,7 @@ void Motor::LoadElements(string path)
 }
 
 /*
-Methode pour rajouter un nouvel element : (apres l'avoir rajouter dans une map)
+Methode pour rajouter une nouvelle tile : 
 - rajouter le template de code suivant a la suite du if :
 if (csvLevel[y][x] == ##ID de l'element dans la map)
 {
