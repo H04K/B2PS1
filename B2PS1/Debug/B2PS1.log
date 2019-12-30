@@ -1,7 +1,52 @@
-﻿  SaveManager.cpp
+﻿  Motor.cpp
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(33,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\SaveManager.cpp(64,20): warning C4018: '<' : incompatibilité signed/unsigned
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\SaveManager.cpp(65,21): warning C4018: '<' : incompatibilité signed/unsigned
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\SaveManager.cpp(84,20): warning C4018: '<' : incompatibilité signed/unsigned
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\SaveManager.cpp(88,21): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,90): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,72): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,72): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,72): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,72): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,72): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,90): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,71): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,71): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,71): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,71): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,71): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,88): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(610,21): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(955,22): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(957,23): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(964,37): warning C4244: '=' : conversion de 'int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(964,37): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(964,37): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(964,37): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(964,37): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(965,37): warning C4244: '=' : conversion de 'int' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(965,37): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(965,37): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(965,37): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(965,37): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1016,57): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1016,41): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(907): warning C4715: 'Motor::PauseMenu' : les chemins de contrôle ne retournent pas tous une valeur
   B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe

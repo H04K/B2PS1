@@ -1,7 +1,13 @@
 #pragma once
 #include "GameElement.h"
 
-enum class NavigationChoice { MainMenu, SelectSaveSlot, LevelSelect, Options, Credits, Play, Quit };
+enum class NavigationChoice { Stay, MainMenu, SelectSaveSlot, LevelSelect, Options, Credits, Play, Quit };
+
+struct NavPair {
+	NavigationChoice NavChoice;
+	string Wording;
+	NavPair(NavigationChoice NavChoice, string Wording) : NavChoice(NavChoice), Wording(Wording) {}
+};
 
 class Level {
 public:
@@ -39,7 +45,7 @@ public:
 	NavigationChoice Credits();
 
 	NavigationChoice Play();
-	NavigationChoice PauseMenu();
+	NavigationChoice PauseMenu(NavPair buttonsData[3]);
 
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;
