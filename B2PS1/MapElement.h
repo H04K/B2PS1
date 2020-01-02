@@ -8,11 +8,16 @@ class MapElement
 {
 public :
 	Sprite sprite;
+	static Texture* texture;
+	
+	
+	
 	Motor* motor = nullptr;
 
-	virtual void LoadSprites();
+	
 
 	virtual void Start();
+	virtual void LoadSprites();
 	virtual void Update();
 	virtual void Draw();
 };
@@ -20,8 +25,6 @@ public :
 class Floor : public MapElement
 {
 public:
-	
-	static Texture* texture;
 
 	void LoadSprites();
 
@@ -29,3 +32,80 @@ public:
 	void Update();
 	void Draw();
 };
+
+class Bounds : public MapElement
+{
+public:
+
+	void LoadSprites();
+	void Start();
+	void Update();
+	void Draw();
+};
+
+
+
+
+//class Bounds : public MapElement
+//{
+//public:
+//
+//	void LoadSprites();
+//	void Start();
+//	void Update();
+//	void Draw();
+//};
+//class Bounds : public MapElement
+//{
+//public:
+//
+//	void LoadSprites();
+//	void Start();
+//	void Update();
+//	void Draw();
+//};
+//class Bounds : public MapElement
+//{
+//public:
+//
+//	void LoadSprites();
+//	void Start();
+//	void Update();
+//	void Draw();
+//};
+//class Bounds : public MapElement
+//{
+//public:
+//
+//	void LoadSprites();
+//	void Start();
+//	void Update();
+//	void Draw();
+//};
+//class Bounds : public MapElement
+//{
+//public:
+//
+//	void LoadSprites();
+//	void Start();
+//	void Update();
+//	void Draw();
+//};
+//class Bounds : public MapElement
+//{
+//public:
+//
+//	void LoadSprites();
+//	void Start();
+//	void Update();
+//	void Draw();
+//};
+//class Bounds : public MapElement
+//{
+//public:
+//
+//	void LoadSprites();
+//	void Start();
+//	void Update();
+//	void Draw();
+//};

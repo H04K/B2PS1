@@ -65,6 +65,7 @@ public:
 	void Draw();
 };
 
+
 class Instructions : public GameElement
 {
 public:

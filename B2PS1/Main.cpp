@@ -6,10 +6,13 @@ int main()
 
 	RenderWindow window(VideoMode(Ressources::WindowSize.width, Ressources::WindowSize.height), "Brain Adventure", Style::Close | Style::Resize | Style::Titlebar);
 	Motor GameMotor = Motor(window);
-
+	Floor* tempo = new Floor;
+	
 	NavigationChoice NavChoice = NavigationChoice::MainMenu;
+	GameMotor.LoadGame("Assets/Levels/level0.csv","Assets/Levels/level1.csv");
 
-	while (true)
+	GameMotor.Play();
+	/*while (true)
 	{
 		switch (NavChoice)
 		{
@@ -28,7 +31,7 @@ int main()
 		case NavigationChoice::Quit :
 			return EXIT_SUCCESS;
 		}
-	}
+	}*/
 
 	return EXIT_SUCCESS;
 }

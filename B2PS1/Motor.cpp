@@ -314,14 +314,19 @@ NavigationChoice Motor::Credits()
 	return NavigationChoice::Quit;
 }
 
-void Motor::LoadGame(string pathMap, string pathLevel)
+void Motor::LoadGame(string pathMap,string pathLevel)
 {
 	events.clear();
 	delete level;
 	level = new Level();
 
+	
+	
+	
+
 	LoadLevel(pathLevel);
 	LoadMap(pathMap);
+	//LoadMisc(pathMisc);
 }
 
 /*
@@ -363,7 +368,6 @@ void Motor::LoadLevel(string path)
 			for (auto x = 0; x < csvLevel[y].size(); x++)
 			{
 				cout << csvLevel[y][x];
-
 				// utiliser un if car les case ne sont pas des bloc
 
 				if (csvLevel[y][x] == 1)
@@ -413,31 +417,149 @@ void Motor::LoadMap(string path)
 
 		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
 		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
-
+		float xSpriteScale = (csvLevel.size() / 10) + yTilesSize / 100.f;
+		float  ySpriteScale = ((csvLevel.size() / 10)/2) + xTilesSize / 100.f;
 		for (unsigned y = 0; y < csvLevel.size(); y++)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				cout << csvLevel[y][x];
-
 				// utiliser un if car les case ne sont pas des bloc
+				cout << csvLevel[y][x];
+				if (csvLevel[y][x] == 3)
+				{
+					Bounds* Uwall = new Bounds();
+					Uwall->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+					Uwall->sprite.setScale(xSpriteScale, ySpriteScale);
+					level->MapElements.push_back(Uwall);
+
+				}
 				if (csvLevel[y][x] == 2)
 				{
 					Floor* Sol = new Floor();
 					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
-
+					Sol->sprite.setScale(xSpriteScale, ySpriteScale);
 					level->MapElements.push_back(Sol);
+
 				}
+				cout << endl;
 			}
 		}
 
-		cout << "Successful Loaded Level " << path << endl;
+		cout << "Successful Loaded TileMap " << path << endl;
+		cout << xTilesSize <<" "  << yTilesSize / 100 << endl;
+		
 	}
 	catch (exception & ex)
 	{
-		cout << "Failed Loading Level : Level " << path << " not found " << ex.what() << endl;
+		cout << "Failed Loading TileMap : TileMap " << path << " not found " << ex.what() << endl;
 	}
 }
+//void Motor::LoadMisc(string path)
+//{
+//	try
+//	{
+//		ifstream fileStream = ifstream(path);
+//		vector<vector<int>> csvLevel = vector<vector<int>>();
+//
+//		string line;
+//		while (getline(fileStream, line))
+//		{
+//			vector<int> levelRow = vector<int>();
+//			stringstream lineStream = stringstream(line);
+//
+//			string cell;
+//			while (getline(lineStream, cell, ','))
+//				levelRow.push_back(stoi(cell));
+//			csvLevel.push_back(levelRow);
+//		}
+//
+//		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
+//		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
+//		float xSpriteScale = (csvLevel.size() / 10) + yTilesSize / 100.f;
+//		float  ySpriteScale = ((csvLevel.size() / 10) / 2) + xTilesSize / 100.f;
+//		for (unsigned y = 0; y < csvLevel.size(); y++)
+//		{
+//			for (unsigned x = 0; x < csvLevel[y].size(); x++)
+//			{
+//				// utiliser un if car les case ne sont pas des bloc
+//				if (csvLevel[y][x] == 2)
+//				{
+//					Bounds* UpWall = new Bounds();
+//					UpWall->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					UpWall->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(UpWall);
+//
+//				}
+//				if (csvLevel[y][x] == 4)
+//				{
+//					Bounds* ULcorner = new Bounds();
+//					ULcorner->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					ULcorner->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(ULcorner);
+//
+//				}
+//				if (csvLevel[y][x] == 3)
+//				{
+//					Bounds* LWall = new Bounds();
+//					LWall->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					LWall->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(LWall);
+//
+//				}
+//				if (csvLevel[y][x] == 5)
+//				{
+//					Bounds* BLcorner = new Bounds();
+//					BLcorner->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					BLcorner->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(BLcorner);
+//
+//				}
+//				if (csvLevel[y][x] == 8)
+//				{
+//					Bounds* BottWall = new Bounds();
+//					BottWall->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					BottWall->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(BottWall);
+//
+//				}
+//				if (csvLevel[y][x] == 6)
+//				{
+//					Bounds* BRcorner = new Bounds();
+//					BRcorner->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					BRcorner->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(BRcorner);
+//
+//				}
+//				if (csvLevel[y][x] == 1)
+//				{
+//					Bounds* RWall = new Bounds();
+//					RWall->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					RWall->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(RWall);
+//
+//				}
+//				if (csvLevel[y][x] == 7)
+//				{
+//					Bounds* URcorner = new Bounds();
+//					URcorner->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+//					URcorner->sprite.setScale(xSpriteScale, ySpriteScale);
+//					level->MapElements.push_back(URcorner);
+//
+//
+//				}
+//
+//			}
+//		}
+//
+//		cout << "Successful Loaded TileMap " << path << endl;
+//		cout << xTilesSize << " " << yTilesSize / 100 << endl;
+//
+//	}
+//	catch (exception & ex)
+//	{
+//		cout << "Failed Loading TileMap : TileMap " << path << " not found " << ex.what() << endl;
+//	}
+//}
 
 NavigationChoice Motor::Play() {
 
@@ -453,6 +575,7 @@ NavigationChoice Motor::Play() {
 	for (MapElement* mapElement : level->MapElements)
 	{
 		mapElement->motor = this;
+
 		mapElement->LoadSprites();
 		mapElement->Start();
 	}
