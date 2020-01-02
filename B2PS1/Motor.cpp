@@ -255,7 +255,7 @@ NavigationChoice Motor::SelectSaveSlot()
 			slots.push_back(
 				Slot
 				(
-					i, false, (window->getSize().x / 3) * 2, 150, window->getSize().x / 2, intervalScale* (intervalStart + interval * i),
+					i, false, (window->getSize().x / 3) * 2, (window->getSize().y / 14) * 2, window->getSize().x / 2, intervalScale* (intervalStart + interval * i),
 					Color(78, 90, 148), Color(100, 130, 190), Color(78, 90, 148),
 					"Slot " + to_string(i) + " - " + slotValue["name"].asString() + " | Level " + to_string(slotValue["levelsDone"].asInt()) + " / " + to_string(saveManager->getLevelsCount()),
 					Color::White
@@ -267,7 +267,7 @@ NavigationChoice Motor::SelectSaveSlot()
 			slots.push_back(
 				Slot
 				(
-					i, true, (window->getSize().x / 3) * 2, 150, window->getSize().x / 2, intervalScale * (intervalStart + interval * i),
+					i, true, (window->getSize().x / 3) * 2, (window->getSize().y / 14) * 2, window->getSize().x / 2, intervalScale * (intervalStart + interval * i),
 					Color(35, 41, 67), Color(60, 75, 110), Color(78, 90, 148),
 					"Slot " + to_string(i) + " - Empty", Color::White
 				)
@@ -283,13 +283,13 @@ NavigationChoice Motor::SelectSaveSlot()
 		"Empty slot", Color::White
 	);
 
+	int mouseX = -1;
+	int mouseY = -1;
+
 	bool eraseMode = false;
 
 	while (window->isOpen())
 	{
-		static int mouseX = -1;
-		static int mouseY = -1;
-
 		RefreshEvents();
 
 		Event event;
@@ -566,14 +566,14 @@ NavigationChoice Motor::LevelSelect()
 
 #pragma endregion
 
-	int mouseX = -1;
-	int mouseY = -1;
-
 	if (saveManager->getLevelsDone() == 1)
 	{
 		LoadLevel(UIMaps[0][0].TileMapPath, UIMaps[0][0].ElementsMapPath, 0, 0);
 		return NavigationChoice::Play;
 	}
+
+	int mouseX = -1;
+	int mouseY = -1;
 
 	while (window->isOpen())
 	{
@@ -650,7 +650,6 @@ NavigationChoice Motor::LevelSelect()
 		cursor.setPosition(UIMaps[currentMap][currentLevel].position);
 
 		window->clear(Color::Black);
-
 		window->draw(background);
 
 		for (UILevelData& level : UIMaps[currentMap].UIlevels)
@@ -664,7 +663,6 @@ NavigationChoice Motor::LevelSelect()
 			}
 		}
 		
-
 		window->draw(cursor);
 
 		window->display();
@@ -675,11 +673,11 @@ NavigationChoice Motor::LevelSelect()
 
 NavigationChoice Motor::Options()
 {
+	int mouseX = -1;
+	int mouseY = -1;
+
 	while (window->isOpen())
 	{
-		static int mouseX = -1;
-		static int mouseY = -1;
-
 		RefreshEvents();
 
 		Event event;
@@ -705,11 +703,11 @@ NavigationChoice Motor::Options()
 
 NavigationChoice Motor::Credits()
 {
+	int mouseX = -1;
+	int mouseY = -1;
+
 	while (window->isOpen())
 	{
-		static int mouseX = -1;
-		static int mouseY = -1;
-
 		RefreshEvents();
 
 		Event event;
@@ -786,15 +784,19 @@ NavigationChoice Motor::Play() {
 			saveManager->SaveGame();
 			NavPair pauseButtons[3] =
 			{
-				NavPair(NavigationChoice::MainMenu, "Main Menu"),
+				NavPair(NavigationChoice::Play, "Restart Level"),
 				NavPair(NavigationChoice::LevelSelect, "Level Selection"),
 				NavPair(NavigationChoice::Quit, "Quit")
 			};
 
 			NavigationChoice navChoice = PauseMenu(pauseButtons);
 			if (navChoice != NavigationChoice::Stay)
+			{
+				if (navChoice == NavigationChoice::Play)
+					RestartLevel();
+				
 				return navChoice;
-
+			}
 		}
 
 		//PROTOTYPING pour ajouter manuelement des evenements logiques
@@ -913,6 +915,8 @@ void Motor::LoadLevel(string pathTileMap, string pathElements, int mapIndex, int
 	level = new Level();
 	level->mapIndex = mapIndex;
 	level->levelIndex = levelIndex;
+	level->pathTileMap = pathTileMap;
+	level->pathElements = pathElements;
 
 	LoadElements(pathElements);
 	LoadTileMap(pathTileMap);
@@ -1025,6 +1029,41 @@ void Motor::LoadTileMap(string path)
 	catch (exception & ex)
 	{
 		cout << "Failed Loading TileMap : TileMap " << path << " not found " << ex.what() << endl;
+	}
+}
+
+void Motor::RestartLevel()
+{
+	LoadLevel(level->pathTileMap, level->pathElements, level->mapIndex, level->levelIndex);
+}
+
+void Motor::Fade(Int64 fadeSpeed)
+{
+	Clock fadeClock;
+
+	// Fond
+	Texture backgroundTexture;
+	backgroundTexture.create(window->getSize().x, window->getSize().y);
+	backgroundTexture.update(*window);
+
+	Sprite background;
+	background.setPosition(0, 0);
+	background.setTexture(backgroundTexture);
+
+	int fade = 255;
+
+	while (window->isOpen() && fade > 50)
+	{
+		// toutes les fadeSpeed
+		if (fadeClock.getElapsedTime().asMicroseconds() % fadeSpeed == 0)
+		{
+			fade -= 10;
+			background.setColor(Color(255, 255, 255, fade));
+		}
+
+		window->clear(Color::Black);
+		window->draw(background);
+		window->display();
 	}
 }
 

@@ -9,15 +9,15 @@ struct NavPair {
 	NavPair(NavigationChoice NavChoice, string Wording) : NavChoice(NavChoice), Wording(Wording) {}
 };
 
-class Level {
-public:
+struct Level 
+{
 	list<GameElement*> GameElements = list<GameElement*>();
 	list<MapElement*> MapElements = list<MapElement*>();
 	bool isWin = false;
 	float timeDone = 0.f;
 
-	int mapIndex = -1;
-	int levelIndex = -1;
+	int mapIndex = -1, levelIndex = -1;
+	string pathTileMap = "", pathElements = "";
 };
 
 class Motor {
@@ -31,8 +31,13 @@ private:
 	void LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex);
 	void LoadElements(string path);
 	void LoadTileMap(string path);
+	void RestartLevel();
 
+	// Gere les sauvgardes
 	SaveManager* saveManager = nullptr;
+
+	// Gere les sequences logiques
+	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 public:
 
 	Motor(RenderWindow& window) : window(&window){}
@@ -47,13 +52,14 @@ public:
 	NavigationChoice Play();
 	NavigationChoice PauseMenu(NavPair buttonsData[3]);
 
+	// Fade the screan while @param
+	void Fade(Int64 fadeSpeed);
+
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;
 
+	// le niveau actuel
 	Level* level = nullptr;
-
-	// Permet de gerer les sequences logiques
-	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 
 	/*
 	Utilisation Type de GetEvent() :

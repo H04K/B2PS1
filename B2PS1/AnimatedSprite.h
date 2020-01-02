@@ -28,6 +28,7 @@ public:
 	};
 
 	Direction currentDirection = Direction::None;
+	Direction lastDirection;
 	map<Direction, vector<Sprite>> spritesMap = map<Direction, vector<Sprite>>();
 
 	Clock clock = Clock();

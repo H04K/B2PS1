@@ -1,4 +1,3 @@
-#include "LogicSequenceManager.h"
 #include "Motor.h"
 
 /*PROTOTYPING pour ajouter manuelement des evenements logiques*/
@@ -88,7 +87,7 @@ bool LogicSequenceManager::isSequenceValid(list<Logic>& logicSequence)
 			return false;
 		}
 
-		if (i != 0 && i == logicSequence.size() &&
+		else if (i != 0 && i == logicSequence.size() &&
 			logic.logicType != LogicType::Operateur)
 		{
 			return false;

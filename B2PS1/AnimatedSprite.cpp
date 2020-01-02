@@ -54,8 +54,6 @@ void AnimatedSprite::Animate(bool isMoving, Direction direction)
 
 void AnimatedSprite::Draw()
 {
-	static Direction lastDirection;
-
 	if (currentDirection != lastDirection)
 	{
 		currentFrame = 0;

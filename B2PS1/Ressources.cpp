@@ -1,6 +1,6 @@
 #include "Motor.h"
 
-Ressources::windowSize Ressources::WindowSize = Ressources::windowSize(1850, 1000);
+Ressources::windowSize Ressources::WindowSize = Ressources::windowSize(1500, 900);
 // w -> 1300 mini
 
 Font Ressources::Font_Arial = Font();
