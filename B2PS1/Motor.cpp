@@ -423,20 +423,11 @@ void Motor::LoadMap(string path)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				// utiliser un if car les case ne sont pas des blocs
-				//Là on a un soucis du type wtf les tiles se superposent pas 
-				// et jcomprend pas 
+				 
 
 				cout << csvLevel[y][x];
-				if (csvLevel[y][x] == 3)
-				{
-					Bounds* Uwall = new Bounds();
-					Uwall->sprite.setPosition(xTilesSize * x, yTilesSize * y);
-					Uwall->sprite.setScale(xSpriteScale, ySpriteScale);
-					level->MapElements.push_back(Uwall);
-
-				}
-				if (csvLevel[y][x] == 2)
+				
+				if (csvLevel[y][x] == 1)
 				{
 					Floor* Sol = new Floor();
 					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
@@ -444,8 +435,16 @@ void Motor::LoadMap(string path)
 					level->MapElements.push_back(Sol);
 
 				}
-				cout << endl;
+				if (csvLevel[y][x] == 2)
+				{
+					Bounds* Uwall = new Bounds();
+					Uwall->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+					Uwall->sprite.setScale(xSpriteScale, ySpriteScale);
+					level->MapElements.push_back(Uwall);
+				}
+
 			}
+			cout << endl;
 		}
 
 		cout << "Successful Loaded TileMap " << path << endl;

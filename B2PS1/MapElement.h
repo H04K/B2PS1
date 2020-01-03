@@ -8,13 +8,8 @@ class MapElement
 {
 public :
 	Sprite sprite;
-	static Texture* texture;
-	
-	
 	
 	Motor* motor = nullptr;
-
-	
 
 	virtual void Start();
 	virtual void LoadSprites();
@@ -24,6 +19,7 @@ public :
 
 class Floor : public MapElement
 {
+	static Texture* texture;
 public:
 
 	void LoadSprites();
@@ -35,6 +31,7 @@ public:
 
 class Bounds : public MapElement
 {
+	static Texture* texture;
 public:
 
 	void LoadSprites();

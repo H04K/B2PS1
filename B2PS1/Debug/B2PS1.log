@@ -14,6 +14,8 @@ C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cp
 C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(377,37): warning C4244:         ]
 C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(435,57): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
 C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(435,41): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(650,56): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(650,37): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(443,59): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(443,43): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(658,56): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\B2PS1\Motor.cpp(658,37): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   B2PS1.vcxproj -> C:\Users\Diplo\Documents\B2\_Projets\B2PS1\SFML environment\B2PS1\Debug\B2PS1.exe

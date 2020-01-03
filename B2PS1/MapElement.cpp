@@ -10,6 +10,7 @@ Texture* Floor::texture = nullptr;
 
 void Floor::LoadSprites()
 {
+
 	if (texture == nullptr)
 	{
 		texture = new Texture;
@@ -39,6 +40,8 @@ void Floor::Draw()
 void Floor::Start() {
 	
 }
+
+Texture* Bounds::texture = nullptr;
 
 void Bounds::LoadSprites()
 {
