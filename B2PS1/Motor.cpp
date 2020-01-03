@@ -404,7 +404,7 @@ void Motor::LoadMap(string path)
 		vector<vector<int>> csvLevel = vector<vector<int>>();
 
 		string line;
-		while (getline(fileStream, line))
+		while (getline(fileStream, line)) 
 		{
 			vector<int> levelRow = vector<int>();
 			stringstream lineStream = stringstream(line);
@@ -423,7 +423,10 @@ void Motor::LoadMap(string path)
 		{
 			for (unsigned x = 0; x < csvLevel[y].size(); x++)
 			{
-				// utiliser un if car les case ne sont pas des bloc
+				// utiliser un if car les case ne sont pas des blocs
+				//Là on a un soucis du type wtf les tiles se superposent pas 
+				// et jcomprend pas 
+
 				cout << csvLevel[y][x];
 				if (csvLevel[y][x] == 3)
 				{

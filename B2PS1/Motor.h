@@ -31,7 +31,7 @@ public:
 	void LoadLevel(string path);
 	NavigationChoice Play();
 	void LoadMap(string path);
-	void LoadMisc(string path);
+
 	void PauseMenu();
 
 	// La fenetre dans laquelle tout les objets sont rendu
