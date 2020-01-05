@@ -37,3 +37,22 @@ public:
 		}
 	}
 };
+
+class Bound : public MapElement
+{
+	static Texture* texture;
+public:
+
+	void LoadSprites();
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
+		}
+	}
+};

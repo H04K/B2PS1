@@ -71,6 +71,7 @@ void AnimatedSprite::SetTextures(map<Direction, list<Texture*>>& texturesMap)
 			Sprite sprite = Sprite();
 			sprite.setTexture(*texture);
 			sprite.setPosition(gameElement->position);
+			sprite.setScale(gameElement->scale);
 
 			sprites.push_back(sprite);
 		}

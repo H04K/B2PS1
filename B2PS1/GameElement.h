@@ -25,6 +25,7 @@ public:
 	void ApplyLogicInstructions();
 	
 	Vector2f position = Vector2f();
+	Vector2f scale = Vector2f();
 	Motor* motor = nullptr;
 
 	AnimatedSprite animatedSprite = AnimatedSprite(*this);
@@ -33,7 +34,7 @@ public:
 	Collider* collider = nullptr;
 
 	GameElement() : type(ElementType::None) {}
-	~GameElement() { delete collider;};
+	~GameElement() { delete collider; };
 
 	virtual void Start() {}
 	virtual void Update() {}

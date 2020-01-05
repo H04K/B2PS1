@@ -989,27 +989,31 @@ void Motor::LoadElements(string path)
 		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
 		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
 
-		for (auto y = 0; y < csvLevel.size(); y++)
+		float xSpriteScale = (csvLevel.size() / 10) + yTilesSize / 100.f;
+		float ySpriteScale = ((csvLevel.size() / 10) / 2) + xTilesSize / 100.f;
+
+		for (size_t y = 0; y < csvLevel.size(); y++)
 		{
-			for (auto x = 0; x < csvLevel[y].size(); x++)
+			for (size_t x = 0; x < csvLevel[y].size(); x++)
 			{
 				// utiliser un if car les case ne sont pas des bloc
 
 				if (csvLevel[y][x] == 1)
 				{
 					Brain* brain = new Brain();
-					brain->position.x = xTilesSize * x;
-					brain->position.y = yTilesSize * y;
+					brain->position = Vector2f(xTilesSize * x, yTilesSize * y);
+					brain->scale = Vector2f(1, 1);
+
 					level->GameElements.push_back(brain);
 				}
 				if (csvLevel[y][x] == 2)
 				{
 					Wall* wall = new Wall();
-					wall->position.x = xTilesSize * x;
-					wall->position.y = yTilesSize * y;
+					wall->position = Vector2f(xTilesSize * x, yTilesSize * y);
+					wall->scale = Vector2f(1, 1);
+
 					level->GameElements.push_back(wall);
 				}
-
 
 				if (csvLevel[y][x] == 10)
 				{
@@ -1073,15 +1077,27 @@ void Motor::LoadTileMap(string path)
 		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
 		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
 
-		for (unsigned y = 0; y < csvLevel.size(); y++)
+		float xSpriteScale = (csvLevel.size() / 10) + yTilesSize / 100.f;
+		float ySpriteScale = ((csvLevel.size() / 10) / 2) + xTilesSize / 100.f;
+		
+		for (size_t y = 0; y < csvLevel.size(); y++)
 		{
-			for (unsigned x = 0; x < csvLevel[y].size(); x++)
+			for (size_t x = 0; x < csvLevel[y].size(); x++)
 			{
 				// utiliser un if car les case ne sont pas des bloc
+				if (csvLevel[y][x] == 1)
+				{
+					Bound* bound = new Bound();
+					bound->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+					bound->sprite.setScale(xSpriteScale, ySpriteScale);
+
+					level->MapElements.push_back(bound);
+				}
 				if (csvLevel[y][x] == 2)
 				{
 					Floor* Sol = new Floor();
 					Sol->sprite.setPosition(xTilesSize * x, yTilesSize * y);
+					Sol->sprite.setScale(xSpriteScale, ySpriteScale);
 
 					level->MapElements.push_back(Sol);
 				}
