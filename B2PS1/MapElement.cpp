@@ -1,10 +1,5 @@
 #include "Motor.h"
 
-void MapElement::LoadSprites(){}
-void MapElement::Start(){}
-void MapElement::Update(){}
-void MapElement::Draw(){}
-
 Texture* Floor::texture = nullptr;
 
 void Floor::LoadSprites()

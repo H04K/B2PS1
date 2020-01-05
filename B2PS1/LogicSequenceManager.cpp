@@ -1,4 +1,69 @@
-#include "Motor.h"
+﻿#include "Motor.h"
+
+LogicBloc::LogicBloc(Color color, Vector2f size, Vector2f position, Logic logicType) : logicType(logicType)
+{
+	// temporaire
+
+	body.setSize(size);
+	//body.setOrigin(size / 2.0f);
+	body.setFillColor(color);
+	body.setPosition(position);
+	this->position = position;
+}
+
+void LogicBloc::CheckCollision(list<LogicBloc*>& logicBlocs)
+{
+	// les positions des differents endroits a tester
+	int positions[4][2] =
+	{
+		{position.x + body.getSize().x / 2, position.y - 30},	// up
+		{position.x + body.getSize().x / 2, position.y + body.getSize().y + 30},	// down
+
+		{position.x - 30, position.y + body.getSize().y / 2},	// left
+		{position.x + body.getSize().x + 30, position.y + body.getSize().y / 2}  // right
+	};
+
+	collidedMap.clear();
+
+	for (int direction = 0; direction < 4; direction++)
+	{
+		Vector2f pos = Vector2f(positions[direction][0], positions[direction][1]);
+
+		for (LogicBloc* logicBloc : logicBlocs)
+		{
+			if (logicBloc != this)
+			{
+				if (pos.x >= logicBloc->position.x && pos.x <= logicBloc->position.x + logicBloc->body.getSize().x &&
+					pos.y >= logicBloc->position.y && pos.y <= logicBloc->position.y + logicBloc->body.getSize().y)
+				{
+					collidedMap.insert(make_pair((HitDirection)direction, logicBloc));
+				}
+			}
+		}
+	}
+
+	// is end
+	if (collidedMap.count(HitDirection::Up) == 0 && collidedMap.count(HitDirection::Down) == 0
+		&& collidedMap.count(HitDirection::Left) == 1 && collidedMap.count(HitDirection::Right) == 0)
+		sequencePosition = SequencePosition::End;
+
+	// is intermediate
+	if (collidedMap.count(HitDirection::Up) == 0 && collidedMap.count(HitDirection::Down) == 0
+		&& collidedMap.count(HitDirection::Left) == 1 && collidedMap.count(HitDirection::Right) == 1)
+		sequencePosition = SequencePosition::Intermediate;
+
+	// is begin
+	if (collidedMap.count(HitDirection::Up) == 0 && collidedMap.count(HitDirection::Down) == 0
+		&& collidedMap.count(HitDirection::Left) == 0 && collidedMap.count(HitDirection::Right) == 1)
+		sequencePosition = SequencePosition::Begin;
+}
+
+void LogicBloc::Draw()
+{
+	body.setPosition(position);
+	motor->window->draw(body);
+}
+
 
 /*PROTOTYPING pour ajouter manuelement des evenements logiques*/
 void LogicSequenceManager::sendSequence(string code)
@@ -64,6 +129,42 @@ void LogicSequenceManager::sendSequence(string code)
 	applySequence(logicSequence);
 }
 
+void LogicSequenceManager::buildSequence(list<LogicBloc*>& logicBlocs)
+{
+	for (GameElement* gameElement : motor->level->GameElements)
+		gameElement->logicInstructions.clear();
+
+	for (LogicBloc* logicBloc : logicBlocs)
+	{
+		if (logicBloc->sequencePosition == SequencePosition::End)
+		{
+			list<Logic> logicSequence = list<Logic>();
+			LogicBloc* look = logicBloc;
+
+			logicSequence.push_back(look->logicType);
+			look = logicBloc->collidedMap[HitDirection::Left];
+
+			while (look != nullptr)
+			{
+				if (look->sequencePosition == SequencePosition::Intermediate)
+				{
+					logicSequence.push_front(look->logicType);
+					look = look->collidedMap[HitDirection::Left];
+				}
+
+				if (look->sequencePosition == SequencePosition::Begin)
+				{
+					logicSequence.push_front(look->logicType);
+					break;
+				}
+			}
+
+			if(isSequenceValid(logicSequence))
+				applySequence(logicSequence);
+		}
+	}
+}
+
 bool LogicSequenceManager::isSequenceValid(list<Logic>& logicSequence)
 {
 	int i = 0;
@@ -119,18 +220,18 @@ void LogicSequenceManager::applySequence(list<Logic>& logicSequence)
 				morphGameElement(element, logic.elementType);
 			}
 		}
+
 		if (logic.logicType == LogicType::Instruction)
 		{
-			switch (element)
+			for (GameElement* gameElement : motor->level->GameElements)
 			{
-			case ElementType::Brain:
-				if (isFistInstruction) Brain::LogicInstructions.clear();
-				Brain::LogicInstructions.push_back(logic.instructionType);
-				break;
-			case ElementType::Wall:
-				/*if (isFistInstruction) Wall::LogicInstructions.clear();
-				Wall::LogicInstructions.push_back(logic.instructionType);*/
-				break;
+				if (gameElement->type == element)
+				{
+					if (isFistInstruction) 
+						gameElement->logicInstructions.clear();
+
+					gameElement->logicInstructions.push_back(logic.instructionType);
+				}
 			}
 
 			if (isFistInstruction) isFistInstruction = false;
@@ -154,7 +255,7 @@ void LogicSequenceManager::morphGameElement(ElementType oldType, ElementType new
 				newGameElement = new Brain();
 				break;
 			case ElementType::Wall:
-				//newGameElement = new Wall();
+				newGameElement = new Wall();
 				break;
 			}
 

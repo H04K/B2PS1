@@ -32,11 +32,11 @@ int main()
 			NavChoice = GameMotor.Play();
 			break;
 		case NavigationChoice::Quit :
-			GameMotor.Fade(2);
+			GameMotor.Fade(2, 10);
 			return EXIT_SUCCESS;
 		}
 		
-		GameMotor.Fade(2);
+		GameMotor.Fade(2, 10);
 	}
 
 	return EXIT_SUCCESS;

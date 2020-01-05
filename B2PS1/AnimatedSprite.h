@@ -18,9 +18,8 @@ public:
 	
 	enum class Direction { Right, Left, Up, Down, None };
 
-	class Range
+	struct Range
 	{
-	public:
 		Direction direction;
 		int min;
 		int max;
@@ -40,11 +39,17 @@ public:
 	int currentFrame = 0;
 	int animDelay = 100;
 
+	Sprite getSprite();
+	FloatRect getLocalBounds();
+
+	static void loadTexturesFromRange(map<AnimatedSprite::Direction, list<Texture*>>* texturesMap, list<Range>& ranges, string path, string pathend);
+
 	void SetTextures(list<Texture*>& textures);
 	void SetTextures(map<Direction, list<Texture*>>& texturesMap);
 
 	void Animate();
 	void Animate(bool isMoving);
 	void Animate(bool isMoving, Direction direction);
+
 	void Draw();
 };

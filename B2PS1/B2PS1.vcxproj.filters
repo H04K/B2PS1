@@ -57,6 +57,9 @@
     <ClCompile Include="jsoncpp.cpp">
       <Filter>Fichiers de ressources</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="SaveManager.h">
       <Filter>Fichiers d%27en-tête\Motor</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,17 +10,17 @@ public :
 	Sprite sprite;
 	Motor* motor = nullptr;
 
-	virtual void LoadSprites();
+	virtual void LoadSprites() {};
 
-	virtual void Start();
-	virtual void Update();
-	virtual void Draw();
+	virtual void Start() {};
+	virtual void Update() {};
+	virtual void Draw() {};
+	virtual void Destroy() {};
 };
 
 class Floor : public MapElement
 {
 public:
-	
 	static Texture* texture;
 
 	void LoadSprites();
@@ -28,4 +28,12 @@ public:
 	void Start();
 	void Update();
 	void Draw();
+	void Destroy()
+	{
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
+		}
+	}
 };

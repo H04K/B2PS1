@@ -571,7 +571,7 @@ NavigationChoice Motor::LevelSelect()
 		LoadLevel(UIMaps[0][0].TileMapPath, UIMaps[0][0].ElementsMapPath, 0, 0);
 		return NavigationChoice::Play;
 	}
-
+	
 	int mouseX = -1;
 	int mouseY = -1;
 
@@ -739,7 +739,14 @@ NavigationChoice Motor::Play() {
 	{
 		gameElement->motor = this;
 		gameElement->LoadSprites();
+		gameElement->collider = new Collider(&gameElement->position, gameElement->animatedSprite.getLocalBounds());
 		gameElement->Start();
+	}
+
+	for (LogicBloc* logicBlock : level->LogicBlocs)
+	{
+		logicBlock->motor = this;
+		logicBlock->collider = new Collider(&logicBlock->position, logicBlock->body.getLocalBounds());
 	}
 
 	for (MapElement* mapElement : level->MapElements)
@@ -751,7 +758,7 @@ NavigationChoice Motor::Play() {
 
 	while (window->isOpen())
 	{
-		// refresh elements list
+		// refresh events list
 		RefreshEvents();
 
 		Event event;
@@ -805,12 +812,12 @@ NavigationChoice Motor::Play() {
 			cout << "Entrer un sequence logique : ";
 			char tabCode[50];
 			cin.getline(tabCode, 50);
-			string code(tabCode);
-
-			logicSequenceManager.sendSequence(code);
+			logicSequenceManager.sendSequence(tabCode);
 		}
 
 		window->clear(Color::Black);
+
+#pragma region Update/Draw
 
 		for (MapElement* mapElement : level->MapElements)
 		{
@@ -822,8 +829,33 @@ NavigationChoice Motor::Play() {
 		{
 			gameElement->ApplyLogicInstructions();
 			gameElement->Update();
+			
+			for (GameElement* other : level->GameElements)
+				if (gameElement != other)
+					gameElement->collider->CheckCollison(*other->collider, 0.25f);
+
+			for (LogicBloc* logicBloc : level->LogicBlocs)
+					gameElement->collider->CheckCollison(*logicBloc->collider, 0.25f);
+			
 			gameElement->Draw();
 		}
+
+		for (LogicBloc* logicBloc : level->LogicBlocs)
+		{
+			logicBloc->Draw();
+			logicBloc->CheckCollision(level->LogicBlocs);
+
+			for (LogicBloc* other : level->LogicBlocs)
+				if(logicBloc != other)
+					logicBloc->collider->CheckCollison(*other->collider, 0.25f);
+
+			for (GameElement* gameElement : level->GameElements)
+				gameElement->collider->CheckCollison(*logicBloc->collider, 0.25f);
+		}
+
+		logicSequenceManager.buildSequence(level->LogicBlocs);
+
+#pragma endregion
 
 		window->display();
 	}
@@ -911,6 +943,7 @@ NavigationChoice Motor::PauseMenu(NavPair buttonsData[3])
 void Motor::LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex)
 {
 	events.clear();
+	
 	delete level;
 	level = new Level();
 	level->mapIndex = mapIndex;
@@ -922,20 +955,20 @@ void Motor::LoadLevel(string pathTileMap, string pathElements, int mapIndex, int
 	LoadTileMap(pathTileMap);
 }
 
-/*
-Methode pour rajouter un nouvel element : 
-- LogicSequenceManager : rajouter le nom du gameElement dans l'enum
-- rajouter le template de code suivant a la suite du if :
-if (csvLevel[y][x] == ##ID de l'element dans la map)
-{
-	## creation / ajout de parametres a l'element bref le code sp�cifique a element
-	## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
-
-	level->GameElements.push_back( ##Element );
-}
-*/
 void Motor::LoadElements(string path)
 {
+	/*
+	Methode pour rajouter un nouvel element :
+	- LogicSequenceManager : rajouter le nom du gameElement dans l'enum
+	- rajouter le template de code suivant a la suite du if :
+	if (csvLevel[y][x] == ##ID de l'element dans la map)
+	{
+		## creation / ajout de parametres a l'element bref le code sp�cifique a element
+		## /!\ doit etre instancier par un new /!\ # ex : Player* player = new Player() #
+
+		level->GameElements.push_back( ##Element );
+	}
+	*/
 	try
 	{
 		ifstream fileStream = ifstream(path);
@@ -969,26 +1002,57 @@ void Motor::LoadElements(string path)
 					brain->position.y = yTilesSize * y;
 					level->GameElements.push_back(brain);
 				}
+				if (csvLevel[y][x] == 2)
+				{
+					Wall* wall = new Wall();
+					wall->position.x = xTilesSize * x;
+					wall->position.y = yTilesSize * y;
+					level->GameElements.push_back(wall);
+				}
+
+
+				if (csvLevel[y][x] == 10)
+				{
+					LogicBloc* logicBlock = new LogicBloc(Color::Red , Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Brain));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+
+				if (csvLevel[y][x] == 20)
+				{
+					LogicBloc* logicBlock = new LogicBloc(Color::Yellow, Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(OperateurType::Is));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+
+				if (csvLevel[y][x] == 30)
+				{
+					LogicBloc* logicBlock = new LogicBloc(Color::Blue, Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(InstructionType::You));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+
 			}
 		}
 
 		cout << "Successful Loaded Elements " << path << endl;
 	}
+
 	catch (exception & ex)
 	{
 		cout << "Failed Load Elements : Elements " << path << " not found " << ex.what() << endl;
 	}
 }
 
-/*
-Methode pour rajouter une nouvelle tile : 
-- rajouter le template de code suivant a la suite du if :
-if (csvLevel[y][x] == ##ID de l'element dans la map)
-{
-}
-*/
 void Motor::LoadTileMap(string path)
 {
+	/*
+	Methode pour rajouter une nouvelle tile :
+	- rajouter le template de code suivant a la suite du if :
+	if (csvLevel[y][x] == ##ID de l'element dans la map)
+	{
+	}
+	*/
 	try
 	{
 		ifstream fileStream = ifstream(path);
@@ -1037,7 +1101,7 @@ void Motor::RestartLevel()
 	LoadLevel(level->pathTileMap, level->pathElements, level->mapIndex, level->levelIndex);
 }
 
-void Motor::Fade(Int64 fadeSpeed)
+void Motor::Fade(Int64 fadeSpeed, int coef)
 {
 	Clock fadeClock;
 
@@ -1057,7 +1121,7 @@ void Motor::Fade(Int64 fadeSpeed)
 		// toutes les fadeSpeed
 		if (fadeClock.getElapsedTime().asMicroseconds() % fadeSpeed == 0)
 		{
-			fade -= 10;
+			fade -= coef;
 			background.setColor(Color(255, 255, 255, fade));
 		}
 
@@ -1074,6 +1138,7 @@ void Motor::RefreshEvents()
 	while (window->pollEvent(event))
 		events.push_back(event);
 }
+
 bool Motor::GetEvent(Event& _event, Event::EventType eventType)
 {
 	for (Event event : events)

@@ -3,7 +3,8 @@
 
 enum class NavigationChoice { Stay, MainMenu, SelectSaveSlot, LevelSelect, Options, Credits, Play, Quit };
 
-struct NavPair {
+struct NavPair 
+{
 	NavigationChoice NavChoice;
 	string Wording;
 	NavPair(NavigationChoice NavChoice, string Wording) : NavChoice(NavChoice), Wording(Wording) {}
@@ -13,14 +14,24 @@ struct Level
 {
 	list<GameElement*> GameElements = list<GameElement*>();
 	list<MapElement*> MapElements = list<MapElement*>();
+	list<LogicBloc*> LogicBlocs = list<LogicBloc*>();
+
 	bool isWin = false;
 	float timeDone = 0.f;
 
 	int mapIndex = -1, levelIndex = -1;
 	string pathTileMap = "", pathElements = "";
+
+	~Level()
+	{
+		for (GameElement* element : GameElements) { element->Destroy(); delete element; }
+		for (MapElement* element : MapElements) { element->Destroy(); delete element; }
+		for (LogicBloc* element : LogicBlocs) { delete element; }
+	}
 };
 
-class Motor {
+class Motor 
+{
 private:
 	//Met a jours les events a chaque appel
 	void RefreshEvents();
@@ -40,7 +51,7 @@ private:
 	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 public:
 
-	Motor(RenderWindow& window) : window(&window){}
+	Motor(RenderWindow& window) : window(&window) {}
 	~Motor() { delete level; delete saveManager; }
 	
 	NavigationChoice MainMenu();
@@ -52,8 +63,8 @@ public:
 	NavigationChoice Play();
 	NavigationChoice PauseMenu(NavPair buttonsData[3]);
 
-	// Fade the screan while @param
-	void Fade(Int64 fadeSpeed);
+	// Fade the screan
+	void Fade(Int64 fadeSpeed, int coef);
 
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;

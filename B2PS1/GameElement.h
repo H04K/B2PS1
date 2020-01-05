@@ -8,47 +8,79 @@
 // Pour que le type Motor soit accessible depuis la declaration de GameElement
 class Motor;
 
-class GameElement {
+class GameElement 
+{
 protected:
 	void Stop();
 	void You();
 
-	void Move(float x, float y);
+	void Move(float offsetx, float offsety);
+	void Move(Vector2f offset);
 
 public:
 	ElementType type = ElementType::None;
 
-	list<InstructionType>* logicInstructions = nullptr;
+	bool Is(InstructionType instructionType);
+	list<InstructionType> logicInstructions = list<InstructionType>();
 	void ApplyLogicInstructions();
-
+	
 	Vector2f position = Vector2f();
 	Motor* motor = nullptr;
 
 	AnimatedSprite animatedSprite = AnimatedSprite(*this);
-	virtual void LoadSprites();
+	virtual void LoadSprites() {}
+
+	Collider* collider = nullptr;
 
 	GameElement() : type(ElementType::None) {}
-	~GameElement();
+	~GameElement() { delete collider;};
 
-	virtual void Start();
-	virtual void Update();
-	virtual void Draw();
+	virtual void Start() {}
+	virtual void Update() {}
+	virtual void Draw() {}
+	virtual void Destroy() {}
 };
 
-
-class Brain : public GameElement {
+class Brain : public GameElement 
+{
 public:
-	static list<InstructionType> LogicInstructions;
-
-	//static Texture* texture;
-	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
 
 	Brain() { type = ElementType::Brain; }
-	~Brain() {}
 
+	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
 	void LoadSprites();
 
 	void Start();
 	void Update();
 	void Draw();
+	void Destroy()
+	{
+		if (texturesMap != nullptr)
+		{
+			delete texturesMap;
+			texturesMap = nullptr;
+		}
+	}
+};
+
+class Wall : public GameElement 
+{
+public:
+
+	Wall() { type = ElementType::Wall; }
+
+	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
+
+	void LoadSprites();
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texturesMap != nullptr)
+		{
+			delete texturesMap;
+			texturesMap = nullptr;
+		}
+	}
 };

@@ -1,5 +1,57 @@
 #include "Motor.h"
 
+Sprite AnimatedSprite::getSprite()
+{
+	for (int direction = 0; direction <= (int)Direction::None; direction++)
+	{
+		if (spritesMap.count((Direction)direction))
+			return spritesMap[(Direction)direction][0];
+	}
+
+	return Sprite();
+}
+
+FloatRect AnimatedSprite::getLocalBounds()
+{
+	for (int direction = 0; direction <= (int)Direction::None; direction++)
+	{
+		if (spritesMap.count((Direction)direction))
+			return spritesMap[(Direction)direction][0].getLocalBounds();
+	}
+
+	return FloatRect();
+}
+
+void AnimatedSprite::loadTexturesFromRange(map<AnimatedSprite::Direction, list<Texture*>>* texturesMap, list<Range>& ranges, string path, string pathend)
+{
+	for (AnimatedSprite::Range& range : ranges)
+	{
+		list<Texture*> textures = list<Texture*>();
+
+		for (int i = range.min; i <= range.max; i++)
+		{
+			Texture* texture = new Texture();
+
+			if (texture->loadFromFile(path + to_string(i) + pathend))
+			{
+				texture->setRepeated(true);
+				texture->setSmooth(true);
+				textures.push_back(texture);
+				cout << "Sucessfull Loaded " << path << i << pathend << endl;
+			}
+			else
+			{
+				delete texturesMap;
+				texturesMap = nullptr;
+				cout << "Can't load " << path << i << pathend << endl;
+				return;
+			}
+		}
+
+		texturesMap->insert(make_pair(range.direction, textures));
+	}
+}
+
 void AnimatedSprite::SetTextures(list<Texture*>& textures)
 {
 	map<Direction, list<Texture*>> _textures = map<Direction, list<Texture*>>();
@@ -28,6 +80,7 @@ void AnimatedSprite::SetTextures(map<Direction, list<Texture*>>& texturesMap)
 
 	if (spritesMap.count(currentDirection))
 		maxFrame = spritesMap[currentDirection].size();
+
 	else if (spritesMap.count(Direction::None))
 		maxFrame = spritesMap[Direction::None].size();
 }
