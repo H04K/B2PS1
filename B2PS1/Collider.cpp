@@ -1,20 +1,22 @@
 #include "Motor.h"
 
-Collider::Collider(Vector2f* position, FloatRect localBounds)
+Collider::Collider(Vector2f* position, Vector2f size)
 {
 	this->position = position;
-	this->localBounds = localBounds;
+	this->size = size;
 }
 
 bool Collider::CheckCollison(Collider& other) { return CheckCollison(other, 0); }
 
-bool Collider::CheckCollison(Collider& other, float push)
+bool Collider::CheckCollison(Collider other, float push)
 {
+	if (position == nullptr) { cout << this << " can't CheckCollision position is null" << endl; return false; }
+
 	Vector2f otherPosition = other.getPosition();
 	Vector2f otherHalfSize = other.getSize() / 2.f;
 
 	Vector2f thisPosition = getPosition();
-	Vector2f thisHalfSize = getSize() / 2.f;
+	Vector2f thisHalfSize = getSize() / 2.f;	// <-------
 
 	float deltaX = otherPosition.x - thisPosition.x;
 	float deltaY = otherPosition.y - thisPosition.y;

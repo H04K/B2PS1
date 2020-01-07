@@ -11,30 +11,39 @@ class Motor;
 class GameElement 
 {
 protected:
-	void Stop();
-	void You();
+	virtual void Stop();
+	virtual void You();
 
 	void Move(float offsetx, float offsety);
 	void Move(Vector2f offset);
 
-public:
-	ElementType type = ElementType::None;
-
-	bool Is(InstructionType instructionType);
-	list<InstructionType> logicInstructions = list<InstructionType>();
-	void ApplyLogicInstructions();
+	Vector2f position;
+	Vector2f scale = Vector2f(1,1);
+	Collider collider;
 	
-	Vector2f position = Vector2f();
-	Vector2f scale = Vector2f();
 	Motor* motor = nullptr;
 
-	AnimatedSprite animatedSprite = AnimatedSprite(*this);
-	virtual void LoadSprites() {}
+	virtual void LoadSprites() {};
 
-	Collider* collider = nullptr;
+public:
 
-	GameElement() : type(ElementType::None) {}
-	~GameElement() { delete collider; };
+	ElementType type = ElementType::None;
+	bool Is(InstructionType instructionType);
+	list<InstructionType> logicInstructions = list<InstructionType>();		
+	void ApplyLogicInstructions();
+
+	Vector2f getPosition() { return position; }	void setPosition(Vector2f position) { this->position = position; }
+	Vector2f getScale() { return scale; } void setScale(Vector2f scale) { this->scale = scale; }
+	virtual Vector2f getSize() { return Vector2f(); };
+
+	Collider getCollider() { return collider; }
+
+
+	Motor* getMotor() { return motor; }
+
+	GameElement() = default;
+	GameElement(Motor* motor, Vector2f position, ElementType type);
+	~GameElement() {}
 
 	virtual void Start() {}
 	virtual void Update() {}
@@ -44,9 +53,13 @@ public:
 
 class Brain : public GameElement 
 {
+	void You();
+	AnimatedSprite animatedSprite = AnimatedSprite(*this);
 public:
 
-	Brain() { type = ElementType::Brain; }
+	Brain(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
 
 	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
 	void LoadSprites();
@@ -66,13 +79,16 @@ public:
 
 class Wall : public GameElement 
 {
+	AnimatedSprite animatedSprite = AnimatedSprite(*this);
 public:
 
-	Wall() { type = ElementType::Wall; }
+	Wall(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
 
 	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
-
 	void LoadSprites();
+
 	void Start();
 	void Update();
 	void Draw();

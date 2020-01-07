@@ -735,18 +735,11 @@ NavigationChoice Motor::Play() {
 
 	if (level == nullptr) { cout << "Failed Play : Level is null" << endl; return NavigationChoice::Quit; }
 
-	for (GameElement* gameElement : level->GameElements)
-	{
-		gameElement->motor = this;
-		gameElement->LoadSprites();
-		gameElement->collider = new Collider(&gameElement->position, gameElement->animatedSprite.getLocalBounds());
-		gameElement->Start();
-	}
-
 	for (LogicBloc* logicBlock : level->LogicBlocs)
 	{
 		logicBlock->motor = this;
-		logicBlock->collider = new Collider(&logicBlock->position, logicBlock->body.getLocalBounds());
+		logicBlock->collider = new Collider(&logicBlock->position,
+			Vector2f(logicBlock->body.getLocalBounds().width, logicBlock->body.getLocalBounds().height));
 	}
 
 	for (MapElement* mapElement : level->MapElements)
@@ -832,10 +825,10 @@ NavigationChoice Motor::Play() {
 			
 			for (GameElement* other : level->GameElements)
 				if (gameElement != other)
-					gameElement->collider->CheckCollison(*other->collider, 0.25f);
+					gameElement->getCollider().CheckCollison(other->getCollider(), 1);
 
 			for (LogicBloc* logicBloc : level->LogicBlocs)
-					gameElement->collider->CheckCollison(*logicBloc->collider, 0.25f);
+					gameElement->getCollider().CheckCollison(*logicBloc->collider, 1);
 			
 			gameElement->Draw();
 		}
@@ -846,11 +839,11 @@ NavigationChoice Motor::Play() {
 			logicBloc->CheckCollision(level->LogicBlocs);
 
 			for (LogicBloc* other : level->LogicBlocs)
-				if(logicBloc != other)
-					logicBloc->collider->CheckCollison(*other->collider, 0.25f);
+				if (logicBloc != other)
+					logicBloc->collider->CheckCollison(*other->collider, 1);
 
 			for (GameElement* gameElement : level->GameElements)
-				gameElement->collider->CheckCollison(*logicBloc->collider, 0.25f);
+				gameElement->getCollider().CheckCollison(*logicBloc->collider, 1);
 		}
 
 		logicSequenceManager.buildSequence(level->LogicBlocs);
@@ -1000,38 +993,42 @@ void Motor::LoadElements(string path)
 
 				if (csvLevel[y][x] == 1)
 				{
-					Brain* brain = new Brain();
-					brain->position = Vector2f(xTilesSize * x, yTilesSize * y);
-					brain->scale = Vector2f(1, 1);
-
+					Brain* brain = new Brain(this, Vector2f(xTilesSize * x, yTilesSize * y), ElementType::Brain);
 					level->GameElements.push_back(brain);
 				}
 				if (csvLevel[y][x] == 2)
 				{
-					Wall* wall = new Wall();
-					wall->position = Vector2f(xTilesSize * x, yTilesSize * y);
-					wall->scale = Vector2f(1, 1);
-
+					Wall* wall = new Wall(this, Vector2f(xTilesSize * x, yTilesSize * y), ElementType::Wall);
 					level->GameElements.push_back(wall);
 				}
 
 				if (csvLevel[y][x] == 10)
 				{
-					LogicBloc* logicBlock = new LogicBloc(Color::Red , Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicBrain, 
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
 						Logic(ElementType::Brain));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 11)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicWall, 
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Wall));
 					level->LogicBlocs.push_back(logicBlock);
 				}
 
 				if (csvLevel[y][x] == 20)
 				{
-					LogicBloc* logicBlock = new LogicBloc(Color::Yellow, Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicIs, 
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
 						Logic(OperateurType::Is));
 					level->LogicBlocs.push_back(logicBlock);
 				}
 
 				if (csvLevel[y][x] == 30)
 				{
-					LogicBloc* logicBlock = new LogicBloc(Color::Blue, Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicYou,
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
 						Logic(InstructionType::You));
 					level->LogicBlocs.push_back(logicBlock);
 				}

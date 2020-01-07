@@ -39,7 +39,7 @@ struct Logic
 class LogicBloc
 {
 public:
-	LogicBloc(Color color, Vector2f size, Vector2f position, Logic logicType);
+	LogicBloc(Texture* texture, Vector2f size, Vector2f position, Logic logicType);
 	~LogicBloc() { delete collider; }
 
 	Motor* motor = nullptr;
@@ -53,6 +53,7 @@ public:
 	Logic logicType;
 	SequencePosition sequencePosition = SequencePosition::None;
 	map<HitDirection, LogicBloc*> collidedMap = map<HitDirection, LogicBloc*>();
+	map<HitDirection, bool> needClampMap = map<HitDirection, bool>();
 
 	void CheckCollision(list<LogicBloc*>& logicBlocs);
 

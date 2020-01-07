@@ -1,14 +1,17 @@
 ﻿#include "Motor.h"
 
-LogicBloc::LogicBloc(Color color, Vector2f size, Vector2f position, Logic logicType) : logicType(logicType)
+LogicBloc::LogicBloc(Texture* texture, Vector2f size, Vector2f position, Logic logicType) : logicType(logicType)
 {
-	// temporaire
-
 	body.setSize(size);
-	//body.setOrigin(size / 2.0f);
-	body.setFillColor(color);
+	body.setOrigin(size / 2.0f);
+	body.setTexture(texture);
+	//body.setFillColor(color);
 	body.setPosition(position);
 	this->position = position;
+
+	// initialise needClampMap
+	for (int i = 0; i < 4; i++)
+		needClampMap.insert(make_pair((HitDirection)i, false));
 }
 
 void LogicBloc::CheckCollision(list<LogicBloc*>& logicBlocs)
@@ -23,13 +26,15 @@ void LogicBloc::CheckCollision(list<LogicBloc*>& logicBlocs)
 		{position.x + body.getSize().x + 30, position.y + body.getSize().y / 2}  // right
 	};
 
+	// pour le clamp
+	map<HitDirection, LogicBloc*> compareCollidedMap = collidedMap;
 	collidedMap.clear();
 
 	for (int direction = 0; direction < 4; direction++)
 	{
 		Vector2f pos = Vector2f(positions[direction][0], positions[direction][1]);
 
-		for (LogicBloc* logicBloc : logicBlocs)
+	 	for (LogicBloc* logicBloc : logicBlocs)
 		{
 			if (logicBloc != this)
 			{
@@ -37,6 +42,13 @@ void LogicBloc::CheckCollision(list<LogicBloc*>& logicBlocs)
 					pos.y >= logicBloc->position.y && pos.y <= logicBloc->position.y + logicBloc->body.getSize().y)
 				{
 					collidedMap.insert(make_pair((HitDirection)direction, logicBloc));
+					
+					// si l'element n'est pas deja clamp ou en cours de clamp
+					if (compareCollidedMap[(HitDirection)direction] != logicBloc)
+					{
+						needClampMap[HitDirection::Left] = true;
+						needClampMap[HitDirection::Right] = true;
+					}
 				}
 			}
 		}
@@ -60,6 +72,29 @@ void LogicBloc::CheckCollision(list<LogicBloc*>& logicBlocs)
 
 void LogicBloc::Draw()
 {
+	for (auto itr = needClampMap.begin(); itr != needClampMap.end(); itr++)
+	{
+		// si il y a besoin d'un clamp
+		if (sequencePosition == SequencePosition::Intermediate)
+		{
+			if (itr->second && (itr->first == HitDirection::Right || itr->first == HitDirection::Left))
+			{
+				if (collidedMap[itr->first] != nullptr)
+				{
+					if (collidedMap[itr->first]->position.y < position.y)
+						collidedMap[itr->first]->position.y += 1;
+
+					if (collidedMap[itr->first]->position.y > position.y)
+						collidedMap[itr->first]->position.y -= 1;
+
+					// si le logicBloc est clamp
+					if (collidedMap[itr->first]->position.y == position.y)
+						itr->second = false;
+				}
+			}
+		}
+	}
+
 	body.setPosition(position);
 	motor->window->draw(body);
 }
@@ -131,8 +166,7 @@ void LogicSequenceManager::sendSequence(string code)
 
 void LogicSequenceManager::buildSequence(list<LogicBloc*>& logicBlocs)
 {
-	for (GameElement* gameElement : motor->level->GameElements)
-		gameElement->logicInstructions.clear();
+	bool haveToClear = true;
 
 	for (LogicBloc* logicBloc : logicBlocs)
 	{
@@ -146,21 +180,20 @@ void LogicSequenceManager::buildSequence(list<LogicBloc*>& logicBlocs)
 
 			while (look != nullptr)
 			{
-				if (look->sequencePosition == SequencePosition::Intermediate)
-				{
-					logicSequence.push_front(look->logicType);
-					look = look->collidedMap[HitDirection::Left];
-				}
-
-				if (look->sequencePosition == SequencePosition::Begin)
-				{
-					logicSequence.push_front(look->logicType);
-					break;
-				}
+				logicSequence.push_front(look->logicType);
+				look = look->collidedMap[HitDirection::Left];
 			}
 
-			if(isSequenceValid(logicSequence))
+			if (isSequenceValid(logicSequence))
+			{
+				if (haveToClear)
+				{
+					for (GameElement* gameElement : motor->level->GameElements)
+						gameElement->logicInstructions.clear();
+					haveToClear = false;
+				}
 				applySequence(logicSequence);
+			}
 		}
 	}
 }
@@ -204,7 +237,6 @@ void LogicSequenceManager::applySequence(list<Logic>& logicSequence)
 	ElementType element = ElementType::None;
 
 	bool isFistElement = true;
-	bool isFistInstruction = true;
 
 	for (Logic logic : logicSequence)
 	{
@@ -227,14 +259,9 @@ void LogicSequenceManager::applySequence(list<Logic>& logicSequence)
 			{
 				if (gameElement->type == element)
 				{
-					if (isFistInstruction) 
-						gameElement->logicInstructions.clear();
-
 					gameElement->logicInstructions.push_back(logic.instructionType);
 				}
 			}
-
-			if (isFistInstruction) isFistInstruction = false;
 		}
 	}
 }
@@ -251,27 +278,20 @@ void LogicSequenceManager::morphGameElement(ElementType oldType, ElementType new
 
 			switch (newType)
 			{
-			case ElementType::Brain:
-				newGameElement = new Brain();
+			case ElementType::Brain :
+				newGameElement = new Brain(gameElement->getMotor(), gameElement->getPosition(), ElementType::Brain);
 				break;
-			case ElementType::Wall:
-				newGameElement = new Wall();
+			case ElementType::Wall :
+				newGameElement = new Wall(gameElement->getMotor(), gameElement->getPosition(), ElementType::Brain);
 				break;
 			}
-
-			newGameElement->position.x = gameElement->position.x;
-			newGameElement->position.y = gameElement->position.y;
-			newGameElement->motor = gameElement->motor;
-			newGameElement->LoadSprites();
-			newGameElement->Start();
 
 			newGameElements.push_back(newGameElement);
 		}
 		else
-		{
 			newGameElements.push_back(gameElement);
-		}
 	}
 
+	for (GameElement* gameElement : motor->level->GameElements) delete gameElement;
 	motor->level->GameElements = newGameElements;
 }

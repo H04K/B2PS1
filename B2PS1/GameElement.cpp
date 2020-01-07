@@ -6,35 +6,35 @@ void GameElement::Stop()
 }
 void GameElement::You()
 {
-	bool isMoving = false;
-	AnimatedSprite::Direction direction = AnimatedSprite::Direction::None;
+	//bool isMoving = false;
+	//AnimatedSprite::Direction direction = AnimatedSprite::Direction::None;
 
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
 		Move(0, 0.75f);
-		isMoving = true;
-		direction = AnimatedSprite::Direction::Down;
+		//isMoving = true;
+		//direction = AnimatedSprite::Direction::Down;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Z))
 	{
 		Move(0, -0.75f);
-		isMoving = true;
-		direction = AnimatedSprite::Direction::Up;
+		//isMoving = true;
+		//direction = AnimatedSprite::Direction::Up;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
 		Move(0.75f, 0.f);
-		isMoving = true;
-		direction = AnimatedSprite::Direction::Right;
+		//isMoving = true;
+		//direction = AnimatedSprite::Direction::Right;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
 		Move(-0.75f, 0.f);
-		isMoving = true;
-		direction = AnimatedSprite::Direction::Left;
+		//isMoving = true;
+		//direction = AnimatedSprite::Direction::Left;
 	}
 	
-	animatedSprite.Animate(isMoving, direction);
+	//animatedSprite.Animate(isMoving, direction);
 }
 
 void GameElement::Move(float offsetx, float offsety)
@@ -56,6 +56,12 @@ bool GameElement::Is(InstructionType instructionType)
 	return false;
 }
 
+GameElement::GameElement(Motor* motor, Vector2f position, ElementType type) : motor(motor), position(position), type(type) 
+{
+	LoadSprites();
+	Start();
+}
+
 void GameElement::ApplyLogicInstructions()
 {
 	for (InstructionType instruction : logicInstructions)
@@ -68,13 +74,60 @@ void GameElement::ApplyLogicInstructions()
 		case InstructionType::You:
 			You();
 			break;
-		case InstructionType::None:
-			break;
 		}
 	}
 }
 
 map<AnimatedSprite::Direction, list<Texture*>>* Brain::texturesMap = nullptr;
+
+void Brain::You()
+{
+	bool isMoving = false;
+	AnimatedSprite::Direction direction = AnimatedSprite::Direction::None;
+
+	if (Keyboard::isKeyPressed(Keyboard::S))
+	{
+		Move(0, Ressources::MoveVelocity);
+		isMoving = true;
+		direction = AnimatedSprite::Direction::Down;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Z))
+	{
+		Move(0, -Ressources::MoveVelocity);
+		isMoving = true;
+		direction = AnimatedSprite::Direction::Up;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::D))
+	{
+		Move(Ressources::MoveVelocity, 0.f);
+		isMoving = true;
+		direction = AnimatedSprite::Direction::Right;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Q))
+	{
+		Move(-Ressources::MoveVelocity, 0.f);
+		isMoving = true;
+		direction = AnimatedSprite::Direction::Left;
+	}
+
+	animatedSprite.Animate(isMoving, direction);
+}
+
+Brain::Brain(Motor* motor, Vector2f position, ElementType type)
+{
+	this->motor = motor;
+	this->position = position;
+	this->type = type;
+
+	LoadSprites();
+	collider = Collider(&this->position, Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height));
+	Start();
+}
+
+Vector2f Brain::getSize()
+{
+	return Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height);
+}
 
 void Brain::LoadSprites()
 {
@@ -97,11 +150,9 @@ void Brain::LoadSprites()
 	animatedSprite.SetTextures(*Brain::texturesMap);
 }
 
-void Brain::Start(){}
+void Brain::Start() {}
 
-void Brain::Update()
-{
-}
+void Brain::Update() {}
 
 void Brain::Draw()
 {
@@ -109,6 +160,23 @@ void Brain::Draw()
 }
 
 map<AnimatedSprite::Direction, list<Texture*>>* Wall::texturesMap = nullptr;
+
+Wall::Wall(Motor* motor, Vector2f position, ElementType type)
+{
+	this->motor = motor;
+	this->position = position;
+	this->type = type;
+
+	LoadSprites();
+	cout << "Wall LocalBounds : " << animatedSprite.getLocalBounds().width << ',' << animatedSprite.getLocalBounds().height << endl;
+	collider = Collider(&this->position, Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height));
+	Start();
+}
+
+Vector2f Wall::getSize()
+{
+	return Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height);
+}
 
 void Wall::LoadSprites()
 {
@@ -128,12 +196,8 @@ void Wall::LoadSprites()
 	animatedSprite.SetTextures(*Wall::texturesMap);
 }
 
-void Wall::Start(){}
-
-void Wall::Update()
-{
-	
-}
+void Wall::Start() {}
+void Wall::Update() {}
 
 void Wall::Draw()
 {

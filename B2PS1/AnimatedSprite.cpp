@@ -70,8 +70,9 @@ void AnimatedSprite::SetTextures(map<Direction, list<Texture*>>& texturesMap)
 		{
 			Sprite sprite = Sprite();
 			sprite.setTexture(*texture);
-			sprite.setPosition(gameElement->position);
-			sprite.setScale(gameElement->scale);
+			sprite.setOrigin((Vector2f)texture->getSize() / 2.0f);
+			sprite.setPosition(gameElement->getPosition());
+			sprite.setScale(gameElement->getScale());
 
 			sprites.push_back(sprite);
 		}
@@ -130,8 +131,8 @@ void AnimatedSprite::Draw()
 
 	if (spritesMap.count(currentDirection))
 	{
-		spritesMap[currentDirection][currentFrame].setPosition(gameElement->position);
-		gameElement->motor->window->draw(spritesMap[currentDirection][currentFrame]);
+		spritesMap[currentDirection][currentFrame].setPosition(gameElement->getPosition());
+		gameElement->getMotor()->window->draw(spritesMap[currentDirection][currentFrame]);
 	}
 	else
 		cout << "Draw : can't found sprite Direction " << (int)currentDirection << " in sprites map" << endl;
