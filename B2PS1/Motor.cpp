@@ -822,29 +822,32 @@ NavigationChoice Motor::Play() {
 		{
 			gameElement->ApplyLogicInstructions();
 			gameElement->Update();
-			
-			for (GameElement* other : level->GameElements)
-				if (gameElement != other)
-					gameElement->getCollider().CheckCollison(other->getCollider(), 1);
 
 			for (LogicBloc* logicBloc : level->LogicBlocs)
-					gameElement->getCollider().CheckCollison(*logicBloc->collider, 1);
+					gameElement->getCollider().CheckPushCollison(*logicBloc->collider, 1);
 			
 			gameElement->Draw();
 		}
 
 		for (LogicBloc* logicBloc : level->LogicBlocs)
 		{
-			logicBloc->Draw();
 			logicBloc->CheckCollision(level->LogicBlocs);
 
 			for (LogicBloc* other : level->LogicBlocs)
 				if (logicBloc != other)
-					logicBloc->collider->CheckCollison(*other->collider, 1);
+					logicBloc->collider->CheckPushCollison(*other->collider, 1);
 
 			for (GameElement* gameElement : level->GameElements)
-				gameElement->getCollider().CheckCollison(*logicBloc->collider, 1);
+			{
+				if (gameElement->Is(InstructionType::Push))
+					gameElement->getCollider().CheckPushCollison(*logicBloc->collider, 1);
+				if (gameElement->Is(InstructionType::Stop))
+					gameElement->getCollider().CheckStopCollison(*logicBloc->collider, Ressources::MoveVelocity);
+			}
+
+			logicBloc->Draw();
 		}
+
 
 		logicSequenceManager.buildSequence(level->LogicBlocs);
 
@@ -1030,6 +1033,20 @@ void Motor::LoadElements(string path)
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicYou,
 						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
 						Logic(InstructionType::You));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 31)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicStop,
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(InstructionType::Stop));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 32)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicPush,
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(InstructionType::Push));
 					level->LogicBlocs.push_back(logicBlock);
 				}
 

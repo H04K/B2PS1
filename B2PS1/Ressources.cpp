@@ -13,6 +13,7 @@ Texture Ressources::Texture_LogicAnd = Texture();
 
 Texture Ressources::Texture_LogicYou = Texture();
 Texture Ressources::Texture_LogicStop = Texture();
+Texture Ressources::Texture_LogicPush = Texture();
 
 Font Ressources::Font_Arial = Font();
 Font Ressources::Font_BlackGround = Font();
@@ -32,6 +33,7 @@ Ressources::Ressources()
 
 	Texture_LogicYou.loadFromFile("Assets/Sprites/LogicBlocs/text_you_0_1.png");
 	Texture_LogicStop.loadFromFile("Assets/Sprites/LogicBlocs/text_stop_0_1.png");
+	Texture_LogicPush.loadFromFile("Assets/Sprites/LogicBlocs/text_push_0_1.png");
 
 	Font_Arial.loadFromFile("Assets/Fonts/arial_narrow_7.ttf");
 	Font_BlackGround.loadFromFile("Assets/Fonts/Black Ground.ttf");

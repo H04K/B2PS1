@@ -13,6 +13,7 @@ class GameElement
 protected:
 	virtual void Stop();
 	virtual void You();
+	virtual void Push();
 
 	void Move(float offsetx, float offsety);
 	void Move(Vector2f offset);

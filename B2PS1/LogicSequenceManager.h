@@ -12,7 +12,7 @@ using namespace sf;
 enum class LogicType { Instruction, Element, Operateur, None };
 enum class OperateurType { Is, And, None };
 enum class ElementType { Brain, Wall, None };
-enum class InstructionType { Stop, You, None };
+enum class InstructionType { Stop, You, Push, None };
 
 // logic Bloc
 enum class HitDirection { Up, Down, Left, Right };
@@ -40,6 +40,7 @@ class LogicBloc
 {
 public:
 	LogicBloc(Texture* texture, Vector2f size, Vector2f position, Logic logicType);
+	LogicBloc(Texture* texture, Color color, Vector2f size, Vector2f position, Logic logicType);
 	~LogicBloc() { delete collider; }
 
 	Motor* motor = nullptr;

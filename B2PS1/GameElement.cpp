@@ -2,39 +2,36 @@
 
 void GameElement::Stop() 
 {
-	cout << "ca stop bien la" << endl;
+	for (GameElement* other : motor->level->GameElements)
+		if (this != other)
+			collider.CheckStopCollison(other->getCollider(), Ressources::MoveVelocity);
 }
 void GameElement::You()
 {
-	//bool isMoving = false;
-	//AnimatedSprite::Direction direction = AnimatedSprite::Direction::None;
-
 	if (Keyboard::isKeyPressed(Keyboard::S))
-	{
-		Move(0, 0.75f);
-		//isMoving = true;
-		//direction = AnimatedSprite::Direction::Down;
-	}
+		Move(0, Ressources::MoveVelocity);
+
 	if (Keyboard::isKeyPressed(Keyboard::Z))
-	{
-		Move(0, -0.75f);
-		//isMoving = true;
-		//direction = AnimatedSprite::Direction::Up;
-	}
+		Move(0, -Ressources::MoveVelocity);
+
 	if (Keyboard::isKeyPressed(Keyboard::D))
-	{
-		Move(0.75f, 0.f);
-		//isMoving = true;
-		//direction = AnimatedSprite::Direction::Right;
-	}
+		Move(Ressources::MoveVelocity, 0.f);
+
 	if (Keyboard::isKeyPressed(Keyboard::Q))
-	{
-		Move(-0.75f, 0.f);
-		//isMoving = true;
-		//direction = AnimatedSprite::Direction::Left;
-	}
-	
-	//animatedSprite.Animate(isMoving, direction);
+		Move(-Ressources::MoveVelocity, 0.f);
+
+	for (LogicBloc* logicBloc : motor->level->LogicBlocs)
+		collider.CheckPushCollison(*logicBloc->collider, 1);
+}
+
+void GameElement::Push()
+{
+	for (GameElement* other : motor->level->GameElements)
+		if (this != other)
+			collider.CheckPushCollison(other->getCollider(), 1);
+
+	for (LogicBloc* logicBloc : motor->level->LogicBlocs)
+		collider.CheckPushCollison(*logicBloc->collider, 1);
 }
 
 void GameElement::Move(float offsetx, float offsety)
@@ -74,6 +71,9 @@ void GameElement::ApplyLogicInstructions()
 		case InstructionType::You:
 			You();
 			break;
+		case InstructionType::Push:
+			Push();
+			break;
 		}
 	}
 }
@@ -111,6 +111,9 @@ void Brain::You()
 	}
 
 	animatedSprite.Animate(isMoving, direction);
+
+	for (LogicBloc* logicBloc : motor->level->LogicBlocs)
+		collider.CheckPushCollison(*logicBloc->collider, 1);
 }
 
 Brain::Brain(Motor* motor, Vector2f position, ElementType type)

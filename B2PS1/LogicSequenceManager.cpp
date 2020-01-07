@@ -5,7 +5,20 @@ LogicBloc::LogicBloc(Texture* texture, Vector2f size, Vector2f position, Logic l
 	body.setSize(size);
 	body.setOrigin(size / 2.0f);
 	body.setTexture(texture);
-	//body.setFillColor(color);
+	body.setPosition(position);
+	this->position = position;
+
+	// initialise needClampMap
+	for (int i = 0; i < 4; i++)
+		needClampMap.insert(make_pair((HitDirection)i, false));
+}
+
+LogicBloc::LogicBloc(Texture* texture, Color color, Vector2f size, Vector2f position, Logic logicType) : logicType(logicType)
+{
+	body.setSize(size);
+	body.setOrigin(size / 2.0f);
+	body.setTexture(texture);
+	body.setFillColor(color);
 	body.setPosition(position);
 	this->position = position;
 
@@ -55,37 +68,34 @@ void LogicBloc::CheckCollision(list<LogicBloc*>& logicBlocs)
 	}
 
 	// is end
-	if (collidedMap.count(HitDirection::Up) == 0 && collidedMap.count(HitDirection::Down) == 0
-		&& collidedMap.count(HitDirection::Left) == 1 && collidedMap.count(HitDirection::Right) == 0)
+	if (collidedMap.count(HitDirection::Left) == 1 && collidedMap.count(HitDirection::Right) == 0)
 		sequencePosition = SequencePosition::End;
 
 	// is intermediate
-	if (collidedMap.count(HitDirection::Up) == 0 && collidedMap.count(HitDirection::Down) == 0
-		&& collidedMap.count(HitDirection::Left) == 1 && collidedMap.count(HitDirection::Right) == 1)
+	if (collidedMap.count(HitDirection::Left) == 1 && collidedMap.count(HitDirection::Right) == 1)
 		sequencePosition = SequencePosition::Intermediate;
 
 	// is begin
-	if (collidedMap.count(HitDirection::Up) == 0 && collidedMap.count(HitDirection::Down) == 0
-		&& collidedMap.count(HitDirection::Left) == 0 && collidedMap.count(HitDirection::Right) == 1)
+	if (collidedMap.count(HitDirection::Left) == 0 && collidedMap.count(HitDirection::Right) == 1)
 		sequencePosition = SequencePosition::Begin;
 }
 
 void LogicBloc::Draw()
 {
-	for (auto itr = needClampMap.begin(); itr != needClampMap.end(); itr++)
+	/*if (sequencePosition == SequencePosition::Intermediate)
 	{
-		// si il y a besoin d'un clamp
-		if (sequencePosition == SequencePosition::Intermediate)
+		for (auto itr = needClampMap.begin(); itr != needClampMap.end(); itr++)
 		{
+			// si il y a besoin d'un clamp
 			if (itr->second && (itr->first == HitDirection::Right || itr->first == HitDirection::Left))
 			{
 				if (collidedMap[itr->first] != nullptr)
 				{
 					if (collidedMap[itr->first]->position.y < position.y)
-						collidedMap[itr->first]->position.y += 1;
+						collidedMap[itr->first]->position.y++;
 
 					if (collidedMap[itr->first]->position.y > position.y)
-						collidedMap[itr->first]->position.y -= 1;
+						collidedMap[itr->first]->position.y--;
 
 					// si le logicBloc est clamp
 					if (collidedMap[itr->first]->position.y == position.y)
@@ -93,7 +103,7 @@ void LogicBloc::Draw()
 				}
 			}
 		}
-	}
+	}*/
 
 	body.setPosition(position);
 	motor->window->draw(body);
@@ -138,6 +148,8 @@ void LogicSequenceManager::sendSequence(string code)
 			logicSequence.push_back(Logic(InstructionType::Stop));
 		else if (logicString == "you" || logicString == "You")
 			logicSequence.push_back(Logic(InstructionType::You));
+		else if (logicString == "stop" || logicString == "Stop")
+			logicSequence.push_back(Logic(InstructionType::Stop));
 
 
 		// error manager
@@ -174,9 +186,6 @@ void LogicSequenceManager::buildSequence(list<LogicBloc*>& logicBlocs)
 		{
 			list<Logic> logicSequence = list<Logic>();
 			LogicBloc* look = logicBloc;
-
-			logicSequence.push_back(look->logicType);
-			look = logicBloc->collidedMap[HitDirection::Left];
 
 			while (look != nullptr)
 			{

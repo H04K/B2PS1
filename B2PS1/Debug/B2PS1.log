@@ -1,95 +1,135 @@
-﻿  LogicSequenceManager.cpp
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.h(43,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+﻿  Motor.cpp
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(44,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,15): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(22,50): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,15): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(23,69): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,15): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(25,32): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,34): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4838:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4838:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4838:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4838:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(26,51): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,74): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,74): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,74): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,74): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,74): warning C4244:         ]
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,49): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,49): warning C4244:         with
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,49): warning C4244:         [
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,49): warning C4244:             T=float
-C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.cpp(35,49): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(45,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,117): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,117): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,88): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:             T=unsigned int
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(610,21): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(846,6): warning C4390: ';' : une instruction contrôlée a été trouvée vide ; est-ce ce que vous souhaitiez ?
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,73): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,73): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,73): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,73): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,73): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,57): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,57): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,57): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,57): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(998,57): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,70): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,70): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,70): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,70): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,70): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,54): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,54): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,54): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,54): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1003,54): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,61): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,61): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,61): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,61): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,45): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,45): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,45): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1010,45): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,61): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,61): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,61): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,61): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,45): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,45): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,45): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1017,45): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,61): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,61): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,61): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,61): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,45): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,45): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,45): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1025,45): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,61): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,61): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,61): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,61): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,45): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,45): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,45): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1033,45): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,61): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,61): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,61): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,61): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,45): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,45): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,45): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1040,45): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,61): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,61): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,61): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,61): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,45): warning C4244:         with
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,45): warning C4244:         [
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,45): warning C4244:             T=float
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1047,45): warning C4244:         ]
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1104,59): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1104,43): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1112,57): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(1112,41): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(936): warning C4715: 'Motor::PauseMenu' : les chemins de contrôle ne retournent pas tous une valeur
   B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe
