@@ -6,12 +6,34 @@ void GameElement::Stop()
 		if (this != other)
 			collider.CheckStopCollison(other->getCollider(), Ressources::MoveVelocity);
 }
+void GameElement::Push()
+{
+	for (GameElement* other : motor->level->GameElements)
+		if (this != other)
+			collider.CheckPushCollison(other->getCollider(), 1);
+
+	for (LogicBloc* logicBloc : motor->level->LogicBlocs)
+		collider.CheckPushCollison(*logicBloc->collider, 1);
+}
 void GameElement::Win()
 {
 	for (GameElement* other : motor->level->GameElements)
-		if (this != other && other->Is(InstructionType::You))
+		if (other->Is(InstructionType::You))
 			if(collider.CheckCollison(other->getCollider()))
 				motor->level->isWin = true;
+}
+void GameElement::Death()
+{
+	for (GameElement* other : motor->level->GameElements)
+		if (other->Is(InstructionType::You))
+			if (collider.CheckCollison(other->getCollider()))
+			{
+				list<GameElement*> newElementList = list<GameElement*>();
+
+				// sus un boeuf
+
+			}
+
 }
 
 void GameElement::ApplyLogicInstructions()
@@ -41,16 +63,6 @@ void GameElement::You()
 
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 		Move(-Ressources::MoveVelocity, 0.f);
-
-	for (LogicBloc* logicBloc : motor->level->LogicBlocs)
-		collider.CheckPushCollison(*logicBloc->collider, 1);
-}
-
-void GameElement::Push()
-{
-	for (GameElement* other : motor->level->GameElements)
-		if (this != other)
-			collider.CheckPushCollison(other->getCollider(), 1);
 
 	for (LogicBloc* logicBloc : motor->level->LogicBlocs)
 		collider.CheckPushCollison(*logicBloc->collider, 1);
