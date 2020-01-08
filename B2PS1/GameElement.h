@@ -107,3 +107,29 @@ public:
 		}
 	}
 };
+
+class Neuron : public GameElement
+{
+	AnimatedSprite animatedSprite = AnimatedSprite(*this);
+public:
+
+	Neuron(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
+	void setSize(Vector2f size);
+
+	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
+	void LoadSprites();
+
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texturesMap != nullptr)
+		{
+			delete texturesMap;
+			texturesMap = nullptr;
+		}
+	}
+};

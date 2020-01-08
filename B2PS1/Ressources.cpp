@@ -29,8 +29,10 @@ Ressources::Ressources()
 	Texture_LogicBrain.loadFromFile("Assets/Sprites/LogicBlocs/text_baba_0_1.png");
 	Texture_LogicWall.loadFromFile("Assets/Sprites/LogicBlocs/text_wall_0_1.png");
 
+
 	Texture_LogicIs.loadFromFile("Assets/Sprites/LogicBlocs/text_is_0_1.png");
 	Texture_LogicAnd.loadFromFile("Assets/Sprites/LogicBlocs/text_and_0_1.png");
+	Texture_LogicWin.loadFromFile("Assets/Sprites/LogicBlocs/text_win_0_1.png");
 
 	Texture_LogicYou.loadFromFile("Assets/Sprites/LogicBlocs/text_you_0_1.png");
 	Texture_LogicStop.loadFromFile("Assets/Sprites/LogicBlocs/text_stop_0_1.png");

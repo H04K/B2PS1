@@ -1015,7 +1015,7 @@ void Motor::LoadElements(string path)
 					Wall* wall = new Wall(this, Vector2f(xTilesSize * x, yTilesSize * y), ElementType::Wall);
 					level->GameElements.push_back(wall);
 				}
-
+				
 				if (csvLevel[y][x] == 10)
 				{
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicBrain, 
