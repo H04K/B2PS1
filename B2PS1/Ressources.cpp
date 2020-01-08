@@ -1,7 +1,20 @@
 #include "Motor.h"
 
-Ressources::windowSize Ressources::WindowSize = Ressources::windowSize(1850, 1000);
+Ressources::windowSize Ressources::WindowSize = Ressources::windowSize(1500, 900);
 // w -> 1300 mini
+
+float Ressources::MoveVelocity = 1.0f;
+
+Texture Ressources::Texture_LogicBrain = Texture();
+Texture Ressources::Texture_LogicWall = Texture();
+
+Texture Ressources::Texture_LogicIs = Texture();
+Texture Ressources::Texture_LogicAnd = Texture();
+
+Texture Ressources::Texture_LogicYou = Texture();
+Texture Ressources::Texture_LogicStop = Texture();
+Texture Ressources::Texture_LogicPush = Texture();
+Texture Ressources::Texture_LogicWin = Texture();
 
 Font Ressources::Font_Arial = Font();
 Font Ressources::Font_BlackGround = Font();
@@ -13,13 +26,23 @@ Font Ressources::Font_MedievalScroll = Font();
 
 Ressources::Ressources()
 {
-	Ressources::Font_Arial.loadFromFile("Assets/Fonts/arial_narrow_7.ttf");
-	Ressources::Font_BlackGround.loadFromFile("Assets/Fonts/Black Ground.ttf");
-	Ressources::Font_LemonJuice.loadFromFile("Assets/Fonts/Lemon Juice.otf");
-	Ressources::Font_Ouders.loadFromFile("Assets/Fonts/Ouders.ttf");
-	Ressources::Font_TheAbsolute.loadFromFile("Assets/Fonts/TheAbsolute.otf");
-	Ressources::Font_TheAbsoluteBrush.loadFromFile("Assets/Fonts/TheAbsoluteBrush.otf");
-	Ressources::Font_MedievalScroll.loadFromFile("Assets/Fonts/Medieval Scroll of Wisdom.ttf");
+	Texture_LogicBrain.loadFromFile("Assets/Sprites/LogicBlocs/text_baba_0_1.png");
+	Texture_LogicWall.loadFromFile("Assets/Sprites/LogicBlocs/text_wall_0_1.png");
+
+	Texture_LogicIs.loadFromFile("Assets/Sprites/LogicBlocs/text_is_0_1.png");
+	Texture_LogicAnd.loadFromFile("Assets/Sprites/LogicBlocs/text_and_0_1.png");
+
+	Texture_LogicYou.loadFromFile("Assets/Sprites/LogicBlocs/text_you_0_1.png");
+	Texture_LogicStop.loadFromFile("Assets/Sprites/LogicBlocs/text_stop_0_1.png");
+	Texture_LogicPush.loadFromFile("Assets/Sprites/LogicBlocs/text_push_0_1.png");
+
+	Font_Arial.loadFromFile("Assets/Fonts/arial_narrow_7.ttf");
+	Font_BlackGround.loadFromFile("Assets/Fonts/Black Ground.ttf");
+	Font_LemonJuice.loadFromFile("Assets/Fonts/Lemon Juice.otf");
+	Font_Ouders.loadFromFile("Assets/Fonts/Ouders.ttf");
+	Font_TheAbsolute.loadFromFile("Assets/Fonts/TheAbsolute.otf");
+	Font_TheAbsoluteBrush.loadFromFile("Assets/Fonts/TheAbsoluteBrush.otf");
+	Font_MedievalScroll.loadFromFile("Assets/Fonts/Medieval Scroll of Wisdom.ttf");
 }
 
 Vector2f Ressources::realTextSize(Text& text)

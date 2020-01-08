@@ -1,20 +1,37 @@
 #pragma once
 #include "GameElement.h"
 
-enum class NavigationChoice { MainMenu, SelectSaveSlot, LevelSelect, Options, Credits, Play, Quit };
+enum class NavigationChoice { Stay, MainMenu, SelectSaveSlot, LevelSelect, Options, Credits, Play, Quit };
 
-class Level {
-public:
+struct NavPair 
+{
+	NavigationChoice NavChoice;
+	string Wording;
+	NavPair(NavigationChoice NavChoice, string Wording) : NavChoice(NavChoice), Wording(Wording) {}
+};
+
+struct Level 
+{
 	list<GameElement*> GameElements = list<GameElement*>();
 	list<MapElement*> MapElements = list<MapElement*>();
+	list<LogicBloc*> LogicBlocs = list<LogicBloc*>();
+
 	bool isWin = false;
 	float timeDone = 0.f;
 
-	int mapIndex = -1;
-	int levelIndex = -1;
+	int mapIndex = -1, levelIndex = -1;
+	string pathTileMap = "", pathElements = "";
+
+	~Level()
+	{
+		for (GameElement* element : GameElements) { element->Destroy(); delete element; }
+		for (MapElement* element : MapElements) { element->Destroy(); delete element; }
+		for (LogicBloc* element : LogicBlocs) { delete element; }
+	}
 };
 
-class Motor {
+class Motor 
+{
 private:
 	//Met a jours les events a chaque appel
 	void RefreshEvents();
@@ -25,11 +42,16 @@ private:
 	void LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex);
 	void LoadElements(string path);
 	void LoadTileMap(string path);
+	void RestartLevel();
 
+	// Gere les sauvgardes
 	SaveManager* saveManager = nullptr;
+
+	// Gere les sequences logiques
+	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 public:
 
-	Motor(RenderWindow& window) : window(&window){}
+	Motor(RenderWindow& window) : window(&window) {}
 	~Motor() { delete level; delete saveManager; }
 	
 	NavigationChoice MainMenu();
@@ -39,15 +61,16 @@ public:
 	NavigationChoice Credits();
 
 	NavigationChoice Play();
-	NavigationChoice PauseMenu();
+	NavigationChoice PauseMenu(NavPair buttonsData[3]);
+
+	// Fade the screan
+	void Fade(Int64 fadeSpeed, int coef);
 
 	// La fenetre dans laquelle tout les objets sont rendu
 	RenderWindow* window = nullptr;
 
+	// le niveau actuel
 	Level* level = nullptr;
-
-	// Permet de gerer les sequences logiques
-	LogicSequenceManager logicSequenceManager = LogicSequenceManager(*this);
 
 	/*
 	Utilisation Type de GetEvent() :

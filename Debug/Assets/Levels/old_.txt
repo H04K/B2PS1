@@ -1,0 +1,39 @@
+vector<UIMapData> UIMaps =
+	{
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 370, hMargin + 542), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 490, hMargin + 305), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 630, hMargin + 365), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 1046, hMargin + 397), 1)
+			},
+			levels[0]["backgroundPath"].asString()
+		),
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 100, hMargin + 200), 0),
+				UILevelData(Vector2f(wMargin + 200, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 300, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 400, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 500, hMargin + 200), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 600, hMargin + 200), 2)
+			},
+			levels[1]["backgroundPath"].asString()
+		),
+		UIMapData
+		(
+			vector<UILevelData>() =
+			{
+				UILevelData(Vector2f(wMargin + 100, hMargin + 300), 1),
+				UILevelData(Vector2f(wMargin + 200, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 300, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 400, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+				UILevelData(Vector2f(wMargin + 500, hMargin + 300), "Assets/Levels/level0.csv", "Assets/Levels/level1.csv"),
+			},
+			levels[2]["backgroundPath"].asString()
+		)
+	};

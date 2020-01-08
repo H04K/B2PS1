@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="GameElement.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="GameElement.h" />
     <ClInclude Include="LogicSequenceManager.h" />

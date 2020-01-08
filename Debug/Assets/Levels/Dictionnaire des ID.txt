@@ -1,0 +1,7 @@
+/*
+Gide de voyage des ID d''elements
+
+	- 0 : Rien
+	- 1 : Player (BABA ?)
+	- 2 : Wall
+*/

@@ -21,6 +21,20 @@ static struct Ressources
 
 	static windowSize WindowSize;
 
+	static float MoveVelocity;
+
+	static Texture Texture_LogicBrain;
+	static Texture Texture_LogicWall;
+
+	static Texture Texture_LogicIs;
+	static Texture Texture_LogicAnd;
+
+	static Texture Texture_LogicYou;
+	static Texture Texture_LogicStop;
+	static Texture Texture_LogicPush;
+	static Texture Texture_LogicWin;
+
+
 	static Font Font_Arial;
 	static Font Font_BlackGround;
 	static Font Font_LemonJuice;

@@ -16,7 +16,7 @@ int main()
 		case NavigationChoice::MainMenu :
 			NavChoice = GameMotor.MainMenu();
 			break;
-		case NavigationChoice::SelectSaveSlot:
+		case NavigationChoice::SelectSaveSlot :
 			NavChoice = GameMotor.SelectSaveSlot();
 			break;
 		case NavigationChoice::LevelSelect :
@@ -32,8 +32,11 @@ int main()
 			NavChoice = GameMotor.Play();
 			break;
 		case NavigationChoice::Quit :
+			GameMotor.Fade(2, 10);
 			return EXIT_SUCCESS;
 		}
+		
+		GameMotor.Fade(2, 10);
 	}
 
 	return EXIT_SUCCESS;
