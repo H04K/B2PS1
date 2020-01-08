@@ -15,6 +15,7 @@ protected:
 	virtual void Push();
 	virtual void Stop();
 	virtual void Win();
+	virtual void Death();
 
 	void Move(float offsetx, float offsety);
 	void Move(Vector2f offset);

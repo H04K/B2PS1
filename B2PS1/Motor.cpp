@@ -624,7 +624,6 @@ NavigationChoice Motor::LevelSelect()
 					cout << "can't load next map : background path incorrect" << endl;
 			}
 		}
-
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Left)
 		{
 			if (currentUILevel > 0 && UIMaps[currentMap][currentUILevel - 1].isUnlocked)
@@ -646,14 +645,16 @@ NavigationChoice Motor::LevelSelect()
 			}
 		}
 
-		cout << "currentSaveLevel " << currentSaveLevel << endl;
-
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter)
 		{
 			if (!UIMaps[currentMap][currentUILevel].isMapChanger)
 			{
 				LoadLevel(UIMaps[currentMap][currentSaveLevel].TileMapPath, UIMaps[currentMap][currentSaveLevel].ElementsMapPath, currentMap, currentSaveLevel);
 				return NavigationChoice::Play;
+			}
+			else
+			{
+				// quand on fait entrer sur un mapchanger
 			}
 		}
 

@@ -1,5 +1,5 @@
 {
-	"levelsDone" : 10,
+	"levelsDone" : 17,
 	"maps" : 
 	[
 		[
@@ -49,31 +49,31 @@
 		[
 			{
 				"bestTime" : -1,
-				"unlocked" : false
+				"unlocked" : true
 			},
 			{
 				"bestTime" : -1,
-				"unlocked" : false
+				"unlocked" : true
 			},
 			{
 				"bestTime" : -1,
-				"unlocked" : false
+				"unlocked" : true
 			},
 			{
 				"bestTime" : -1,
-				"unlocked" : false
+				"unlocked" : true
 			},
 			{
 				"bestTime" : -1,
-				"unlocked" : false
+				"unlocked" : true
 			},
 			{
 				"bestTime" : -1,
-				"unlocked" : false
+				"unlocked" : true
 			},
 			{
 				"bestTime" : -1,
-				"unlocked" : false
+				"unlocked" : true
 			}
 		]
 	],
