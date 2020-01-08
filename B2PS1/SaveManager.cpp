@@ -43,7 +43,7 @@ int SaveManager::getLevelsDone()
 int SaveManager::getLevelsCount()
 {
 	int levelsCount = 0;
-
+	
 	for (vector<SaveLevel>& levels : Maps)
 		for (SaveLevel& level : levels)
 			levelsCount++;
@@ -59,7 +59,7 @@ void SaveManager::LoadGame()
 	slotFile >> slotValue;
 
 	name = slotValue["name"].asString();
-	levelsDone = slotValue["levelsDone"].asInt(); // pas très utilise mais c'est la
+	levelsDone = slotValue["levelsDone"].asInt();
 
 	for (int i = 0; i < slotValue["maps"].size(); i++)
 		for (int j = 0; j < slotValue["maps"][i].size(); j++)
@@ -116,7 +116,7 @@ void SaveManager::SaveGame()
 	slotFile << slotValue;
 	slotFile.close();
 
-	cout << "succesful save Slot " << SaveSlot << endl;
+	cout << "successful save Slot " << SaveSlot << endl;
 }
 
 void SaveManager::EmptySlot(int index)

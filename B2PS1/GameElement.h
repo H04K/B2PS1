@@ -11,9 +11,10 @@ class Motor;
 class GameElement 
 {
 protected:
-	virtual void Stop();
 	virtual void You();
 	virtual void Push();
+	virtual void Stop();
+	virtual void Win();
 
 	void Move(float offsetx, float offsety);
 	void Move(Vector2f offset);
@@ -36,9 +37,10 @@ public:
 	Vector2f getPosition() { return position; }	void setPosition(Vector2f position) { this->position = position; }
 	Vector2f getScale() { return scale; } void setScale(Vector2f scale) { this->scale = scale; }
 	virtual Vector2f getSize() { return Vector2f(); };
+	virtual void setSize(float sizeX, float sizeY) {}
+	virtual void setSize(Vector2f size) {}
 
-	Collider getCollider() { return collider; }
-
+	Collider& getCollider() { return collider; }
 
 	Motor* getMotor() { return motor; }
 
@@ -61,6 +63,7 @@ public:
 	Brain(Motor* motor, Vector2f position, ElementType type);
 
 	Vector2f getSize();
+	void setSize(Vector2f size);
 
 	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
 	void LoadSprites();
@@ -86,6 +89,7 @@ public:
 	Wall(Motor* motor, Vector2f position, ElementType type);
 
 	Vector2f getSize();
+	void setSize(Vector2f size);
 
 	static map<AnimatedSprite::Direction, list<Texture*>>* texturesMap;
 	void LoadSprites();

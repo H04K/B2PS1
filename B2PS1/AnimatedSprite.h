@@ -28,7 +28,7 @@ public:
 
 	Direction currentDirection = Direction::None;
 	Direction lastDirection;
-	map<Direction, vector<Sprite>> spritesMap = map<Direction, vector<Sprite>>();
+	map<Direction, vector<RectangleShape>> spritesMap = map<Direction, vector<RectangleShape>>();
 
 	Clock clock = Clock();
 
@@ -39,13 +39,18 @@ public:
 	int currentFrame = 0;
 	int animDelay = 100;
 
-	Sprite getSprite();
-	FloatRect getLocalBounds();
+	RectangleShape getSprite();
+	Vector2f getSize();
+	
+	void setSize(float sizeX, float sizeY);
+	void setSize(Vector2f size);
 
 	static void loadTexturesFromRange(map<AnimatedSprite::Direction, list<Texture*>>* texturesMap, list<Range>& ranges, string path, string pathend);
 
 	void SetTextures(list<Texture*>& textures);
+	void SetTextures(list<Texture*>& textures, Vector2f size);
 	void SetTextures(map<Direction, list<Texture*>>& texturesMap);
+	void SetTextures(map<Direction, list<Texture*>>& texturesMap, Vector2f size);
 
 	void Animate();
 	void Animate(bool isMoving);

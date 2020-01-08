@@ -32,6 +32,8 @@ static struct Ressources
 	static Texture Texture_LogicYou;
 	static Texture Texture_LogicStop;
 	static Texture Texture_LogicPush;
+	static Texture Texture_LogicWin;
+
 
 	static Font Font_Arial;
 	static Font Font_BlackGround;

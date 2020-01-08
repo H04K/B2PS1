@@ -14,6 +14,7 @@ Texture Ressources::Texture_LogicAnd = Texture();
 Texture Ressources::Texture_LogicYou = Texture();
 Texture Ressources::Texture_LogicStop = Texture();
 Texture Ressources::Texture_LogicPush = Texture();
+Texture Ressources::Texture_LogicWin = Texture();
 
 Font Ressources::Font_Arial = Font();
 Font Ressources::Font_BlackGround = Font();

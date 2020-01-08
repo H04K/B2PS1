@@ -291,7 +291,7 @@ void LogicSequenceManager::morphGameElement(ElementType oldType, ElementType new
 				newGameElement = new Brain(gameElement->getMotor(), gameElement->getPosition(), ElementType::Brain);
 				break;
 			case ElementType::Wall :
-				newGameElement = new Wall(gameElement->getMotor(), gameElement->getPosition(), ElementType::Brain);
+				newGameElement = new Wall(gameElement->getMotor(), gameElement->getPosition(), ElementType::Wall);
 				break;
 			}
 
@@ -301,6 +301,6 @@ void LogicSequenceManager::morphGameElement(ElementType oldType, ElementType new
 			newGameElements.push_back(gameElement);
 	}
 
-	for (GameElement* gameElement : motor->level->GameElements) delete gameElement;
+	//for (GameElement* gameElement : motor->level->GameElements) delete gameElement;
 	motor->level->GameElements = newGameElements;
 }

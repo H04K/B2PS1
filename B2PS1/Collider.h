@@ -11,13 +11,14 @@ class Collider
 	Vector2f* position = nullptr;
 	Vector2f size;
 public:
-	Collider() = default;
-	Collider(Vector2f* position, Vector2f size);
-	
-	bool CheckPushCollison(Collider& other);
-	bool CheckPushCollison(Collider other, float push);
 
-	bool CheckStopCollison(Collider other, float otherVelocity);
+	Collider() = default;
+	Collider(Vector2f* position, Vector2f size) : position(position), size(size) {}
+	
+	bool CheckCollison(Collider& other);
+	bool CheckPushCollison(Collider& other, float push);
+
+	bool CheckStopCollison(Collider& other, float otherVelocity);
 
 	void Move(float offsetx, float offsety) { Move(Vector2f(offsetx, offsety)); }
 	void Move(Vector2f offset) { *position += offset; }

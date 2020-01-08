@@ -257,7 +257,7 @@ NavigationChoice Motor::SelectSaveSlot()
 				(
 					i, false, (window->getSize().x / 3) * 2, (window->getSize().y / 14) * 2, window->getSize().x / 2, intervalScale* (intervalStart + interval * i),
 					Color(78, 90, 148), Color(100, 130, 190), Color(78, 90, 148),
-					"Slot " + to_string(i) + " - " + slotValue["name"].asString() + " | Level " + to_string(slotValue["levelsDone"].asInt()) + " / " + to_string(saveManager->getLevelsCount()),
+					slotValue["name"].asString() + " | Level " + to_string(slotValue["levelsDone"].asInt()) + " / " + to_string(saveManager->getLevelsCount()),
 					Color::White
 				)
 			);
@@ -269,7 +269,7 @@ NavigationChoice Motor::SelectSaveSlot()
 				(
 					i, true, (window->getSize().x / 3) * 2, (window->getSize().y / 14) * 2, window->getSize().x / 2, intervalScale * (intervalStart + interval * i),
 					Color(35, 41, 67), Color(60, 75, 110), Color(78, 90, 148),
-					"Slot " + to_string(i) + " - Empty", Color::White
+					"Empty", Color::White
 				)
 			);
 		}
@@ -489,7 +489,8 @@ NavigationChoice Motor::LevelSelect()
 #pragma endregion
 
 	static int currentMap = 0;
-	static int currentLevel = 0;
+	static int currentUILevel = 0;
+	static int currentSaveLevel = 0;
 
 #pragma region Init BackGround
 
@@ -545,8 +546,12 @@ NavigationChoice Motor::LevelSelect()
 						UIlevelText, saveManager->Maps[saveMap][saveLevel].isUnlocked,
 						position, level["tileMapPath"].asString(), level["elementsMapPath"].asString())
 				);
-				saveLevel++;
-				globalLevelsCount++;
+
+				if (!map["levels"][saveLevel + 1]["map"])
+				{
+					saveLevel++;
+					globalLevelsCount++;
+				}
 			}
 			else
 			{
@@ -601,20 +606,19 @@ NavigationChoice Motor::LevelSelect()
 
 		if (GetEvent(event, Event::MouseMoved)) { mouseX = event.mouseMove.x; mouseY = event.mouseMove.y; }
 
-		// ligne de maping pour savoir ou placer le curseur
-		if (GetEvent(event, Event::MouseButtonPressed))
-			cout << "Mouse position : " << mouseX - wMargin << ',' << mouseY - hMargin << endl;
-
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Right)
 		{
-			if (currentLevel < UIMaps[currentMap].UIlevels.size() - 1 && UIMaps[currentMap][currentLevel + 1].isUnlocked)
+			if (currentUILevel < UIMaps[currentMap].UIlevels.size() - 1 && UIMaps[currentMap][currentUILevel + 1].isUnlocked)
 			{
-				currentLevel++;
+				currentUILevel++;
+				currentSaveLevel++;
 			}
-			else if (UIMaps[currentMap][currentLevel].isMapChanger)
+			else if (UIMaps[currentMap][currentUILevel].isMapChanger)
 			{
-				currentMap = UIMaps[currentMap][currentLevel].Map;
-				currentLevel = 0;
+				currentMap = UIMaps[currentMap][currentUILevel].Map;
+				currentUILevel = 0;
+
+				currentSaveLevel = ((UIMaps[currentMap][currentUILevel].isMapChanger) ? -1 : 0);
 				
 				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
 					cout << "can't load next map : background path incorrect" << endl;
@@ -623,31 +627,37 @@ NavigationChoice Motor::LevelSelect()
 
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Left)
 		{
-			if (currentLevel > 0 && UIMaps[currentMap][currentLevel - 1].isUnlocked)
+			if (currentUILevel > 0 && UIMaps[currentMap][currentUILevel - 1].isUnlocked)
 			{
-				currentLevel--;
+				currentUILevel--;
+				currentSaveLevel--;
 			}
 
-			else if(UIMaps[currentMap][currentLevel].isMapChanger)
+			else if(UIMaps[currentMap][currentUILevel].isMapChanger)
 			{
-				currentMap = UIMaps[currentMap][currentLevel].Map;
-				currentLevel = UIMaps[currentMap].UIlevels.size() - 1;
+				currentMap = UIMaps[currentMap][currentUILevel].Map;
+				currentUILevel = UIMaps[currentMap].UIlevels.size() - 1;
+
+				currentSaveLevel = ((UIMaps[currentMap][currentUILevel].isMapChanger && (UIMaps[currentMap][0].isMapChanger)) ?
+					UIMaps[currentMap].UIlevels.size() - 2 : UIMaps[currentMap].UIlevels.size() - 1);
 
 				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
 					cout << "can't load next map : background path incorrect" << endl;
 			}
 		}
 
+		cout << "currentSaveLevel " << currentSaveLevel << endl;
+
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter)
 		{
-			if (!UIMaps[currentMap][currentLevel].isMapChanger)
+			if (!UIMaps[currentMap][currentUILevel].isMapChanger)
 			{
-				LoadLevel(UIMaps[currentMap][currentLevel].TileMapPath, UIMaps[currentMap][currentLevel].ElementsMapPath, currentMap, currentLevel);
+				LoadLevel(UIMaps[currentMap][currentSaveLevel].TileMapPath, UIMaps[currentMap][currentSaveLevel].ElementsMapPath, currentMap, currentSaveLevel);
 				return NavigationChoice::Play;
 			}
 		}
 
-		cursor.setPosition(UIMaps[currentMap][currentLevel].position);
+		cursor.setPosition(UIMaps[currentMap][currentUILevel].position);
 
 		window->clear(Color::Black);
 		window->draw(background);
@@ -764,14 +774,17 @@ NavigationChoice Motor::Play() {
 			ifstream mapsConfigFile("Assets/Levels/mapsConfig.json", ifstream::binary);
 			Json::Value maps; mapsConfigFile >> maps;
 
+			// unlock next map
+			int unlockMap = maps[level->mapIndex]["levels"][level->levelIndex]["unlockLevel"][0].asInt();
+			int unlockLevel = maps[level->mapIndex]["levels"][level->levelIndex]["unlockLevel"][1].asInt();
+
+			cout << "Current level " << '[' << level->mapIndex << ',' << level->levelIndex << ']' << endl;
+			cout << "Unlocking level " << '[' << unlockMap << ',' << unlockLevel << ']' << endl;
+
+			saveManager->Maps[unlockMap][unlockLevel].isUnlocked = true;
+
 			// save timedone
 			saveManager->Maps[level->mapIndex][level->levelIndex].timeDone = level->timeDone;
-
-			// unlock next map
-			int unlockMap = maps[level->mapIndex]["levels"][level->mapIndex]["unLockLevel"][0].asInt();
-			int unlockLevel = maps[level->mapIndex]["levels"][level->mapIndex]["unLockLevel"][1].asInt();
-			
-			saveManager->Maps[unlockMap][unlockLevel].isUnlocked = true;
 
 			// save & return
 			saveManager->SaveGame();
@@ -797,15 +810,6 @@ NavigationChoice Motor::Play() {
 				
 				return navChoice;
 			}
-		}
-
-		//PROTOTYPING pour ajouter manuelement des evenements logiques
-		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::F)
-		{
-			cout << "Entrer un sequence logique : ";
-			char tabCode[50];
-			cin.getline(tabCode, 50);
-			logicSequenceManager.sendSequence(tabCode);
 		}
 
 		window->clear(Color::Black);
@@ -847,7 +851,6 @@ NavigationChoice Motor::Play() {
 
 			logicBloc->Draw();
 		}
-
 
 		logicSequenceManager.buildSequence(level->LogicBlocs);
 
@@ -1035,6 +1038,7 @@ void Motor::LoadElements(string path)
 						Logic(InstructionType::You));
 					level->LogicBlocs.push_back(logicBlock);
 				}
+
 				if (csvLevel[y][x] == 31)
 				{
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicStop,
@@ -1049,7 +1053,13 @@ void Motor::LoadElements(string path)
 						Logic(InstructionType::Push));
 					level->LogicBlocs.push_back(logicBlock);
 				}
-
+				if (csvLevel[y][x] == 33)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicWin,
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(InstructionType::Win));
+					level->LogicBlocs.push_back(logicBlock);
+				}
 			}
 		}
 

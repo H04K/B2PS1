@@ -1,6 +1,6 @@
 #include "Motor.h"
 
-Sprite AnimatedSprite::getSprite()
+RectangleShape AnimatedSprite::getSprite()
 {
 	for (int direction = 0; direction <= (int)Direction::None; direction++)
 	{
@@ -8,18 +8,23 @@ Sprite AnimatedSprite::getSprite()
 			return spritesMap[(Direction)direction][0];
 	}
 
-	return Sprite();
+	return RectangleShape();
 }
 
-FloatRect AnimatedSprite::getLocalBounds()
+Vector2f AnimatedSprite::getSize()
 {
-	for (int direction = 0; direction <= (int)Direction::None; direction++)
-	{
-		if (spritesMap.count((Direction)direction))
-			return spritesMap[(Direction)direction][0].getLocalBounds();
-	}
+	for (auto itr = spritesMap.begin(); itr != spritesMap.end(); itr++)
+		for (RectangleShape& shape : itr->second)
+			return shape.getSize();
+	return Vector2f();
+}
 
-	return FloatRect();
+void AnimatedSprite::setSize(float sizeX, float sizeY) { setSize(Vector2f(sizeX, sizeY)); }
+void AnimatedSprite::setSize(Vector2f size)
+{
+	for (auto itr = spritesMap.begin(); itr != spritesMap.end(); itr++)
+		for (RectangleShape& shape : itr->second)
+			shape.setSize(size);
 }
 
 void AnimatedSprite::loadTexturesFromRange(map<AnimatedSprite::Direction, list<Texture*>>* texturesMap, list<Range>& ranges, string path, string pathend)
@@ -60,24 +65,61 @@ void AnimatedSprite::SetTextures(list<Texture*>& textures)
 	SetTextures(_textures);
 }
 
-void AnimatedSprite::SetTextures(map<Direction, list<Texture*>>& texturesMap)
+void AnimatedSprite::SetTextures(list<Texture*>& textures, Vector2f size)
+{
+	map<Direction, list<Texture*>> _textures = map<Direction, list<Texture*>>();
+	_textures.insert(make_pair(Direction::None, textures));
+
+	SetTextures(_textures, size);
+}
+
+void AnimatedSprite::SetTextures(map<Direction, list<Texture*>>& texturesMap) 
 {
 	for (auto itr = texturesMap.begin(); itr != texturesMap.end(); itr++)
 	{
-		vector<Sprite> sprites = vector<Sprite>();
+		vector<RectangleShape> shapes = vector<RectangleShape>();
 
 		for (Texture* texture : itr->second)
 		{
-			Sprite sprite = Sprite();
-			sprite.setTexture(*texture);
-			sprite.setOrigin((Vector2f)texture->getSize() / 2.0f);
-			sprite.setPosition(gameElement->getPosition());
-			sprite.setScale(gameElement->getScale());
+			RectangleShape shape = RectangleShape();
+			shape.setTexture(texture);
+			shape.setOrigin((Vector2f)texture->getSize() / 2.0f);
+			shape.setPosition(gameElement->getPosition());
+			shape.setSize((Vector2f)texture->getSize());
+			shape.setScale(gameElement->getScale());
 
-			sprites.push_back(sprite);
+			shapes.push_back(shape);
 		}
 
-		spritesMap.insert(make_pair(itr->first, sprites));
+		spritesMap.insert(make_pair(itr->first, shapes));
+	}
+
+	if (spritesMap.count(currentDirection))
+		maxFrame = spritesMap[currentDirection].size();
+
+	else if (spritesMap.count(Direction::None))
+		maxFrame = spritesMap[Direction::None].size();
+}
+
+void AnimatedSprite::SetTextures(map<Direction, list<Texture*>>& texturesMap, Vector2f size)
+{
+	for (auto itr = texturesMap.begin(); itr != texturesMap.end(); itr++)
+	{
+		vector<RectangleShape> shapes = vector<RectangleShape>();
+
+		for (Texture* texture : itr->second)
+		{
+			RectangleShape shape = RectangleShape();
+			shape.setTexture(texture);
+			shape.setOrigin(size / 2.0f);
+			shape.setPosition(gameElement->getPosition());
+			shape.setSize(size);
+			shape.setScale(gameElement->getScale());
+
+			shapes.push_back(shape);
+		}
+
+		spritesMap.insert(make_pair(itr->first, shapes));
 	}
 
 	if (spritesMap.count(currentDirection))

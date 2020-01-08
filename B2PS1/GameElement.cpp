@@ -6,6 +6,28 @@ void GameElement::Stop()
 		if (this != other)
 			collider.CheckStopCollison(other->getCollider(), Ressources::MoveVelocity);
 }
+void GameElement::Win()
+{
+	for (GameElement* other : motor->level->GameElements)
+		if (this != other && other->Is(InstructionType::You))
+			if(collider.CheckCollison(other->getCollider()))
+				motor->level->isWin = true;
+}
+
+void GameElement::ApplyLogicInstructions()
+{
+	for (InstructionType instruction : logicInstructions)
+	{
+		switch (instruction)
+		{
+		case InstructionType::Stop: Stop(); break;
+		case InstructionType::You: You(); break;
+		case InstructionType::Push: Push(); break;
+		case InstructionType::Win: Win(); break;
+		}
+	}
+}
+
 void GameElement::You()
 {
 	if (Keyboard::isKeyPressed(Keyboard::S))
@@ -59,25 +81,6 @@ GameElement::GameElement(Motor* motor, Vector2f position, ElementType type) : mo
 	Start();
 }
 
-void GameElement::ApplyLogicInstructions()
-{
-	for (InstructionType instruction : logicInstructions)
-	{
-		switch (instruction)
-		{
-		case InstructionType::Stop:
-			Stop();
-			break;
-		case InstructionType::You:
-			You();
-			break;
-		case InstructionType::Push:
-			Push();
-			break;
-		}
-	}
-}
-
 map<AnimatedSprite::Direction, list<Texture*>>* Brain::texturesMap = nullptr;
 
 void Brain::You()
@@ -123,14 +126,20 @@ Brain::Brain(Motor* motor, Vector2f position, ElementType type)
 	this->type = type;
 
 	LoadSprites();
-	collider = Collider(&this->position, Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height));
+	collider = Collider(&this->position, Vector2f(animatedSprite.getSize().x, animatedSprite.getSize().y));
 	Start();
 }
 
 Vector2f Brain::getSize()
 {
-	return Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height);
+	return Vector2f(animatedSprite.getSize().x, animatedSprite.getSize().y);
 }
+
+void Brain::setSize(Vector2f size)
+{
+	animatedSprite.setSize(size);
+}
+
 
 void Brain::LoadSprites()
 {
@@ -171,14 +180,18 @@ Wall::Wall(Motor* motor, Vector2f position, ElementType type)
 	this->type = type;
 
 	LoadSprites();
-	cout << "Wall LocalBounds : " << animatedSprite.getLocalBounds().width << ',' << animatedSprite.getLocalBounds().height << endl;
-	collider = Collider(&this->position, Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height));
+	collider = Collider(&this->position, Vector2f(animatedSprite.getSize().x, animatedSprite.getSize().y));
 	Start();
 }
 
 Vector2f Wall::getSize()
 {
-	return Vector2f(animatedSprite.getLocalBounds().width, animatedSprite.getLocalBounds().height);
+	return Vector2f(animatedSprite.getSize().x, animatedSprite.getSize().x);
+}
+
+void Wall::setSize(Vector2f size)
+{
+	animatedSprite.setSize(size);
 }
 
 void Wall::LoadSprites()
@@ -196,7 +209,7 @@ void Wall::LoadSprites()
 	}
 
 	animatedSprite.animDelay = 500;
-	animatedSprite.SetTextures(*Wall::texturesMap);
+	animatedSprite.SetTextures(*Wall::texturesMap, Vector2f(64, 64));
 }
 
 void Wall::Start() {}
