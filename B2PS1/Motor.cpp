@@ -1102,8 +1102,8 @@ void Motor::LoadTileMap(string path)
 		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
 		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
 
-		float xSpriteScale = (csvLevel.size() / 10) + yTilesSize / 100.f;
-		float ySpriteScale = ((csvLevel.size() / 10) / 2) + xTilesSize / 100.f;
+		float xSpriteScale = 0;
+		float ySpriteScale = 0;
 		
 		for (size_t y = 0; y < csvLevel.size(); y++)
 		{
