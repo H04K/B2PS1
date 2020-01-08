@@ -19,7 +19,7 @@ struct Level
 	bool isWin = false;
 	float timeDone = 0.f;
 
-	int mapIndex = -1, levelIndex = -1;
+	Vector2u mapsConfigIndex, saveIndex;
 	string pathTileMap = "", pathElements = "";
 
 	~Level()
@@ -39,7 +39,7 @@ private:
 	// Contient tout les evenements actuel
 	list<Event> events = list<Event>();
 
-	void LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex);
+	void LoadLevel(string pathTileMap, string pathElements, Vector2u mapIndex, Vector2u levelIndex);
 	void LoadElements(string path);
 	void LoadTileMap(string path);
 	void RestartLevel();
