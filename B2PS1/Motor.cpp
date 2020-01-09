@@ -830,10 +830,6 @@ NavigationChoice Motor::Play() {
 		{
 			gameElement->ApplyLogicInstructions();
 			gameElement->Update();
-
-			for (LogicBloc* logicBloc : level->LogicBlocs)
-					gameElement->getCollider().CheckPushCollison(*logicBloc->collider, 1);
-			
 			gameElement->Draw();
 		}
 
@@ -844,14 +840,6 @@ NavigationChoice Motor::Play() {
 			for (LogicBloc* other : level->LogicBlocs)
 				if (logicBloc != other)
 					logicBloc->collider->CheckPushCollison(*other->collider, 1);
-
-			for (GameElement* gameElement : level->GameElements)
-			{
-				if (gameElement->Is(InstructionType::Push))
-					gameElement->getCollider().CheckPushCollison(*logicBloc->collider, 1);
-				if (gameElement->Is(InstructionType::Stop))
-					gameElement->getCollider().CheckStopCollison(*logicBloc->collider, Ressources::MoveVelocity);
-			}
 
 			logicBloc->Draw();
 		}

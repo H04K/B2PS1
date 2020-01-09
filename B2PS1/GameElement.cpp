@@ -3,8 +3,11 @@
 void GameElement::Stop() 
 {
 	for (GameElement* other : motor->level->GameElements)
-		if (this != other)
+		if (this != other && !other->Is(InstructionType::Win))
 			collider.CheckStopCollison(other->getCollider(), Ressources::MoveVelocity);
+
+	for (LogicBloc* logicBloc : motor->level->LogicBlocs)
+		collider.CheckStopCollison(*logicBloc->collider, Ressources::MoveVelocity);
 }
 void GameElement::Push()
 {
@@ -18,9 +21,19 @@ void GameElement::Push()
 void GameElement::Win()
 {
 	for (GameElement* other : motor->level->GameElements)
+	{
+		if (other != this && collider.CheckCollison(other->getCollider()))
+			cout << other << " touche" << endl;
+
 		if (other->Is(InstructionType::You))
-			if(collider.CheckCollison(other->getCollider()))
+		{
+			if (collider.CheckCollison(other->getCollider()))
+			{
+				cout << other << " marche" << endl;
 				motor->level->isWin = true;
+			}
+		}
+	}
 }
 void GameElement::Death()
 {
@@ -282,7 +295,7 @@ Neurone::Neurone(Motor* motor, Vector2f position, ElementType type)
 	this->size = Vector2f(64, 64);
 
 	LoadSprites();
-	collider = Collider(&this->position, shape.getSize());
+	collider = Collider(&this->position, size);
 	Start();
 }
 
