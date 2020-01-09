@@ -1,4 +1,5 @@
 ﻿  AnimatedSprite.cpp
+<<<<<<< HEAD
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
   Collider.cpp
@@ -384,3 +385,280 @@ C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\SaveManager.cpp(84,20): war
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\SaveManager.cpp(88,21): warning C4018: '<' : incompatibilité signed/unsigned
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Motor.cpp(944): warning C4715: 'Motor::PauseMenu' : les chemins de contrôle ne retournent pas tous une valeur
   B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe
+=======
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+  Collider.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+  GameElement.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+  LogicSequenceManager.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,15): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(35,50): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,15): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(36,69): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,15): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(38,32): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,34): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4838: la conversion de 'T' en 'int' requiert une conversion restrictive
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4838:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4838:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4838:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4838:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(39,51): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,74): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,74): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,74): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,74): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,74): warning C4244:         ]
+  Main.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,49): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,49): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,49): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,49): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.cpp(48,49): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+  MapElement.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+  Motor.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,117): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,99): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,74): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(258,42): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,117): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,98): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,73): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(270,41): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,88): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,69): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:             T=unsigned int
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(281,40): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(608,28): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,73): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,73): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,73): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,73): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,73): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,57): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,57): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,57): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,57): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1010,57): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,70): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,70): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,70): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,70): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,70): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,54): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,54): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,54): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,54): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1015,54): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,61): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,61): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,61): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,61): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,45): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,45): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,45): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1022,45): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,61): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,61): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,61): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,61): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,45): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,45): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,45): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1029,45): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,61): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,61): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,61): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,61): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,45): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,45): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,45): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1037,45): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,61): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,61): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,61): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,61): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,45): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,45): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,45): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1045,45): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,61): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,61): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,61): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,61): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,45): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,45): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,45): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1053,45): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,61): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,61): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,61): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,61): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,45): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,45): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,45): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1060,45): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,61): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,61): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,61): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,61): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,45): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,45): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,45): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,45): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1067,45): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1123,59): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1123,43): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1131,57): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  Ressources.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(1131,41): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+  SaveManager.cpp
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.cpp(52,106): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.cpp(52,106): warning C4244:         with
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.cpp(52,106): warning C4244:         [
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.cpp(52,106): warning C4244:             T=float
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.cpp(52,106): warning C4244:         ]
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Ressources.h(47,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\SaveManager.cpp(64,20): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\SaveManager.cpp(65,21): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\SaveManager.cpp(84,20): warning C4018: '<' : incompatibilité signed/unsigned
+  Génération de code en cours...
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\SaveManager.cpp(88,21): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Dipl0\Desktop\SFML environment\B2PS1\B2PS1\Motor.cpp(944): warning C4715: 'Motor::PauseMenu' : les chemins de contrôle ne retournent pas tous une valeur
+  B2PS1.vcxproj -> C:\Users\Dipl0\Desktop\SFML environment\B2PS1\Debug\B2PS1.exe
+>>>>>>> SuperTheophile
