@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿  GameElement.cpp
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.h(44,15): warning C4150: suppression de pointeur vers type incomplet 'Collider' ; aucun destructeur appelé
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\LogicSequenceManager.h(23): message : voir la déclaration de 'Collider'
 C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\B2PS1\Ressources.h(53,2): warning C4091: 'static ' : ignoré à gauche de 'Ressources' quand aucune variable n'est déclarée
   B2PS1.vcxproj -> C:\Users\Flo\Documents\_Cours\Projet\C++\B2PS1\Debug\B2PS1.exe
+=======
+﻿  B2PS1.vcxproj -> C:\Users\Dipl0\Desktop\SFML environment\B2PS1\Debug\B2PS1.exe
+>>>>>>> SuperTheophile
