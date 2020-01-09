@@ -25,6 +25,11 @@ static struct Ressources
 
 	static Texture Texture_LogicBrain;
 	static Texture Texture_LogicWall;
+	static Texture Texture_LogicNeurone;
+	static Texture Texture_LogicDoor;
+	static Texture Texture_LogicKey;
+	static Texture Texture_LogicPillar;
+	static Texture Texture_LogicSpike;
 
 	static Texture Texture_LogicIs;
 	static Texture Texture_LogicAnd;
@@ -33,6 +38,7 @@ static struct Ressources
 	static Texture Texture_LogicStop;
 	static Texture Texture_LogicPush;
 	static Texture Texture_LogicWin;
+	static Texture Texture_LogicDefeat;
 
 
 	static Font Font_Arial;
