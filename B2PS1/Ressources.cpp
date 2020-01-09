@@ -34,11 +34,11 @@ Ressources::Ressources()
 {
 	Texture_LogicBrain.loadFromFile("Assets/Sprites/LogicBlocs/brain.png");
 	Texture_LogicWall.loadFromFile("Assets/Sprites/LogicBlocs/text_wall_0_1.png");
-	Texture_LogicNeurone.loadFromFile("Assets/Sprites/LogicBlocs/");
-	Texture_LogicDoor.loadFromFile("Assets/Sprites/LogicBlocs/");
+	Texture_LogicNeurone.loadFromFile("Assets/Sprites/LogicBlocs/Neuron.png");
+	Texture_LogicDoor.loadFromFile("Assets/Sprites/LogicBlocs/text_door_0_1.png");
 	Texture_LogicKey.loadFromFile("Assets/Sprites/LogicBlocs/");
-	Texture_LogicPillar.loadFromFile("Assets/Sprites/LogicBlocs/");
-	Texture_LogicSpike.loadFromFile("Assets/Sprites/LogicBlocs/");
+	Texture_LogicPillar.loadFromFile("Assets/Sprites/LogicBlocs/text_pillar_0_3.png");
+	Texture_LogicSpike.loadFromFile("Assets/Sprites/LogicBlocs/Spike.png");
 
 
 	Texture_LogicIs.loadFromFile("Assets/Sprites/LogicBlocs/text_is_0_1.png");

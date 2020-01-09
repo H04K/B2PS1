@@ -45,8 +45,8 @@
       {
         "x": 476, "y": 483,
         "backgroundType" : 0,
-        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level4.csv",
-        "unlockLevel" : [1, 2]
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level5.csv",
+        "unlockLevel" : [0, 0]
       },
       {
         "x": 585, "y": 409,
