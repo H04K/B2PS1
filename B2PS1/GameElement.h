@@ -15,6 +15,7 @@ protected:
 	virtual void Push();
 	virtual void Stop();
 	virtual void Win();
+	virtual void Death();
 
 	void Move(float offsetx, float offsety);
 	void Move(Vector2f offset);
@@ -103,6 +104,147 @@ public:
 		{
 			delete texturesMap;
 			texturesMap = nullptr;
+		}
+	}
+};
+
+class Neurone : public GameElement
+{
+	RectangleShape shape;
+	Vector2f size;
+public:
+
+	Neurone(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
+	void setSize(Vector2f size);
+
+	static Texture* texture;
+	void LoadSprites();
+
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
+		}
+	}
+};
+
+
+class Door : public GameElement
+{
+	RectangleShape shape;
+	Vector2f size;
+public:
+
+	Door(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
+	void setSize(Vector2f size);
+
+	static Texture* texture;
+	void LoadSprites();
+
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
+		}
+	}
+};
+
+
+class Key : public GameElement
+{
+	RectangleShape shape;
+	Vector2f size;
+public:
+
+	Key(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
+	void setSize(Vector2f size);
+
+	static Texture* texture;
+	void LoadSprites();
+
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
+		}
+	}
+};
+
+
+
+class Spike : public GameElement
+{
+	RectangleShape shape;
+	Vector2f size;
+public:
+
+	Spike(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
+	void setSize(Vector2f size);
+
+	static Texture* texture;
+	void LoadSprites();
+
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
+		}
+	}
+};
+
+
+
+class Pillar : public GameElement
+{
+	RectangleShape shape;
+	Vector2f size;
+public:
+
+	Pillar(Motor* motor, Vector2f position, ElementType type);
+
+	Vector2f getSize();
+	void setSize(Vector2f size);
+
+	static Texture* texture;
+	void LoadSprites();
+
+	void Start();
+	void Update();
+	void Draw();
+	void Destroy()
+	{
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
 		}
 	}
 };

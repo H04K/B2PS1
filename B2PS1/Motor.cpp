@@ -489,8 +489,8 @@ NavigationChoice Motor::LevelSelect()
 #pragma endregion
 
 	static int currentMap = 0;
-	static int currentUILevel = 0;
-	static int currentSaveLevel = 0;
+	static int levelMapConfigIndex;
+	static int levelSaveIndex;
 
 #pragma region Init BackGround
 
@@ -521,8 +521,8 @@ NavigationChoice Motor::LevelSelect()
 	vector<UIMapData> UIMaps = vector<UIMapData>();
 
 	int globalLevelsCount = 0;
-	int saveMap = 0;
 
+	int saveMap = 0;
 	for (Json::Value& map : *maps)
 	{
 		vector<UILevelData> uiLevelsDatas = vector<UILevelData>();
@@ -547,11 +547,8 @@ NavigationChoice Motor::LevelSelect()
 						position, level["tileMapPath"].asString(), level["elementsMapPath"].asString())
 				);
 
-				if (!map["levels"][saveLevel + 1]["map"])
-				{
-					saveLevel++;
-					globalLevelsCount++;
-				}
+				saveLevel++;
+				globalLevelsCount++;
 			}
 			else
 			{
@@ -573,7 +570,7 @@ NavigationChoice Motor::LevelSelect()
 
 	if (saveManager->getLevelsDone() == 1)
 	{
-		LoadLevel(UIMaps[0][0].TileMapPath, UIMaps[0][0].ElementsMapPath, 0, 0);
+		LoadLevel(UIMaps[0][0].TileMapPath, UIMaps[0][0].ElementsMapPath, Vector2u(0, 0), Vector2u(0, 0));
 		return NavigationChoice::Play;
 	}
 	
@@ -608,37 +605,39 @@ NavigationChoice Motor::LevelSelect()
 
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Right)
 		{
-			if (currentUILevel < UIMaps[currentMap].UIlevels.size() - 1 && UIMaps[currentMap][currentUILevel + 1].isUnlocked)
+			if (levelMapConfigIndex < UIMaps[currentMap].UIlevels.size() - 1 && UIMaps[currentMap][levelMapConfigIndex].isUnlocked)
 			{
-				currentUILevel++;
-				currentSaveLevel++;
+				if (UIMaps[currentMap][levelMapConfigIndex + 1].isUnlocked)
+				{
+					levelMapConfigIndex++;
+					levelSaveIndex++;
+				}
 			}
-			else if (UIMaps[currentMap][currentUILevel].isMapChanger)
+			else if (UIMaps[currentMap][levelMapConfigIndex].isMapChanger)
 			{
-				currentMap = UIMaps[currentMap][currentUILevel].Map;
-				currentUILevel = 0;
+				currentMap = UIMaps[currentMap][levelMapConfigIndex].Map;
+				levelMapConfigIndex = 0;
 
-				currentSaveLevel = ((UIMaps[currentMap][currentUILevel].isMapChanger) ? -1 : 0);
+				levelSaveIndex = ((UIMaps[currentMap][levelMapConfigIndex].isMapChanger) ? -1 : 0);
 				
 				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
 					cout << "can't load next map : background path incorrect" << endl;
 			}
 		}
-
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Left)
 		{
-			if (currentUILevel > 0 && UIMaps[currentMap][currentUILevel - 1].isUnlocked)
+			if (levelMapConfigIndex > 0 && UIMaps[currentMap][levelMapConfigIndex - 1].isUnlocked)
 			{
-				currentUILevel--;
-				currentSaveLevel--;
+				levelMapConfigIndex--;
+				levelSaveIndex--;
 			}
 
-			else if(UIMaps[currentMap][currentUILevel].isMapChanger)
+			else if(UIMaps[currentMap][levelMapConfigIndex].isMapChanger)
 			{
-				currentMap = UIMaps[currentMap][currentUILevel].Map;
-				currentUILevel = UIMaps[currentMap].UIlevels.size() - 1;
+				currentMap = UIMaps[currentMap][levelMapConfigIndex].Map;
+				levelMapConfigIndex = UIMaps[currentMap].UIlevels.size() - 1;
 
-				currentSaveLevel = ((UIMaps[currentMap][currentUILevel].isMapChanger && (UIMaps[currentMap][0].isMapChanger)) ?
+				levelSaveIndex = ((UIMaps[currentMap][levelMapConfigIndex].isMapChanger && (UIMaps[currentMap][0].isMapChanger)) ?
 					UIMaps[currentMap].UIlevels.size() - 2 : UIMaps[currentMap].UIlevels.size() - 1);
 
 				if (!backgroundTexture.loadFromFile(UIMaps[currentMap].backgroundPath))
@@ -646,18 +645,22 @@ NavigationChoice Motor::LevelSelect()
 			}
 		}
 
-		cout << "currentSaveLevel " << currentSaveLevel << endl;
-
 		if (GetEvent(event, Event::KeyPressed) && event.key.code == Keyboard::Enter)
 		{
-			if (!UIMaps[currentMap][currentUILevel].isMapChanger)
+			if (!UIMaps[currentMap][levelMapConfigIndex].isMapChanger)
 			{
-				LoadLevel(UIMaps[currentMap][currentSaveLevel].TileMapPath, UIMaps[currentMap][currentSaveLevel].ElementsMapPath, currentMap, currentSaveLevel);
+				LoadLevel(UIMaps[currentMap][levelMapConfigIndex].TileMapPath,
+					UIMaps[currentMap][levelMapConfigIndex].ElementsMapPath,
+					Vector2u(currentMap, levelSaveIndex), Vector2u(currentMap, levelMapConfigIndex));
 				return NavigationChoice::Play;
+			}
+			else
+			{
+				// quand on entre sur un mapchanger
 			}
 		}
 
-		cursor.setPosition(UIMaps[currentMap][currentUILevel].position);
+		cursor.setPosition(UIMaps[currentMap][levelMapConfigIndex].position);
 
 		window->clear(Color::Black);
 		window->draw(background);
@@ -775,16 +778,17 @@ NavigationChoice Motor::Play() {
 			Json::Value maps; mapsConfigFile >> maps;
 
 			// unlock next map
-			int unlockMap = maps[level->mapIndex]["levels"][level->levelIndex]["unlockLevel"][0].asInt();
-			int unlockLevel = maps[level->mapIndex]["levels"][level->levelIndex]["unlockLevel"][1].asInt();
+			int unlockMap = maps[level->mapsConfigIndex.x]["levels"][level->mapsConfigIndex.y]["unlockLevel"][0].asInt();
+			int unlockLevel = maps[level->mapsConfigIndex.x]["levels"][level->mapsConfigIndex.y]["unlockLevel"][1].asInt();
 
-			cout << "Current level " << '[' << level->mapIndex << ',' << level->levelIndex << ']' << endl;
+			cout << "Current config level " << '[' << level->mapsConfigIndex.x << ',' << level->mapsConfigIndex.y << ']' << endl;
+			cout << "Current save level " << '[' << level->saveIndex.x << ',' << level->saveIndex.y << ']' << endl;
 			cout << "Unlocking level " << '[' << unlockMap << ',' << unlockLevel << ']' << endl;
 
 			saveManager->Maps[unlockMap][unlockLevel].isUnlocked = true;
 
 			// save timedone
-			saveManager->Maps[level->mapIndex][level->levelIndex].timeDone = level->timeDone;
+			saveManager->Maps[level->saveIndex.x][level->saveIndex.y].timeDone = level->timeDone;
 
 			// save & return
 			saveManager->SaveGame();
@@ -826,10 +830,6 @@ NavigationChoice Motor::Play() {
 		{
 			gameElement->ApplyLogicInstructions();
 			gameElement->Update();
-
-			for (LogicBloc* logicBloc : level->LogicBlocs)
-					gameElement->getCollider().CheckPushCollison(*logicBloc->collider, 1);
-			
 			gameElement->Draw();
 		}
 
@@ -840,14 +840,6 @@ NavigationChoice Motor::Play() {
 			for (LogicBloc* other : level->LogicBlocs)
 				if (logicBloc != other)
 					logicBloc->collider->CheckPushCollison(*other->collider, 1);
-
-			for (GameElement* gameElement : level->GameElements)
-			{
-				if (gameElement->Is(InstructionType::Push))
-					gameElement->getCollider().CheckPushCollison(*logicBloc->collider, 1);
-				if (gameElement->Is(InstructionType::Stop))
-					gameElement->getCollider().CheckStopCollison(*logicBloc->collider, Ressources::MoveVelocity);
-			}
 
 			logicBloc->Draw();
 		}
@@ -939,14 +931,18 @@ NavigationChoice Motor::PauseMenu(NavPair buttonsData[3])
 	}
 }
 
-void Motor::LoadLevel(string pathTileMap, string pathElements, int mapIndex, int levelIndex)
+void Motor::LoadLevel(string pathTileMap, string pathElements, Vector2u saveIndex, Vector2u mapsConfigIndex)
 {
+	cout << "Loading level [" << saveIndex.x << ',' << saveIndex.y << ']' <<
+		"([" << mapsConfigIndex.x << ',' << mapsConfigIndex.y << "])" <<
+		" Path : " << pathTileMap + " " + pathElements << endl;
+
 	events.clear();
 	
 	delete level;
 	level = new Level();
-	level->mapIndex = mapIndex;
-	level->levelIndex = levelIndex;
+	level->saveIndex = saveIndex;
+	level->mapsConfigIndex = mapsConfigIndex;
 	level->pathTileMap = pathTileMap;
 	level->pathElements = pathElements;
 
@@ -999,14 +995,40 @@ void Motor::LoadElements(string path)
 
 				if (csvLevel[y][x] == 1)
 				{
-					Brain* brain = new Brain(this, Vector2f(xTilesSize * x, yTilesSize * y), ElementType::Brain);
-					level->GameElements.push_back(brain);
+					level->GameElements.push_back(new Brain(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Brain));
 				}
 				if (csvLevel[y][x] == 2)
 				{
-					Wall* wall = new Wall(this, Vector2f(xTilesSize * x, yTilesSize * y), ElementType::Wall);
-					level->GameElements.push_back(wall);
+					level->GameElements.push_back(new Wall(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Wall));
 				}
+				if (csvLevel[y][x] == 3)
+				{
+					level->GameElements.push_back(new Neurone(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Neurone));
+				}
+				if (csvLevel[y][x] == 4)
+				{
+					level->GameElements.push_back(new Door(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Door));
+				}
+				if (csvLevel[y][x] == 5)
+				{
+					level->GameElements.push_back(new Key(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Key));
+				}
+				if (csvLevel[y][x] == 6)
+				{
+					level->GameElements.push_back(new Spike(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Spike));
+				}
+				if (csvLevel[y][x] == 7)
+				{
+					level->GameElements.push_back(new Pillar(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Pillar));
+				}
+
 
 				if (csvLevel[y][x] == 10)
 				{
@@ -1022,6 +1044,44 @@ void Motor::LoadElements(string path)
 						Logic(ElementType::Wall));
 					level->LogicBlocs.push_back(logicBlock);
 				}
+				if (csvLevel[y][x] == 12)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicNeurone, Color(180, 50, 50),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Neurone));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 13)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicDoor, Color(150, 100, 50),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Door));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 14)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicKey, Color(250, 200, 0),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Key));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 15)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicSpike, Color(50, 50, 50),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Spike));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 16)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicPillar, Color(30, 30, 200),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Pillar));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+
+
+
 
 				if (csvLevel[y][x] == 20)
 				{
@@ -1031,6 +1091,8 @@ void Motor::LoadElements(string path)
 					level->LogicBlocs.push_back(logicBlock);
 				}
 
+
+
 				if (csvLevel[y][x] == 30)
 				{
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicYou,
@@ -1038,7 +1100,6 @@ void Motor::LoadElements(string path)
 						Logic(InstructionType::You));
 					level->LogicBlocs.push_back(logicBlock);
 				}
-
 				if (csvLevel[y][x] == 31)
 				{
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicStop,
@@ -1058,6 +1119,13 @@ void Motor::LoadElements(string path)
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicWin,
 						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
 						Logic(InstructionType::Win));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 34)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicDefeat,
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(InstructionType::Death));
 					level->LogicBlocs.push_back(logicBlock);
 				}
 			}
@@ -1101,8 +1169,8 @@ void Motor::LoadTileMap(string path)
 		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
 		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
 
-		float xSpriteScale = (csvLevel.size() / 10) + yTilesSize / 100.f;
-		float ySpriteScale = ((csvLevel.size() / 10) / 2) + xTilesSize / 100.f;
+		float xSpriteScale = 0;
+		float ySpriteScale = 0;
 		
 		for (size_t y = 0; y < csvLevel.size(); y++)
 		{
@@ -1138,13 +1206,13 @@ void Motor::LoadTileMap(string path)
 
 void Motor::RestartLevel()
 {
-	LoadLevel(level->pathTileMap, level->pathElements, level->mapIndex, level->levelIndex);
+	LoadLevel(level->pathTileMap, level->pathElements, level->saveIndex, level->mapsConfigIndex);
 }
 
 void Motor::Fade(Int64 fadeSpeed, int coef)
 {
 	Clock fadeClock;
-
+	
 	// Fond
 	Texture backgroundTexture;
 	backgroundTexture.create(window->getSize().x, window->getSize().y);

@@ -11,13 +11,13 @@
       {
         "x": 490, "y": 305,
         "backgroundType" : 0,
-        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv",
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level2.csv",
         "unlockLevel" : [0, 2]
       },
       {
         "x": 630, "y": 365,
         "backgroundType" : 0,
-        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv",
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level3.csv",
         "unlockLevel" : [1, 0]
       },
       {
@@ -39,14 +39,14 @@
       {
         "x": 110, "y": 717,
         "backgroundType" : 0,
-        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv",
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level4.csv",
         "unlockLevel" : [1, 1]
       },
       {
         "x": 476, "y": 483,
         "backgroundType" : 0,
-        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level1.csv",
-        "unlockLevel" : [1, 2]
+        "tileMapPath": "Assets/Levels/level0.csv", "elementsMapPath": "Assets/Levels/level5.csv",
+        "unlockLevel" : [0, 0]
       },
       {
         "x": 585, "y": 409,
