@@ -1007,14 +1007,40 @@ void Motor::LoadElements(string path)
 
 				if (csvLevel[y][x] == 1)
 				{
-					Brain* brain = new Brain(this, Vector2f(xTilesSize * x, yTilesSize * y), ElementType::Brain);
-					level->GameElements.push_back(brain);
+					level->GameElements.push_back(new Brain(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Brain));
 				}
 				if (csvLevel[y][x] == 2)
 				{
-					Wall* wall = new Wall(this, Vector2f(xTilesSize * x, yTilesSize * y), ElementType::Wall);
-					level->GameElements.push_back(wall);
+					level->GameElements.push_back(new Wall(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Wall));
 				}
+				if (csvLevel[y][x] == 3)
+				{
+					level->GameElements.push_back(new Neurone(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Neurone));
+				}
+				if (csvLevel[y][x] == 4)
+				{
+					level->GameElements.push_back(new Door(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Door));
+				}
+				if (csvLevel[y][x] == 5)
+				{
+					level->GameElements.push_back(new Key(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Key));
+				}
+				if (csvLevel[y][x] == 6)
+				{
+					level->GameElements.push_back(new Spike(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Spike));
+				}
+				if (csvLevel[y][x] == 7)
+				{
+					level->GameElements.push_back(new Pillar(this, Vector2f(xTilesSize * x, yTilesSize * y)
+						, ElementType::Pillar));
+				}
+
 
 				if (csvLevel[y][x] == 10)
 				{
@@ -1030,6 +1056,44 @@ void Motor::LoadElements(string path)
 						Logic(ElementType::Wall));
 					level->LogicBlocs.push_back(logicBlock);
 				}
+				if (csvLevel[y][x] == 12)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicNeurone, Color(180, 50, 50),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Neurone));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 13)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicDoor, Color(150, 100, 50),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Door));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 14)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicKey, Color(250, 200, 0),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Key));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 15)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicSpike, Color(50, 50, 50),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Spike));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 16)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicPillar, Color(30, 30, 200),
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(ElementType::Pillar));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+
+
+
 
 				if (csvLevel[y][x] == 20)
 				{
@@ -1039,6 +1103,8 @@ void Motor::LoadElements(string path)
 					level->LogicBlocs.push_back(logicBlock);
 				}
 
+
+
 				if (csvLevel[y][x] == 30)
 				{
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicYou,
@@ -1046,7 +1112,6 @@ void Motor::LoadElements(string path)
 						Logic(InstructionType::You));
 					level->LogicBlocs.push_back(logicBlock);
 				}
-
 				if (csvLevel[y][x] == 31)
 				{
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicStop,
@@ -1066,6 +1131,13 @@ void Motor::LoadElements(string path)
 					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicWin,
 						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
 						Logic(InstructionType::Win));
+					level->LogicBlocs.push_back(logicBlock);
+				}
+				if (csvLevel[y][x] == 34)
+				{
+					LogicBloc* logicBlock = new LogicBloc(&Ressources::Texture_LogicDefeat,
+						Vector2f(64, 64), Vector2f(xTilesSize * x, yTilesSize * y),
+						Logic(InstructionType::Death));
 					level->LogicBlocs.push_back(logicBlock);
 				}
 			}
@@ -1109,8 +1181,8 @@ void Motor::LoadTileMap(string path)
 		int xTilesSize = Ressources::WindowSize.width / csvLevel[0].size();
 		int yTilesSize = Ressources::WindowSize.height / csvLevel.size();
 
-		float xSpriteScale = (csvLevel.size() / 10) + yTilesSize / 100.f;
-		float ySpriteScale = ((csvLevel.size() / 10) / 2) + xTilesSize / 100.f;
+		float xSpriteScale = 0;
+		float ySpriteScale = 0;
 		
 		for (size_t y = 0; y < csvLevel.size(); y++)
 		{
@@ -1152,7 +1224,7 @@ void Motor::RestartLevel()
 void Motor::Fade(Int64 fadeSpeed, int coef)
 {
 	Clock fadeClock;
-
+	
 	// Fond
 	Texture backgroundTexture;
 	backgroundTexture.create(window->getSize().x, window->getSize().y);

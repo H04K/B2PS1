@@ -11,8 +11,8 @@ using namespace sf;
 // logic
 enum class LogicType { Instruction, Element, Operateur, None };
 enum class OperateurType { Is, And, None };
-enum class ElementType { Brain, Wall, None };
-enum class InstructionType { Stop, You, Push, Win, None };
+enum class ElementType { Brain, Wall, Neurone, Door, Key, Spike, Pillar, None };
+enum class InstructionType { Stop, You, Push, Win, Death, None };
 
 // logic Bloc
 enum class HitDirection { Up, Down, Left, Right };
